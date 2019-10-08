@@ -16,6 +16,9 @@
 		94ED5BED234D3704001DA539 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 94ED5BEB234D3704001DA539 /* LaunchScreen.storyboard */; };
 		94ED5BF8234D3705001DA539 /* BeanCounterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94ED5BF7234D3705001DA539 /* BeanCounterTests.swift */; };
 		94ED5C03234D3705001DA539 /* BeanCounterUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94ED5C02234D3705001DA539 /* BeanCounterUITests.swift */; };
+		94ED5C11234D3D44001DA539 /* SelectUsersTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94ED5C10234D3D44001DA539 /* SelectUsersTableViewController.swift */; };
+		94ED5C14234D3D98001DA539 /* CreateNewUserTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94ED5C13234D3D98001DA539 /* CreateNewUserTableViewController.swift */; };
+		94ED5C16234D4174001DA539 /* AdminTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94ED5C15234D4174001DA539 /* AdminTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +54,9 @@
 		94ED5BFE234D3705001DA539 /* BeanCounterUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BeanCounterUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		94ED5C02234D3705001DA539 /* BeanCounterUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeanCounterUITests.swift; sourceTree = "<group>"; };
 		94ED5C04234D3705001DA539 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		94ED5C10234D3D44001DA539 /* SelectUsersTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectUsersTableViewController.swift; sourceTree = "<group>"; };
+		94ED5C13234D3D98001DA539 /* CreateNewUserTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewUserTableViewController.swift; sourceTree = "<group>"; };
+		94ED5C15234D4174001DA539 /* AdminTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +111,7 @@
 				94ED5BDF234D3702001DA539 /* SceneDelegate.swift */,
 				94ED5BE1234D3702001DA539 /* ViewController.swift */,
 				94ED5BE3234D3702001DA539 /* Main.storyboard */,
+				94ED5C12234D3D4F001DA539 /* VCs */,
 				94ED5BE9234D3704001DA539 /* Assets.xcassets */,
 				94ED5BEB234D3704001DA539 /* LaunchScreen.storyboard */,
 				94ED5BEE234D3704001DA539 /* Info.plist */,
@@ -129,6 +136,16 @@
 				94ED5C04234D3705001DA539 /* Info.plist */,
 			);
 			path = BeanCounterUITests;
+			sourceTree = "<group>";
+		};
+		94ED5C12234D3D4F001DA539 /* VCs */ = {
+			isa = PBXGroup;
+			children = (
+				94ED5C10234D3D44001DA539 /* SelectUsersTableViewController.swift */,
+				94ED5C13234D3D98001DA539 /* CreateNewUserTableViewController.swift */,
+				94ED5C15234D4174001DA539 /* AdminTableViewController.swift */,
+			);
+			path = VCs;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -263,9 +280,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				94ED5BE2234D3702001DA539 /* ViewController.swift in Sources */,
+				94ED5C14234D3D98001DA539 /* CreateNewUserTableViewController.swift in Sources */,
 				94ED5BDE234D3702001DA539 /* AppDelegate.swift in Sources */,
 				94ED5BE8234D3702001DA539 /* BeanCounter.xcdatamodeld in Sources */,
 				94ED5BE0234D3702001DA539 /* SceneDelegate.swift in Sources */,
+				94ED5C16234D4174001DA539 /* AdminTableViewController.swift in Sources */,
+				94ED5C11234D3D44001DA539 /* SelectUsersTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
