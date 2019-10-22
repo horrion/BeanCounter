@@ -1,102 +1,35 @@
 //
-//  SelectUsersTableViewController.swift
+//  PaymentMethodsTableViewController.swift
 //  BeanCounter
 //
-//  Created by Robert Horrion on 10/8/19.
+//  Created by Robert Horrion on 10/15/19.
 //  Copyright © 2019 Robert Horrion. All rights reserved.
 //
 
 import UIKit
-import CoreData
 
-class SelectUsersTableViewController: UITableViewController {
+class PaymentMethodsTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.title = "Users"
-        
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Admin", style: .plain, target: self, action: #selector(loadAdminVC))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(loadAddNewUserVC))
-        
-        
-        // CoreData Test function
-        loadDataFromCoreData()
-    }
-    
-    @objc func loadAdminVC() {
-        performSegue(withIdentifier: "adminSegue", sender: nil)
-    }
+        // Uncomment the following line to preserve selection between presentations
+        // self.clearsSelectionOnViewWillAppear = false
 
-    @objc func loadAddNewUserVC() {
-        performSegue(withIdentifier: "createUserSegue", sender: nil)
+        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+        // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
-    
-    func loadDataFromCoreData() {
-        
-        
-        
-        // Create context for context info stored in AppDelegate
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let context = appDelegate.persistentContainer.viewContext
-        
-        
-        
-        
-        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "User")
-        //request.predicate = NSPredicate(format: "age = %@", "12")
-        request.returnsObjectsAsFaults = false
-        do {
-            let result = try context.fetch(request)
-            for data in result as! [NSManagedObject] {
-               print(data.value(forKey: "firstname") as! String)
-               print(data.value(forKey: "lastname") as! String)
-               print(data.value(forKey: "email") as! String)
-          }
-            
-        } catch {
-            
-            print("Failed")
-        }
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-    }
-    
 
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 1
-        
-        
-        
-        
-        
+        return 0
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return 0
-        
-        
-        
-        
-        
-        
-        
     }
 
     /*
