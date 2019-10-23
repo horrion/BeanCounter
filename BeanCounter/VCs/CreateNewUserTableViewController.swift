@@ -37,14 +37,17 @@ class CreateNewUserTableViewController: UITableViewController {
         
         //TODO: Modify this to save data from TableView
         // Provide newUserInfo object with properties
-        newUserInfo.setValue("John", forKey: "firstname")
+        newUserInfo.setValue("John1", forKey: "firstname")
         newUserInfo.setValue("Appleseed", forKey: "lastname")
         newUserInfo.setValue("john.appleseed@apple.com", forKey: "email")
+        newUserInfo.setValue(Date(), forKey: "createdAt")
         
         // Save newUserInfo to CoreData
         do {
            try context.save()
+            // Data was successfully saved, now pop the VC
             print("successfully saved data")
+            self.navigationController?.popViewController(animated: true)
           } catch {
            print("Couldn't save to CoreData")
             

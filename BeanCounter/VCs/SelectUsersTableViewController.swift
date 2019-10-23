@@ -10,7 +10,16 @@ import UIKit
 import CoreData
 
 class SelectUsersTableViewController: UITableViewController {
-
+    
+    struct userStruct {
+        let firstName: String
+        let lastName: String
+        let eMail: String
+    }
+    
+    var usersArray = [userStruct]()
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -20,8 +29,11 @@ class SelectUsersTableViewController: UITableViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(loadAddNewUserVC))
         
         
-        // CoreData Test function
+        
+        
+        // Load all data from CoreData and refresh the TableView
         loadDataFromCoreData()
+        print("Number of users in Array: " + String(usersArray.count))
     }
     
     @objc func loadAdminVC() {
@@ -34,43 +46,61 @@ class SelectUsersTableViewController: UITableViewController {
     
     func loadDataFromCoreData() {
         
-        
-        
         // Create context for context info stored in AppDelegate
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let context = appDelegate.persistentContainer.viewContext
         
-        
-        
-        
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "User")
-        //request.predicate = NSPredicate(format: "age = %@", "12")
+        
+        request.sortDescriptors = [NSSortDescriptor(key: "createdAt", ascending: true)]
+        
+        // Check if number of registered users is greater than 0, if not ask user to create new user
+            var numberOfObjects: Int = 0
+            
+            do {
+                numberOfObjects = try context.count(for: request)
+            } catch {
+                print("failed to fetch data")
+            }
+            
+            // Ask user to create a new user if no userdata is present
+            if numberOfObjects == 0 {
+                performSegue(withIdentifier: "createUserSegue", sender: nil)
+            }
+        
+        
+        // Reset Array to empty Array
+        usersArray.removeAll()
+        
+        // Iterate through all NSManagedObjects in NSFetchRequestResult
         request.returnsObjectsAsFaults = false
         do {
             let result = try context.fetch(request)
             for data in result as! [NSManagedObject] {
-               print(data.value(forKey: "firstname") as! String)
-               print(data.value(forKey: "lastname") as! String)
-               print(data.value(forKey: "email") as! String)
+                
+                
+                // Create constants from NSFetchRequestResult
+                let firstNameFromCoreData = data.value(forKey: "firstname") as! String
+                let lastNameFromCoreData = data.value(forKey: "lastname") as! String
+                let eMailFromCoreData = data.value(forKey: "email") as! String
+                
+               // Insert into Array
+                usersArray.insert(userStruct.init(firstName: firstNameFromCoreData,
+                                                  lastName: lastNameFromCoreData,
+                                                  eMail: eMailFromCoreData), at: usersArray.count)
+                
+                // Print to Console for Debugging
+                print("First Name: " + firstNameFromCoreData)
+                print("Last Name: " + lastNameFromCoreData)
+                print("eMail: " + eMailFromCoreData)
+                
           }
+            self.tableView.reloadData()
             
         } catch {
             
-            print("Failed")
+            print("failed to fetch data from context")
         }
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         
     }
     
@@ -78,71 +108,38 @@ class SelectUsersTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
-        
-        
-        
-        
-        
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
-        
-        
-        
-        
-        
-        
-        
+        return usersArray.count
     }
-
-    /*
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "lockedCell", for: indexPath)
 
-        // Configure the cell...
+        
+        
+        let userObject = usersArray[indexPath.row]
+        
+        let firstName = userObject.firstName
+        let lastName = userObject.lastName
+        
+        let fullName = firstName + " " + lastName
+        
+        
+        // Configure Cell
+        cell.textLabel?.text = fullName
+        
+        
+        
 
         return cell
     }
-    */
+    
+    
+    
 
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
 
     /*
     // MARK: - Navigation
