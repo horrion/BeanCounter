@@ -52,7 +52,7 @@ class AdminTableViewController: UITableViewController {
         
         request.sortDescriptors = [NSSortDescriptor(key: "createdAt", ascending: true)]
         
-        // Check if number of registered users is greater than 0, if not ask user to create new user
+        // Update title with number of registered users
             var numberOfObjects: Int = 0
             
             do {
@@ -132,6 +132,9 @@ class AdminTableViewController: UITableViewController {
         return cell
     }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.tableView.deselectRow(at: indexPath, animated: true)
+    }
 
     
     // Override to support editing the table view.

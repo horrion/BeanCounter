@@ -11,8 +11,6 @@ import CoreData
 
 class CreateNewUserTableViewController: UITableViewController {
     
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -59,15 +57,22 @@ class CreateNewUserTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        
-        // show just one section for now
-        return 1
+        return 2
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        //
-        return 3
+        if section == 0 {
+            // Section 0
+            return 3
+        }
+        if section == 1 {
+            // Section 1
+            return 1
+        }
+        else {
+            return 0
+        }
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -75,40 +80,51 @@ class CreateNewUserTableViewController: UITableViewController {
         let cameraCell = tableView.dequeueReusableCell(withIdentifier: "cameraCellIdentifier", for: indexPath)
         
         
-        // Configure the cell...
-        if indexPath.row == 0 {
-            cell.textLabel?.text = "First name"
-            
-            //Add textfield here to enable info input
-            
-            return cell
+        if indexPath.section == 0 {
+            if indexPath.row == 0 {
+                cell.textLabel?.text = "First name"
+                
+                //Add textfield here to enable info input
+                
+                return cell
+            }
+            if indexPath.row == 1 {
+                cell.textLabel?.text = "Last name"
+                
+                //Add textfield here to enable info input
+                
+                return cell
+            }
+            if indexPath.row == 2 {
+                cell.textLabel?.text = "E-Mail Address"
+                
+                //Add textfield here to enable info input
+                
+                return cell
+            }
+            else {
+                // if section == 0 && row != {1, 2, 3}
+                return cell
+            }
         }
-        if indexPath.row == 1 {
-            cell.textLabel?.text = "Last name"
-            
-            //Add textfield here to enable info input
-            
-            return cell
-        }
-        if indexPath.row == 2 {
-            cell.textLabel?.text = "E-Mail Address"
-            
-            //Add textfield here to enable info input
-            
-            return cell
-        }
-        if indexPath.row == 3 {
-            
-            //Add camera here to save user photo for login
-            //cameraCell.
-            
-            
-            return cameraCell
+        if indexPath.section == 1 {
+            if indexPath.row == 0 {
+                
+                //Add camera here to save user photo for login
+                //cameraCell.
+                
+                
+                return cameraCell
+            }
+            else {
+                // if section == 1 && row != 0
+                return cell
+            }
         }
         else {
+            // if section != 0 || 1
             return cell
         }
-
         
     }
     
@@ -117,8 +133,19 @@ class CreateNewUserTableViewController: UITableViewController {
     }
     
     
-    
-    
+//    func bsfunction() {
+//
+//
+//
+//        guard let device = AVCaptureDevice.devices().filter({ $0.position == .Front })
+//            .first as? AVCaptureDevice else {
+//                fatalError("No front facing camera found")
+//        }
+//
+//
+//
+//
+//    }
     
 
   

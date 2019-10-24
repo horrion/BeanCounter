@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		94351F4B2361277600F7B919 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94351F4A2361277600F7B919 /* CameraViewController.swift */; };
 		94DB105323566E3B00751D15 /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94DB105223566E3B00751D15 /* SettingsTableViewController.swift */; };
 		94DB105523566E6300751D15 /* PaymentMethodsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94DB105423566E6300751D15 /* PaymentMethodsTableViewController.swift */; };
 		94ED5BDE234D3702001DA539 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94ED5BDD234D3702001DA539 /* AppDelegate.swift */; };
@@ -41,6 +42,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		94351F4A2361277600F7B919 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		94DB105223566E3B00751D15 /* SettingsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
 		94DB105423566E6300751D15 /* PaymentMethodsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentMethodsTableViewController.swift; sourceTree = "<group>"; };
 		94ED5BDA234D3702001DA539 /* BeanCounter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BeanCounter.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -88,6 +90,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		94351F472361269E00F7B919 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				94351F4A2361277600F7B919 /* CameraViewController.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
 		94ED5BD1234D3702001DA539 = {
 			isa = PBXGroup;
 			children = (
@@ -145,6 +155,7 @@
 		94ED5C12234D3D4F001DA539 /* VCs */ = {
 			isa = PBXGroup;
 			children = (
+				94351F472361269E00F7B919 /* Helpers */,
 				94DB105223566E3B00751D15 /* SettingsTableViewController.swift */,
 				94ED5C10234D3D44001DA539 /* SelectUsersTableViewController.swift */,
 				94ED5C13234D3D98001DA539 /* CreateNewUserTableViewController.swift */,
@@ -285,6 +296,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				94351F4B2361277600F7B919 /* CameraViewController.swift in Sources */,
 				94ED5BE2234D3702001DA539 /* ViewController.swift in Sources */,
 				94ED5C14234D3D98001DA539 /* CreateNewUserTableViewController.swift in Sources */,
 				94ED5BDE234D3702001DA539 /* AppDelegate.swift in Sources */,
