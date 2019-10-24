@@ -278,7 +278,7 @@
                     <value key="contentSizeForViewInPopover" type="size" width="320" height="260"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
-                        <segue destination="K2D-cw-bQl" kind="show" id="938-Bb-vnl"/>
+                        <segue destination="K2D-cw-bQl" kind="show" identifier="editPaymentMethodsSegue" id="938-Bb-vnl"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OhD-34-X7k" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

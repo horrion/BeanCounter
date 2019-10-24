@@ -11,6 +11,10 @@ import CoreData
 
 class CreateNewUserTableViewController: UITableViewController {
     
+    var firstNameTextField: UITextField!
+    var lastNameTextField: UITextField!
+    var eMailTextField: UITextField!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -35,9 +39,9 @@ class CreateNewUserTableViewController: UITableViewController {
         
         //TODO: Modify this to save data from TableView
         // Provide newUserInfo object with properties
-        newUserInfo.setValue("John1", forKey: "firstname")
-        newUserInfo.setValue("Appleseed", forKey: "lastname")
-        newUserInfo.setValue("john.appleseed@apple.com", forKey: "email")
+        newUserInfo.setValue(firstNameTextField.text, forKey: "firstname")
+        newUserInfo.setValue(lastNameTextField.text, forKey: "lastname")
+        newUserInfo.setValue(eMailTextField.text, forKey: "email")
         newUserInfo.setValue(Date(), forKey: "createdAt")
         
         // Save newUserInfo to CoreData
@@ -84,21 +88,42 @@ class CreateNewUserTableViewController: UITableViewController {
             if indexPath.row == 0 {
                 cell.textLabel?.text = "First name"
                 
-                //Add textfield here to enable info input
+                // Textfield to enable info input
+                let viewWidth = Int(cell.contentView.frame.size.width)
+                let textFieldWidth = 260
+                
+                firstNameTextField = UITextField(frame: CGRect(x: viewWidth-textFieldWidth, y: 6, width: textFieldWidth, height: 34))
+                firstNameTextField.placeholder = "Enter your first name here"
+                
+                cell.contentView.addSubview(firstNameTextField)
                 
                 return cell
             }
             if indexPath.row == 1 {
                 cell.textLabel?.text = "Last name"
                 
-                //Add textfield here to enable info input
+                // Textfield to enable info input
+                let viewWidth = Int(cell.contentView.frame.size.width)
+                let textFieldWidth = 260
+                
+                lastNameTextField = UITextField(frame: CGRect(x: viewWidth-textFieldWidth, y: 6, width: textFieldWidth, height: 34))
+                lastNameTextField.placeholder = "Enter your last name here"
+                
+                cell.contentView.addSubview(lastNameTextField)
                 
                 return cell
             }
             if indexPath.row == 2 {
                 cell.textLabel?.text = "E-Mail Address"
                 
-                //Add textfield here to enable info input
+                // Textfield to enable info input
+                let viewWidth = Int(cell.contentView.frame.size.width)
+                let textFieldWidth = 260
+                
+                eMailTextField = UITextField(frame: CGRect(x: viewWidth-textFieldWidth, y: 6, width: textFieldWidth, height: 34))
+                eMailTextField.placeholder = "Enter your E-Mail Address here"
+                
+                cell.contentView.addSubview(eMailTextField)
                 
                 return cell
             }
@@ -131,6 +156,7 @@ class CreateNewUserTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.tableView.deselectRow(at: indexPath, animated: true)
     }
+    
     
     
 //    func bsfunction() {

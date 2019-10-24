@@ -10,7 +10,8 @@ import UIKit
 
 class SettingsTableViewController: UITableViewController {
 
-    let settingsInTableView = ["Change Admin Passcode",
+    let settingsInTableView = ["Edit Payment methods",
+                               "Change Admin Passcode",
                                "Export to CSV",
                                "Edit Coffee price"]
     
@@ -47,6 +48,10 @@ class SettingsTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.tableView.deselectRow(at: indexPath, animated: true)
+        
+        if indexPath.row == 0 {
+            self.performSegue(withIdentifier: "editPaymentMethodsSegue", sender: nil)
+        }
     }
 
     
