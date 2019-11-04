@@ -53,6 +53,7 @@ class CreateNewUserTableViewController: UITableViewController {
           } catch {
            print("Couldn't save to CoreData")
             
+            //Remind user to make sure all info has been provided / all fields are populated
             //TODO: Provide popup for failed save to CoreData
         }
     }
