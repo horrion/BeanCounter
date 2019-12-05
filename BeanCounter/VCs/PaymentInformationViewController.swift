@@ -1,0 +1,60 @@
+//
+//  PaymentInformationViewController.swift
+//  BeanCounter
+//
+//  Created by Robert Horrion on 12/5/19.
+//  Copyright © 2019 Robert Horrion. All rights reserved.
+//
+
+import UIKit
+
+class PaymentInformationViewController: UIViewController {
+
+    @IBOutlet weak var qrImageView: UIImageView!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        // Do any additional setup after loading the view.
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneUserButton))
+        
+        displayQRCode()
+    }
+    
+    @objc func doneUserButton() {
+        self.dismiss(animated: true, completion: nil)
+    }
+
+    func displayQRCode() {
+        
+        // Get data from UserDefaults
+        let userDefaults = UserDefaults.standard
+        let paymentInfoString = userDefaults.string(forKey: "PaymentInfo")
+        
+        let data = paymentInfoString?.data(using: String.Encoding.ascii)
+        
+        // Generate the QR code
+        if let filter = CIFilter(name: "CIQRCodeGenerator") {
+            filter.setValue(data, forKey: "inputMessage")
+            let transform = CGAffineTransform(scaleX: 3, y: 3)
+
+            if let output = filter.outputImage?.transformed(by: transform) {
+                
+                //Set the generated QR code as the image in qrImageView
+                qrImageView.image = UIImage(ciImage: output)
+            }
+        }
+    }
+    
+    /*
+    // MARK: - Navigation
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destination.
+        // Pass the selected object to the new view controller.
+    }
+    */
+
+}

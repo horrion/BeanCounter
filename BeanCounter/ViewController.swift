@@ -13,8 +13,21 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Face Recognition", style: .plain, target: self, action: #selector(faceRecognition))
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Show Payment Info", style: .plain, target: self, action: #selector(showPaymentInfoButton))
     }
 
+    @objc func showPaymentInfoButton() {
+        performSegue(withIdentifier: "paymentInfoSegue", sender: self)
+    }
+    
+    @objc func faceRecognition() {
+        
+        // Implement face recognition here
+        
+    }
 
 }
 
