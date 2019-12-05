@@ -57,7 +57,7 @@ class SettingsTableViewController: UITableViewController {
             alertController.addTextField()
 
             let saveAction = UIAlertAction(title: "Save", style: .default) { [unowned alertController] _ in
-                let dataToSave = alertController.textFields![0]
+                let dataToSave = alertController.textFields![0].text
                 
                 // Save the entered String to UserDefaults (plist)
                 let userDefaults = UserDefaults.standard
@@ -98,11 +98,9 @@ class SettingsTableViewController: UITableViewController {
             alertController.addTextField()
 
             let saveAction = UIAlertAction(title: "Save", style: .default) { [unowned alertController] _ in
-                let dataToSave = alertController.textFields![0]
+                let dataToSave = alertController.textFields![0].text
                 
-                let textFieldContentString = (dataToSave.text!)
-                
-                if Float(textFieldContentString) != nil {
+                if Float(dataToSave!) != nil {
                     // value is numeric
                     // Save the entered data to UserDefaults (plist)
                     let userDefaults = UserDefaults.standard
@@ -111,7 +109,9 @@ class SettingsTableViewController: UITableViewController {
                 } else {
                     // value is NOT numeric
                     // Prompt the user to enter a numeric value
-                    let alert = UIAlertController(title: "Non-numeric value detected", message: "Please enter a numeric value", preferredStyle: .alert)
+                    let alert = UIAlertController(title: "Non-numeric value detected", message: "Please enter a numeric value with one decimal point only", preferredStyle: .alert)
+                    let dismissAction = UIAlertAction(title: "Ok", style: .default)
+                    alert.addAction(dismissAction)
                     self.present(alert, animated: true)
                 }
             }

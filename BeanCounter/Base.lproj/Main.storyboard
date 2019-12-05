@@ -349,21 +349,29 @@
         <!--Payment Information-->
         <scene sceneID="HOb-cg-iil">
             <objects>
-                <viewController title="Payment Information" id="xbq-52-mfX" customClass="PaymentInformationViewController" customModule="BeanCounter" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Payment Information" modalPresentationStyle="formSheet" id="xbq-52-mfX" customClass="PaymentInformationViewController" customModule="BeanCounter" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="MFC-58-ixQ">
                         <rect key="frame" x="0.0" y="0.0" width="540" height="564"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="vyh-IV-Tom">
-                                <rect key="frame" x="20" y="20" width="500" height="524"/>
+                                <rect key="frame" x="145" y="157" width="250" height="250"/>
                             </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No payment info has been entered yet" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Zb-xd-5gc">
+                                <rect key="frame" x="124" y="271.5" width="292" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="vyh-IV-Tom" firstAttribute="trailing" secondItem="MFC-58-ixQ" secondAttribute="trailingMargin" id="9f5-cM-avR"/>
-                            <constraint firstItem="vyh-IV-Tom" firstAttribute="centerY" secondItem="MFC-58-ixQ" secondAttribute="centerY" id="RmQ-Nj-YhF"/>
-                            <constraint firstItem="vyh-IV-Tom" firstAttribute="leading" secondItem="MFC-58-ixQ" secondAttribute="leadingMargin" id="m5I-4t-MdL"/>
-                            <constraint firstItem="vyh-IV-Tom" firstAttribute="top" secondItem="alS-OO-K6t" secondAttribute="top" constant="20" id="rY3-4e-gye"/>
+                            <constraint firstItem="vyh-IV-Tom" firstAttribute="top" secondItem="alS-OO-K6t" secondAttribute="top" constant="157" id="2RO-Sa-oIJ"/>
+                            <constraint firstItem="vyh-IV-Tom" firstAttribute="centerX" secondItem="MFC-58-ixQ" secondAttribute="centerX" id="KHW-0t-mFY"/>
+                            <constraint firstItem="vyh-IV-Tom" firstAttribute="leading" secondItem="alS-OO-K6t" secondAttribute="leading" constant="145" id="LUq-8A-ygh"/>
+                            <constraint firstItem="2Zb-xd-5gc" firstAttribute="centerY" secondItem="MFC-58-ixQ" secondAttribute="centerY" id="SLg-20-k51"/>
+                            <constraint firstItem="vyh-IV-Tom" firstAttribute="centerY" secondItem="MFC-58-ixQ" secondAttribute="centerY" id="hu5-Pn-dNk"/>
+                            <constraint firstItem="2Zb-xd-5gc" firstAttribute="centerX" secondItem="MFC-58-ixQ" secondAttribute="centerX" id="k44-LX-EUJ"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="alS-OO-K6t"/>
                     </view>
@@ -371,6 +379,7 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <modalFormSheetSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <connections>
+                        <outlet property="noInfoPresentLabel" destination="2Zb-xd-5gc" id="qTG-f4-oE5"/>
                         <outlet property="qrImageView" destination="vyh-IV-Tom" id="KWs-cl-m6t"/>
                     </connections>
                 </viewController>

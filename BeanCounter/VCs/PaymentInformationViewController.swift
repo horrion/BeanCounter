@@ -11,6 +11,7 @@ import UIKit
 class PaymentInformationViewController: UIViewController {
 
     @IBOutlet weak var qrImageView: UIImageView!
+    @IBOutlet weak var noInfoPresentLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,19 +33,33 @@ class PaymentInformationViewController: UIViewController {
         let userDefaults = UserDefaults.standard
         let paymentInfoString = userDefaults.string(forKey: "PaymentInfo")
         
-        let data = paymentInfoString?.data(using: String.Encoding.ascii)
-        
-        // Generate the QR code
-        if let filter = CIFilter(name: "CIQRCodeGenerator") {
-            filter.setValue(data, forKey: "inputMessage")
-            let transform = CGAffineTransform(scaleX: 3, y: 3)
-
-            if let output = filter.outputImage?.transformed(by: transform) {
+        if paymentInfoString == nil {
+            // No payment info has been entered yet, hide the imageView, show the label
+            qrImageView.isHidden = true
+            noInfoPresentLabel.isHidden = false
+        } else {
+            
+            // payment info has been entered, show the imageView
+            qrImageView.isHidden = false
+            noInfoPresentLabel.isHidden = true
+            
+            let data = paymentInfoString?.data(using: String.Encoding.ascii)
+            
+            // Generate the QR code
+            if let filter = CIFilter(name: "CIQRCodeGenerator") {
+                filter.setValue(data, forKey: "inputMessage")
+                let transform = CGAffineTransform(scaleX: 3, y: 3)
                 
-                //Set the generated QR code as the image in qrImageView
-                qrImageView.image = UIImage(ciImage: output)
+                if let output = filter.outputImage?.transformed(by: transform) {
+                    
+                    //Set the generated QR code as the image in qrImageView
+                    qrImageView.image = UIImage(ciImage: output)
+                }
             }
         }
+        
+        
+        
     }
     
     /*
