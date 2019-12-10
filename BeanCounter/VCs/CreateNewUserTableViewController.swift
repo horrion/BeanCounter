@@ -43,6 +43,7 @@ class CreateNewUserTableViewController: UITableViewController {
         newUserInfo.setValue(lastNameTextField.text, forKey: "lastname")
         newUserInfo.setValue(eMailTextField.text, forKey: "email")
         newUserInfo.setValue(Date(), forKey: "createdAt")
+        newUserInfo.setValue(0, forKey: "balanceInCents")
         
         // Save newUserInfo to CoreData
         do {

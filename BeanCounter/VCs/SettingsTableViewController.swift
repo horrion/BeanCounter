@@ -7,13 +7,28 @@
 //
 
 import UIKit
+import CoreData
 
 class SettingsTableViewController: UITableViewController {
 
     let settingsInTableView = ["Edit Payment QR code",
                                "Change Admin Passcode",
                                "Export to CSV",
-                               "Edit Coffee price"]
+                               "Edit Coffee price",
+                               "Reset all balances"]
+    
+    //TODO: Remove next line
+    //var managedObjectsArray = [NSManagedObject?]()
+    
+    struct userStruct {
+        let firstName: String
+        let lastName: String
+        let eMail: String
+        let balance: Int64
+    }
+    
+    var usersArray = [userStruct]()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -81,14 +96,7 @@ class SettingsTableViewController: UITableViewController {
         }
         if indexPath.row == 2 {
             // Export to CSV
-            
-            
-            
-            // Enter CoreData operation here
-            
-            
-            
-            
+            readFromCoreData()
             
         }
         if indexPath.row == 3 {
@@ -100,7 +108,7 @@ class SettingsTableViewController: UITableViewController {
             let saveAction = UIAlertAction(title: "Save", style: .default) { [unowned alertController] _ in
                 let dataToSave = alertController.textFields![0].text
                 
-                if Float(dataToSave!) != nil {
+                if Int64(dataToSave!) != nil {
                     // value is numeric
                     // Save the entered data to UserDefaults (plist)
                     let userDefaults = UserDefaults.standard
@@ -119,11 +127,127 @@ class SettingsTableViewController: UITableViewController {
             alertController.addAction(saveAction)
             present(alertController, animated: true)
         }
+        if indexPath.row == 4 {
+            // Reset all balances (to 0)
+            
+            
+            // TODO: CoreData operation to iterate through NSManagedObjects to set all balances to 0
+            
+            
+        }
     }
 
-    
+    // MARK: - helper functions
+    func readFromCoreData() {
+        
+        // Create context for context info stored in AppDelegate
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "User")
+        
+        request.sortDescriptors = [NSSortDescriptor(key: "createdAt", ascending: true)]
+        
+        // Check if number of registered users is greater than 0, if not display an alert
+            var numberOfObjects: Int = 0
+            
+            do {
+                numberOfObjects = try context.count(for: request)
+            } catch {
+                print("failed to fetch data")
+            }
+            
+            // Display an alert here telling the user that no data is present
+            if numberOfObjects == 0 {
+                
+                //TODO: Display an alert here
+                
+            }
+        
+        
+        // Reset Array to empty Array
+        usersArray.removeAll()
+        
+        // Iterate through all NSManagedObjects in NSFetchRequestResult
+        request.returnsObjectsAsFaults = false
+        do {
+            let result = try context.fetch(request)
+            for data in result as! [NSManagedObject] {
+                
+                // Create variables for values from NSManagedObject
+                let firstNameFromCoreData = data.value(forKey: "firstname") as! String
+                let lastNameFromCoreData = data.value(forKey: "lastname") as! String
+                let eMailFromCoreData = data.value(forKey: "email") as! String
+                let balanceFromCoreData = data.value(forKey: "balanceInCents") as! Int64
+                
+                // insert all variables into struct, NSManagedObject can be discarded at this point; All required data has been gathered
+                usersArray.insert(userStruct.init(firstName: firstNameFromCoreData,
+                                                  lastName: lastNameFromCoreData,
+                                                  eMail: eMailFromCoreData,
+                                                  balance: balanceFromCoreData), at: usersArray.count)
+          
+            }
+            
+            // After the data has been written to the array, write it to the csv file
+            writeBalancesToCSV()
+            
+        } catch {
+            
+            print("failed to fetch data from context")
+        }
+        
+    }
 
-    
+
+    func writeBalancesToCSV() {
+        
+        // Set fileName for the .csv file here
+        let fileName = "BeanCounter - " + Date().description
+        let path = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(fileName)
+                   
+        var csvText = "User,Balance\n"
+                   
+        // iterate through all values in usersArray and write each one to the csv file
+        for userEntry in usersArray {
+                       
+            // Create variables from array data
+            let firstName = userEntry.firstName
+            let lastName = userEntry.lastName
+            let eMail = userEntry.eMail
+                       
+            // Create User ID String (Name + Email) and balance String
+            let userIDString = firstName + " " + lastName + " (" + eMail + ")"
+            let balanceString = String(userEntry.balance)
+                       
+            // create new line from variables in CSV file
+            let newLine = "\(userIDString),\(balanceString)\n"
+            csvText.append(contentsOf: newLine)
+        }
+        
+        do {
+            try csvText.write(to: path!, atomically: true, encoding: String.Encoding.utf8)
+                            
+            let vc = UIActivityViewController(activityItems: [path!], applicationActivities: [])
+            vc.excludedActivityTypes = [
+                UIActivity.ActivityType.assignToContact,
+                UIActivity.ActivityType.saveToCameraRoll,
+                UIActivity.ActivityType.postToFlickr,
+                UIActivity.ActivityType.postToVimeo,
+                UIActivity.ActivityType.postToTencentWeibo,
+                UIActivity.ActivityType.postToTwitter,
+                UIActivity.ActivityType.postToFacebook,
+                UIActivity.ActivityType.openInIBooks
+            ]
+            present(vc, animated: true, completion: nil)
+
+        } catch {
+            
+            // an error has occurred
+            print("Failed to create file")
+            print("\(error)")
+        }
+        
+    }
     
 
     /*

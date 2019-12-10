@@ -11,13 +11,19 @@ import CoreData
 
 class SelectUsersTableViewController: UITableViewController {
     
+    //TODO: Remove next few lines
     struct userStruct {
         let firstName: String
         let lastName: String
         let eMail: String
+        let rawManagedObject: NSManagedObject?
     }
     
+    //TODO: Remove next line
     var usersArray = [userStruct]()
+    
+    var managedObjectsArray = [NSManagedObject?]()
+    
     
     
     override func viewDidLoad() {
@@ -33,7 +39,7 @@ class SelectUsersTableViewController: UITableViewController {
         
         // Load all data from CoreData and refresh the TableView
         loadDataFromCoreData()
-        print("Number of users in Array: " + String(usersArray.count))
+        print("Number of users in Array: " + String(managedObjectsArray.count))
     }
     
     @objc func loadAdminVC() {
@@ -70,7 +76,7 @@ class SelectUsersTableViewController: UITableViewController {
         
         
         // Reset Array to empty Array
-        usersArray.removeAll()
+        managedObjectsArray.removeAll()
         
         // Iterate through all NSManagedObjects in NSFetchRequestResult
         request.returnsObjectsAsFaults = false
@@ -78,16 +84,22 @@ class SelectUsersTableViewController: UITableViewController {
             let result = try context.fetch(request)
             for data in result as! [NSManagedObject] {
                 
+                // New method, just save the whole NSManagedObject, then read from it later on
+                managedObjectsArray.insert(data, at: managedObjectsArray.count)
                 
+                //TODO: delete next few lines and all references to them
                 // Create constants from NSFetchRequestResult
                 let firstNameFromCoreData = data.value(forKey: "firstname") as! String
                 let lastNameFromCoreData = data.value(forKey: "lastname") as! String
                 let eMailFromCoreData = data.value(forKey: "email") as! String
+                let rawManagedObjectFromCoreData = data
+                
                 
                // Insert into Array
                 usersArray.insert(userStruct.init(firstName: firstNameFromCoreData,
                                                   lastName: lastNameFromCoreData,
-                                                  eMail: eMailFromCoreData), at: usersArray.count)
+                                                  eMail: eMailFromCoreData,
+                                                  rawManagedObject: rawManagedObjectFromCoreData), at: usersArray.count)
                 
                 // Print to Console for Debugging
                 print("First Name: " + firstNameFromCoreData)
@@ -112,18 +124,20 @@ class SelectUsersTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return usersArray.count
+        
+        //TODO: delete nexxt line
+        //return usersArray.count
+        return managedObjectsArray.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "lockedCell", for: indexPath)
 
         
+        let userObject = managedObjectsArray[indexPath.row]
         
-        let userObject = usersArray[indexPath.row]
-        
-        let firstName = userObject.firstName
-        let lastName = userObject.lastName
+        let firstName = userObject?.value(forKey: "firstname") as! String
+        let lastName = userObject?.value(forKey: "lastname") as! String
         
         let fullName = firstName + " " + lastName
         
@@ -139,6 +153,39 @@ class SelectUsersTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.tableView.deselectRow(at: indexPath, animated: true)
+        
+        // next few lines are for debugging
+        let firstName = managedObjectsArray[indexPath.row]?.value(forKey: "firstname") as! String
+        let lastName = managedObjectsArray[indexPath.row]?.value(forKey: "lastname") as! String
+        let eMail = managedObjectsArray[indexPath.row]?.value(forKey: "email") as! String
+
+        print("Will mutate the following user: " + firstName + " " + lastName + " (" + eMail + ")")
+        
+        
+        // Read and print balance before making changes to saved data
+        let balanceBeforeChanges = managedObjectsArray[indexPath.row]?.value(forKey: "balanceInCents") as! Int64
+        print("balance before changes: " + String(balanceBeforeChanges))
+        
+        
+        // Get current coffee price from NSUserDefaults
+        let userDefaults = UserDefaults.standard
+        let coffeePriceAsInt = userDefaults.integer(forKey: "CoffeePrice")
+        let coffeePriceAsInt64 = Int64(coffeePriceAsInt)
+        
+        
+        //TODO: Set Multiplier here
+        
+        
+        // Save new balance
+        let newBalance = balanceBeforeChanges + coffeePriceAsInt64
+        managedObjectsArray[indexPath.row]?.setValue(newBalance, forKey: "balanceInCents")
+        
+        // Print new balance after changes have been saved
+        let balanceAfterChanges = managedObjectsArray[indexPath.row]?.value(forKey: "balanceInCents") as! Int64
+        print("balance after changes: " + String(balanceAfterChanges))
+        
+        // Execute IoT function
+        IoTHelperClass().userHasBeenBilledForCoffee()
     }
     
 

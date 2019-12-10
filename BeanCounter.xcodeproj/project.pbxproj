@@ -22,6 +22,7 @@
 		94ED5C14234D3D98001DA539 /* CreateNewUserTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94ED5C13234D3D98001DA539 /* CreateNewUserTableViewController.swift */; };
 		94ED5C16234D4174001DA539 /* AdminTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94ED5C15234D4174001DA539 /* AdminTableViewController.swift */; };
 		94FB83862398848400A568D3 /* PaymentInformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94FB83852398848400A568D3 /* PaymentInformationViewController.swift */; };
+		94FB8389239F25D300A568D3 /* IoTHelperClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94FB8387239F23AE00A568D3 /* IoTHelperClass.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +64,7 @@
 		94ED5C13234D3D98001DA539 /* CreateNewUserTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewUserTableViewController.swift; sourceTree = "<group>"; };
 		94ED5C15234D4174001DA539 /* AdminTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminTableViewController.swift; sourceTree = "<group>"; };
 		94FB83852398848400A568D3 /* PaymentInformationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentInformationViewController.swift; sourceTree = "<group>"; };
+		94FB8387239F23AE00A568D3 /* IoTHelperClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IoTHelperClass.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +95,7 @@
 		94351F472361269E00F7B919 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				94FB8387239F23AE00A568D3 /* IoTHelperClass.swift */,
 				94E89F85237CD6DD00F83C73 /* CameraTableViewCell.swift */,
 			);
 			path = Helpers;
@@ -297,6 +300,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				94ED5BE2234D3702001DA539 /* ViewController.swift in Sources */,
+				94FB8389239F25D300A568D3 /* IoTHelperClass.swift in Sources */,
 				94ED5C14234D3D98001DA539 /* CreateNewUserTableViewController.swift in Sources */,
 				94ED5BDE234D3702001DA539 /* AppDelegate.swift in Sources */,
 				94ED5BE8234D3702001DA539 /* BeanCounter.xcdatamodeld in Sources */,

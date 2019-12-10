@@ -11,13 +11,15 @@ import CoreData
 
 class AdminTableViewController: UITableViewController {
 
-    struct userStruct {
-        let firstName: String
-        let lastName: String
-        let eMail: String
-    }
+//    struct userStruct {
+//        let firstName: String
+//        let lastName: String
+//        let eMail: String
+//    }
     
-    var usersArray = [userStruct]()
+    //var usersArray = [userStruct]()
+    
+    var managedObjectsArray = [NSManagedObject?]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,7 +67,7 @@ class AdminTableViewController: UITableViewController {
             
         
         // Reset Array to empty Array
-        usersArray.removeAll()
+        managedObjectsArray.removeAll()
         
         // Iterate through all NSManagedObjects in NSFetchRequestResult
         request.returnsObjectsAsFaults = false
@@ -73,16 +75,18 @@ class AdminTableViewController: UITableViewController {
             let result = try context.fetch(request)
             for data in result as! [NSManagedObject] {
                 
+                managedObjectsArray.insert(data, at: managedObjectsArray.count)
                 
+                //TODO: delete the next few lines
                 // Create constants from NSFetchRequestResult
                 let firstNameFromCoreData = data.value(forKey: "firstname") as! String
                 let lastNameFromCoreData = data.value(forKey: "lastname") as! String
                 let eMailFromCoreData = data.value(forKey: "email") as! String
                 
                // Insert into Array
-                usersArray.insert(userStruct.init(firstName: firstNameFromCoreData,
-                                                  lastName: lastNameFromCoreData,
-                                                  eMail: eMailFromCoreData), at: usersArray.count)
+//                usersArray.insert(userStruct.init(firstName: firstNameFromCoreData,
+//                                                  lastName: lastNameFromCoreData,
+//                                                  eMail: eMailFromCoreData), at: usersArray.count)
                 
                 // Print to Console for Debugging
                 print("First Name: " + firstNameFromCoreData)
@@ -107,7 +111,7 @@ class AdminTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return usersArray.count
+        return managedObjectsArray.count
     }
 
     @IBAction func doneButtonAction(_ sender: Any) {
@@ -117,23 +121,42 @@ class AdminTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "adminTableViewCellIdentifier", for: indexPath)
         
+        // Get managedObject from array, set as userObject
+        let userObject = managedObjectsArray[indexPath.row]
         
-        let userObject = usersArray[indexPath.row]
-        
-        let firstName = userObject.firstName
-        let lastName = userObject.lastName
+        // Extract first name and last name from managedObject and write to variables
+        let firstName = userObject?.value(forKey: "firstname") as! String
+        let lastName = userObject?.value(forKey: "lastname") as! String
         
         let fullName = firstName + " " + lastName
         
+        // Get user balance from managedObject
+        let currentUserBalance = userObject?.value(forKey: "balanceInCents") as! Int64
         
-        // Configure Cell
+        
+        
+        // Configure cell labels
         cell.textLabel?.text = fullName
+        cell.detailTextLabel?.text = String(currentUserBalance)
+        
+        // if balance is negative (user owes money) set textcolor to red
+        // signum() == -1 means the value is negative
+        if currentUserBalance.signum() == -1 {
+            cell.detailTextLabel?.textColor = UIColor.red
+        } else {
+            cell.detailTextLabel?.textColor = UIColor.green
+        }
+        
         
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.tableView.deselectRow(at: indexPath, animated: true)
+        
+        //TODO: Go to detail view (like create new user) and allow admin to change all values
+        
+        
     }
 
     
