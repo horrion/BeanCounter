@@ -111,6 +111,10 @@ class SettingsTableViewController: UITableViewController {
                 if Int64(dataToSave!) != nil {
                     // value is numeric
                     // Save the entered data to UserDefaults (plist)
+                    
+                    
+                    //TODO: Convert from Euros to cents before saving
+                    
                     let userDefaults = UserDefaults.standard
                     userDefaults.set(dataToSave, forKey: "CoffeePrice")
                     
@@ -202,7 +206,7 @@ class SettingsTableViewController: UITableViewController {
     func writeBalancesToCSV() {
         
         // Set fileName for the .csv file here
-        let fileName = "BeanCounter - " + Date().description
+        let fileName = "BeanCounter - " + Date().description + ".csv"
         let path = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(fileName)
                    
         var csvText = "User,Balance\n"
@@ -219,6 +223,8 @@ class SettingsTableViewController: UITableViewController {
             let userIDString = firstName + " " + lastName + " (" + eMail + ")"
             let balanceString = String(userEntry.balance)
                        
+            //TODO: convert from cent to euro value before saving
+            
             // create new line from variables in CSV file
             let newLine = "\(userIDString),\(balanceString)\n"
             csvText.append(contentsOf: newLine)
@@ -228,6 +234,9 @@ class SettingsTableViewController: UITableViewController {
             try csvText.write(to: path!, atomically: true, encoding: String.Encoding.utf8)
                             
             let vc = UIActivityViewController(activityItems: [path!], applicationActivities: [])
+            vc.modalPresentationStyle = UIModalPresentationStyle.popover
+            vc.popoverPresentationController?.sourceView = self.view
+            
             vc.excludedActivityTypes = [
                 UIActivity.ActivityType.assignToContact,
                 UIActivity.ActivityType.saveToCameraRoll,
@@ -239,7 +248,7 @@ class SettingsTableViewController: UITableViewController {
                 UIActivity.ActivityType.openInIBooks
             ]
             present(vc, animated: true, completion: nil)
-
+            
         } catch {
             
             // an error has occurred

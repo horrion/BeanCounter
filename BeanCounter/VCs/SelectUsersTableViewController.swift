@@ -177,8 +177,24 @@ class SelectUsersTableViewController: UITableViewController {
         
         
         // Save new balance
-        let newBalance = balanceBeforeChanges + coffeePriceAsInt64
+        let newBalance = balanceBeforeChanges - coffeePriceAsInt64
         managedObjectsArray[indexPath.row]?.setValue(newBalance, forKey: "balanceInCents")
+        
+        // Create instance of MOC
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        
+        // Save newUserInfo to CoreData
+        do {
+           try context.save()
+            // Data was successfully saved
+            print("successfully saved data")
+            
+          } catch {
+           print("Couldn't save to CoreData")
+            
+            //TODO: Provide popup for failed save to CoreData
+        }
         
         // Print new balance after changes have been saved
         let balanceAfterChanges = managedObjectsArray[indexPath.row]?.value(forKey: "balanceInCents") as! Int64

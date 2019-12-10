@@ -133,6 +133,7 @@ class AdminTableViewController: UITableViewController {
         // Get user balance from managedObject
         let currentUserBalance = userObject?.value(forKey: "balanceInCents") as! Int64
         
+        //TODO: Convert to Euro from cents before displaying
         
         
         // Configure cell labels
