@@ -1,16 +1,20 @@
 PODS:
+  - KeychainSwift (18.0.0)
   - SVPinView (1.0.7)
 
 DEPENDENCIES:
+  - KeychainSwift
   - SVPinView (~> 1.0)
 
 SPEC REPOS:
   trunk:
+    - KeychainSwift
     - SVPinView
 
 SPEC CHECKSUMS:
+  KeychainSwift: c46e1438d121e47459fb304ac88c5e058a2a91ed
   SVPinView: 6c1da57e4a1273298802f460c60511ba10f7c831
 
-PODFILE CHECKSUM: 244dc8265b04221c0bdda9a7d471183324eb81b3
+PODFILE CHECKSUM: 1cb83f5d81b7aab8a51407fe6f0de7d1743a33c1
 
 COCOAPODS: 1.8.4

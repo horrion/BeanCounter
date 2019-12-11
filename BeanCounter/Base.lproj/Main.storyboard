@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Z1a-ni-6g6">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Z1a-ni-6g6">
     <device id="ipad10_5" orientation="portrait" layout="fullscreen" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -53,6 +53,7 @@
                     <navigationItem key="navigationItem" title="BeanCounter" id="8Cc-US-JXc"/>
                     <connections>
                         <segue destination="GGY-Kp-9UQ" kind="presentation" identifier="paymentInfoSegue" id="2tS-K6-xad"/>
+                        <segue destination="UKl-bL-9zj" kind="presentation" identifier="setAdminPasscode" id="f9v-QC-bXh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -63,6 +64,55 @@
                 </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="-850.35971223021591" y="137.58992805755395"/>
+        </scene>
+        <!--Set Passcode View Controller-->
+        <scene sceneID="HT8-mr-SND">
+            <objects>
+                <viewController modalPresentationStyle="formSheet" id="Lcw-bT-NxA" customClass="SetPasscodeViewController" customModule="BeanCounter" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="HrC-4E-ebc">
+                        <rect key="frame" x="0.0" y="0.0" width="540" height="256"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="k2p-Ie-cQJ" customClass="SVPinView" customModule="SVPinView">
+                                <rect key="frame" x="20" y="56" width="500" height="180"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="pinLength">
+                                        <integer key="value" value="4"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="secureCharacter" value="*"/>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="borderLineColor">
+                                        <color key="value" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="activeBorderLineColor">
+                                        <color key="value" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="textColor">
+                                        <color key="value" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="placeholder" value="****"/>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="Pro-ch-ZOe" firstAttribute="bottom" secondItem="k2p-Ie-cQJ" secondAttribute="bottom" constant="20" id="4nW-pn-SBC"/>
+                            <constraint firstItem="k2p-Ie-cQJ" firstAttribute="trailing" secondItem="HrC-4E-ebc" secondAttribute="trailingMargin" id="UHb-gI-dPd"/>
+                            <constraint firstItem="k2p-Ie-cQJ" firstAttribute="leading" secondItem="HrC-4E-ebc" secondAttribute="leadingMargin" id="eUd-bH-TJR"/>
+                            <constraint firstItem="k2p-Ie-cQJ" firstAttribute="top" secondItem="Pro-ch-ZOe" secondAttribute="top" id="qTv-pN-L3v"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Pro-ch-ZOe"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="LCA-6H-Wzo"/>
+                    <value key="contentSizeForViewInPopover" type="size" width="540" height="200"/>
+                    <modalFormSheetSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <connections>
+                        <outlet property="passcodeView" destination="k2p-Ie-cQJ" id="Dam-zM-sLE"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="XE0-qk-mo2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3384.8920863309354" y="-1813.4892086330935"/>
         </scene>
         <!--Create New User Table View Controller-->
         <scene sceneID="ITJ-cE-DeH">
@@ -123,6 +173,9 @@
                     </tableView>
                     <navigationItem key="navigationItem" id="WPF-hl-LbZ"/>
                     <modalFormSheetSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <connections>
+                        <segue destination="UKl-bL-9zj" kind="presentation" identifier="setUserPasscode" id="eaU-1b-Lmk"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IRK-dD-oky" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -225,6 +278,8 @@
                     <connections>
                         <segue destination="3PA-1S-PyQ" kind="show" identifier="createUserSegue" id="Mej-Iy-dZk"/>
                         <segue destination="meC-lQ-HFF" kind="presentation" identifier="adminSegue" id="Pjo-kC-u8x"/>
+                        <segue destination="UKl-bL-9zj" kind="presentation" identifier="getUserPasscode" id="Pwt-cm-jxl"/>
+                        <segue destination="UKl-bL-9zj" kind="presentation" identifier="getAdminPasscode" id="VsU-fb-sCM"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6Fw-vP-arb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -319,6 +374,9 @@
                     <navigationItem key="navigationItem" title="Settings" id="VY6-Hg-6AS"/>
                     <value key="contentSizeForViewInPopover" type="size" width="320" height="260"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <connections>
+                        <segue destination="UKl-bL-9zj" kind="presentation" identifier="changeAdminPasscodeSegue" id="REV-SQ-pqY"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OhD-34-X7k" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -417,7 +475,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="69J-MB-Xhh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="817.98561151079139" y="-756.47482014388493"/>
+            <point key="canvasLocation" x="778" y="-756"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="YQX-GS-plk">
@@ -521,5 +579,26 @@
             </objects>
             <point key="canvasLocation" x="3757" y="1014"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="Nxb-Md-aDN">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" modalPresentationStyle="formSheet" id="UKl-bL-9zj" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="u8R-Fy-7Qk">
+                        <rect key="frame" x="0.0" y="0.0" width="540" height="56"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Lcw-bT-NxA" kind="relationship" relationship="rootViewController" id="0s4-dJ-8ac"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="RuD-Vu-lgh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2632.3741007194249" y="-1813.4892086330935"/>
+        </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="REV-SQ-pqY"/>
+    </inferredMetricsTieBreakers>
 </document>

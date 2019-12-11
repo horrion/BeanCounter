@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import KeychainSwift
 
 class ViewController: UIViewController {
 
@@ -54,6 +55,16 @@ class ViewController: UIViewController {
             present(alertController, animated: true)
             
         }
+        
+        // Use Keychain to see if admin Passcode has been set. If not, prompt the user to set the admin passcode
+        let keychain = KeychainSwift()
+        let adminPasscode = keychain.get("adminPasscode")
+        
+        // Check if the string obtained from the keychain is empty or nil, if so perform the Segue to the setAdminPasscode VC
+        if adminPasscode?.isEmpty == true || adminPasscode == nil {
+            performSegue(withIdentifier: "setAdminPasscode", sender: self)
+        }
+        
     }
 
     @objc func showPaymentInfoButton() {
@@ -65,6 +76,40 @@ class ViewController: UIViewController {
         // Implement face recognition here
         
     }
+    
+    // MARK: - Keychain stuff
+    
+    func setAdminPasscode(passcodeReturned: String) {
+        // A Passcode has been returned, handle the keychain request here
+        
+        // Beware of implications when uncommenting the next line: passcode can be read by attaching a debugger -> potential hazard
+        //print("Attempting to save: " + passcodeReturned)
+        let keychain = KeychainSwift()
+        keychain.set(passcodeReturned, forKey: "adminPasscode")
+        print("Saved new Admin passcode")
+    }
+    
+    
+    // MARK: - Navigation
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destination.
+        // Pass the selected object to the new view controller.
+        
+        // Tell the destination ViewController that you're trying to change the admin passcode
+        if segue.identifier == "setAdminPasscode" {
+            if let navigationViewController = segue.destination as? UINavigationController {
+                if let passcodeViewController = navigationViewController.viewControllers[0] as? SetPasscodeViewController {
+                    passcodeViewController.userLevel = .setAdmin
+                    passcodeViewController.mainViewController = self
+                }
+            }
+        }
+    }
+    
+    
+    
 
 }
 

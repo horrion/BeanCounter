@@ -3,13 +3,14 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		135ED80C4ABA81B140C8FA36 /* Pods_BeanCounter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66B90099E323268754487901 /* Pods_BeanCounter.framework */; };
 		3C3DE97D2941A6A5FF033564 /* Pods_BeanCounterTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C07918D9B88747AD30C38E2 /* Pods_BeanCounterTests.framework */; };
 		8743FE4C8D36C4B402AAC657 /* Pods_BeanCounter_BeanCounterUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C305956AC2883017B261769 /* Pods_BeanCounter_BeanCounterUITests.framework */; };
+		9448810723A161B800F87E11 /* SetPasscodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9448810523A15ACE00F87E11 /* SetPasscodeViewController.swift */; };
 		94DB105323566E3B00751D15 /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94DB105223566E3B00751D15 /* SettingsTableViewController.swift */; };
 		94E89F86237CD6DD00F83C73 /* CameraTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94E89F85237CD6DD00F83C73 /* CameraTableViewCell.swift */; };
 		94ED5BDE234D3702001DA539 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94ED5BDD234D3702001DA539 /* AppDelegate.swift */; };
@@ -51,6 +52,7 @@
 		58DEF32A9404C5CEBCEC8D99 /* Pods-BeanCounterTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BeanCounterTests.release.xcconfig"; path = "Target Support Files/Pods-BeanCounterTests/Pods-BeanCounterTests.release.xcconfig"; sourceTree = "<group>"; };
 		66B90099E323268754487901 /* Pods_BeanCounter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BeanCounter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6C07918D9B88747AD30C38E2 /* Pods_BeanCounterTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BeanCounterTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9448810523A15ACE00F87E11 /* SetPasscodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetPasscodeViewController.swift; sourceTree = "<group>"; };
 		94DB105223566E3B00751D15 /* SettingsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
 		94E89F85237CD6DD00F83C73 /* CameraTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraTableViewCell.swift; sourceTree = "<group>"; };
 		94ED5BDA234D3702001DA539 /* BeanCounter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BeanCounter.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -119,7 +121,6 @@
 				B8AD9AA7C9639D8E77746D42 /* Pods-BeanCounterTests.debug.xcconfig */,
 				58DEF32A9404C5CEBCEC8D99 /* Pods-BeanCounterTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -194,6 +195,7 @@
 			children = (
 				94351F472361269E00F7B919 /* Helpers */,
 				94DB105223566E3B00751D15 /* SettingsTableViewController.swift */,
+				9448810523A15ACE00F87E11 /* SetPasscodeViewController.swift */,
 				94FB83852398848400A568D3 /* PaymentInformationViewController.swift */,
 				94ED5C10234D3D44001DA539 /* SelectUsersTableViewController.swift */,
 				94ED5C13234D3D98001DA539 /* CreateNewUserTableViewController.swift */,
@@ -459,6 +461,7 @@
 				94ED5BE8234D3702001DA539 /* BeanCounter.xcdatamodeld in Sources */,
 				94E89F86237CD6DD00F83C73 /* CameraTableViewCell.swift in Sources */,
 				94DB105323566E3B00751D15 /* SettingsTableViewController.swift in Sources */,
+				9448810723A161B800F87E11 /* SetPasscodeViewController.swift in Sources */,
 				94ED5BE0234D3702001DA539 /* SceneDelegate.swift in Sources */,
 				94ED5C16234D4174001DA539 /* AdminTableViewController.swift in Sources */,
 				94FB83862398848400A568D3 /* PaymentInformationViewController.swift in Sources */,

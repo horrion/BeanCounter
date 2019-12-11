@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import KeychainSwift
 
 class SelectUsersTableViewController: UITableViewController {
     
@@ -22,6 +23,7 @@ class SelectUsersTableViewController: UITableViewController {
 
         self.title = "Users"
         
+        // Add the barButtonItems (buttons in the NavigationBar)
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Admin", style: .plain, target: self, action: #selector(loadAdminVC))
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(loadAddNewUserVC))
         
@@ -34,12 +36,39 @@ class SelectUsersTableViewController: UITableViewController {
     }
     
     @objc func loadAdminVC() {
-        performSegue(withIdentifier: "adminSegue", sender: nil)
+        // Load the Passcode VC here
+        performSegue(withIdentifier: "getAdminPasscode", sender: self)
     }
-
+    
     @objc func loadAddNewUserVC() {
         performSegue(withIdentifier: "createUserSegue", sender: nil)
     }
+    
+    // MARK: - Keychain stuff
+    
+    func compareAdminPasscode(passcodeReturned: String) {
+        // Beware of implications when uncommenting the next line: passcode can be read by attaching a debugger -> potential hazard
+        //print("Comparing passcode: " + passcodeReturned)
+        
+        let keychain = KeychainSwift()
+        let adminPasscode = keychain.get("adminPasscode")
+        
+        
+        if adminPasscode == passcodeReturned {
+            // Passcode matches, fire the Segue
+            print("the passcodes match up")
+            performSegue(withIdentifier: "adminSegue", sender: nil)
+            
+        } else {
+            // Wrong passcode, tell the user!
+            let alert = UIAlertController(title: "Wrong Passcode", message: "You entered the wrong passcode, please try again!", preferredStyle: .alert)
+            let dismissAction = UIAlertAction(title: "Ok", style: .default)
+            alert.addAction(dismissAction)
+            self.present(alert, animated: true)
+        }
+        
+    }
+    
     
     func loadDataFromCoreData() {
         
@@ -240,14 +269,45 @@ class SelectUsersTableViewController: UITableViewController {
     
 
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
+        
+        
+        
+        
+        // Tell the destination ViewController that you're trying to access the admin passcode
+        if segue.identifier == "getAdminPasscode" {
+            if let navigationViewController = segue.destination as? UINavigationController {
+                if let passcodeViewController = navigationViewController.viewControllers[0] as? SetPasscodeViewController {
+                    passcodeViewController.userLevel = .getAdmin
+                    passcodeViewController.selectUsersTVController = self
+                }
+            }
+        }
+        // Tell the destination ViewController that you're trying to access the user passcode
+        if segue.identifier == "getUserPasscode" {
+            if let navigationViewController = segue.destination as? UINavigationController {
+                if let passcodeViewController = navigationViewController.viewControllers[0] as? SetPasscodeViewController {
+                    passcodeViewController.userLevel = .getUser
+                    passcodeViewController.selectUsersTVController = self
+                }
+            }
+        }
+        
+        
+        
+        
+        
+        
+        
+        
+        
     }
-    */
+    
 
 }

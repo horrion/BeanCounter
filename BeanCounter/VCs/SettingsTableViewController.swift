@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import KeychainSwift
 
 class SettingsTableViewController: UITableViewController {
 
@@ -86,13 +87,8 @@ class SettingsTableViewController: UITableViewController {
         if indexPath.row == 1 {
             // Change Admin Passcode
             
-            
-            
-            
-            
-            // Modify Keychain entry here
-            
-            
+            // Just perform the Segue, the logic happens in 
+            performSegue(withIdentifier: "changeAdminPasscodeSegue", sender: self)
             
         }
         if indexPath.row == 2 {
@@ -245,8 +241,28 @@ class SettingsTableViewController: UITableViewController {
                 
         }
     }
+    
+    // MARK: - Keychain stuff
+    
+    func changeAdminPasscode(passcodeReturned: String) {
+        // A Passcode has been returned, handle the keychain request here
+        
+        // Beware of implications when uncommenting the next line: passcode can be read by attaching a debugger -> potential hazard
+        //print("Attempting to save: " + passcodeReturned)
+        let keychain = KeychainSwift()
+        keychain.set(passcodeReturned, forKey: "adminPasscode")
+        
+        let alert = UIAlertController(title: "Saved!", message: "The new passcode has been successfully saved!", preferredStyle: .alert)
+        let dismissAction = UIAlertAction(title: "Ok", style: .default)
+        alert.addAction(dismissAction)
+        self.present(alert, animated: true)
+        
+        print("Saved new Admin passcode")
+    }
+    
 
     // MARK: - helper functions
+    
     func readFromCoreData() {
         
         // Create context for context info stored in AppDelegate
@@ -368,14 +384,24 @@ class SettingsTableViewController: UITableViewController {
     }
     
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
+        
+        // Tell the destination ViewController that you're trying to change the admin passcode
+        if segue.identifier == "changeAdminPasscodeSegue" {
+            if let navigationViewController = segue.destination as? UINavigationController {
+                if let passcodeViewController = navigationViewController.viewControllers[0] as? SetPasscodeViewController {
+                    passcodeViewController.userLevel = .changeAdmin
+                    passcodeViewController.settingsTVController = self
+                }
+            }
+        }
     }
-    */
+    
 
 }
