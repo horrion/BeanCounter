@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import KeychainSwift
 
 class CreateNewUserTableViewController: UITableViewController {
     
@@ -27,6 +28,24 @@ class CreateNewUserTableViewController: UITableViewController {
     // MARK: - CoreData handling/saving
     
     @objc func saveUserButton() {
+        // Simply fire the segue, register user in CoreData below in setUserPasscode(passcodeReturned: String)
+        performSegue(withIdentifier: "setUserPasscode", sender: self)
+    }
+    
+    // MARK: - Keychain handling
+    
+    func setUserPasscode(passcodeReturned: String) {
+        // A Passcode has been returned, handle the keychain request here
+        
+        let uuidForCoreData = UUID()
+        
+        // Beware of implications when uncommenting the next line: passcode can be read by attaching a debugger -> potential hazard
+        print("Attempting to save: " + passcodeReturned)
+        let keychain = KeychainSwift()
+        keychain.set(passcodeReturned, forKey: uuidForCoreData.uuidString)
+        print("Saved new Admin passcode")
+        
+        
         
         // Create context for context info stored in AppDelegate
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -37,6 +56,7 @@ class CreateNewUserTableViewController: UITableViewController {
         let newUserInfo = NSManagedObject(entity: entity!, insertInto: context)
         
         
+        
         //TODO: Save user photo
         // Provide newUserInfo object with properties
         newUserInfo.setValue(firstNameTextField.text, forKey: "firstname")
@@ -44,6 +64,7 @@ class CreateNewUserTableViewController: UITableViewController {
         newUserInfo.setValue(eMailTextField.text, forKey: "email")
         newUserInfo.setValue(Date(), forKey: "createdAt")
         newUserInfo.setValue(0, forKey: "balanceInCents")
+        newUserInfo.setValue(uuidForCoreData, forKey: "userUUID")
         
         // Save newUserInfo to CoreData
         do {
@@ -183,14 +204,25 @@ class CreateNewUserTableViewController: UITableViewController {
   
     
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
+        
+        
+        // Tell the destination ViewController that you're trying to set the user passcode
+        if segue.identifier == "setUserPasscode" {
+            if let navigationViewController = segue.destination as? UINavigationController {
+                if let passcodeViewController = navigationViewController.viewControllers[0] as? SetPasscodeViewController {
+                    passcodeViewController.userLevel = .setUser
+                    passcodeViewController.createNewUserTVController = self
+                }
+            }
+        }
     }
-    */
+    
 
 }
