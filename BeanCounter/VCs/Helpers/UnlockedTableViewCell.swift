@@ -18,8 +18,11 @@ class UnlockedTableViewCell: UITableViewCell {
         
         numberOfCoffeeCupsLabel.text = String(valueToSave)
         
-        // Save to NSUserDefaults, could also be done using delegate. NSUserDefaults are used here to avoid having to trace the stack to see if/where/when the value gets to its intended destination. 
+        // Save to NSUserDefaults,
+        // could also be done using delegate. NSUserDefaults are used here to avoid having to trace the stack to see if/where/when the value gets to its intended destination.
         
+        let userDefaults = UserDefaults.standard
+        userDefaults.set(valueToSave, forKey: "multiplier")
     }
     
     override func awakeFromNib() {

@@ -50,13 +50,10 @@ class ViewController: UIViewController {
                 }
             }
             
-            let dismissAction = UIAlertAction(title: "Cancel", style: .default)
-            alertController.addAction(dismissAction)
             alertController.addAction(saveAction)
             present(alertController, animated: true)
             
         }
-        
     }
 
     @objc func showPaymentInfoButton() {

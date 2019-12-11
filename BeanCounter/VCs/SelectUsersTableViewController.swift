@@ -192,11 +192,10 @@ class SelectUsersTableViewController: UITableViewController {
                 let coffeePriceAsInt = userDefaults.integer(forKey: "CoffeePrice")
                 let coffeePriceAsInt64 = Int64(coffeePriceAsInt)
                 
-                
-                //TODO: Set Multiplier here
-                
-                let multiplier: Int64 = 5 //TODO: CHange this to reflect a variable!!!
-                
+                // Set a multiplier for multiple cups of coffee
+                let paymentInfoInt = userDefaults.integer(forKey: "multiplier")
+                let multiplier = Int64(paymentInfoInt)
+                print("User is being billed for " + String(multiplier) + " cups of coffee")
                 
                 // Save new balance
                 let newBalance = balanceBeforeChanges - (coffeePriceAsInt64 * multiplier)
@@ -229,10 +228,12 @@ class SelectUsersTableViewController: UITableViewController {
                 // Execute IoT function
                 IoTHelperClass().userHasBeenBilledForCoffee()
                 
-                
-                
+                // Reset the cell to a locked state and reflect the changed in the UI by reloading the TableView
                 unlockedForUser = nil
                 tableView.reloadData()
+                
+                // Reset the NSUserDefaults value for "multiplier" to 0
+                userDefaults.set(0, forKey: "multiplier")
             }
         }
     }
