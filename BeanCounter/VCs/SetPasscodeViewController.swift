@@ -43,18 +43,24 @@ class SetPasscodeViewController: UIViewController, UIAdaptivePresentationControl
         
         self.title = "Passcode ViewController"
         
+        let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(dismissVC))
+        
         if userLevel! == .setAdmin {
             self.title = "Set the Admin Passcode"
         } else if userLevel == .setUser {
             self.title = "Set the User Passcode"
         } else if userLevel == .getAdmin {
             self.title = "Enter the Admin Passcode"
+            navigationItem.leftBarButtonItem = cancelButton
         } else if userLevel == .getUser {
             self.title = "Enter the User Passcode"
+            navigationItem.leftBarButtonItem = cancelButton
         } else if userLevel == .changeAdmin {
             self.title = "Change the Admin Passcode"
+            navigationItem.leftBarButtonItem = cancelButton
         } else if userLevel == .changeUser {
             self.title = "Change the User Passcode"
+            navigationItem.leftBarButtonItem = cancelButton
         }
         
         
@@ -100,7 +106,10 @@ class SetPasscodeViewController: UIViewController, UIAdaptivePresentationControl
         }
     }
     
-    
+    @objc func dismissVC() {
+        // The user can cancel since they're not trying to set a new passcode
+        dismiss(animated: true, completion: nil)
+    }
     
 
     /*

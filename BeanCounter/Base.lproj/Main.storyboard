@@ -480,7 +480,7 @@
         <!--Navigation Controller-->
         <scene sceneID="YQX-GS-plk">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="GGY-Kp-9UQ" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" modalPresentationStyle="formSheet" id="GGY-Kp-9UQ" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="YdU-Vq-RP2"/>
                     <modalFormSheetSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
@@ -599,6 +599,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="REV-SQ-pqY"/>
+        <segue reference="eaU-1b-Lmk"/>
     </inferredMetricsTieBreakers>
 </document>
