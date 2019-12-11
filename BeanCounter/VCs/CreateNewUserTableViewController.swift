@@ -37,7 +37,7 @@ class CreateNewUserTableViewController: UITableViewController {
         let newUserInfo = NSManagedObject(entity: entity!, insertInto: context)
         
         
-        //TODO: Modify this to save data from TableView
+        //TODO: Save user photo
         // Provide newUserInfo object with properties
         newUserInfo.setValue(firstNameTextField.text, forKey: "firstname")
         newUserInfo.setValue(lastNameTextField.text, forKey: "lastname")
@@ -55,7 +55,11 @@ class CreateNewUserTableViewController: UITableViewController {
            print("Couldn't save to CoreData")
             
             //Remind user to make sure all info has been provided / all fields are populated
-            //TODO: Provide popup for failed save to CoreData
+            
+            let alert = UIAlertController(title: "Failed Database Operation", message: "Failed to write to the Database", preferredStyle: .alert)
+            let dismissAction = UIAlertAction(title: "Ok", style: .default)
+            alert.addAction(dismissAction)
+            self.present(alert, animated: true)
         }
     }
     

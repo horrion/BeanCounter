@@ -11,18 +11,9 @@ import CoreData
 
 class SelectUsersTableViewController: UITableViewController {
     
-    //TODO: Remove next few lines
-    struct userStruct {
-        let firstName: String
-        let lastName: String
-        let eMail: String
-        let rawManagedObject: NSManagedObject?
-    }
-    
-    //TODO: Remove next line
-    var usersArray = [userStruct]()
-    
     var managedObjectsArray = [NSManagedObject?]()
+    
+    var unlockedForUser: IndexPath? = nil
     
     
     
@@ -87,19 +78,10 @@ class SelectUsersTableViewController: UITableViewController {
                 // New method, just save the whole NSManagedObject, then read from it later on
                 managedObjectsArray.insert(data, at: managedObjectsArray.count)
                 
-                //TODO: delete next few lines and all references to them
                 // Create constants from NSFetchRequestResult
                 let firstNameFromCoreData = data.value(forKey: "firstname") as! String
                 let lastNameFromCoreData = data.value(forKey: "lastname") as! String
                 let eMailFromCoreData = data.value(forKey: "email") as! String
-                let rawManagedObjectFromCoreData = data
-                
-                
-               // Insert into Array
-                usersArray.insert(userStruct.init(firstName: firstNameFromCoreData,
-                                                  lastName: lastNameFromCoreData,
-                                                  eMail: eMailFromCoreData,
-                                                  rawManagedObject: rawManagedObjectFromCoreData), at: usersArray.count)
                 
                 // Print to Console for Debugging
                 print("First Name: " + firstNameFromCoreData)
@@ -125,83 +107,134 @@ class SelectUsersTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        //TODO: delete nexxt line
-        //return usersArray.count
         return managedObjectsArray.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "lockedCell", for: indexPath)
-
         
+        var cell: UITableViewCell?
+        
+        // Get the user object (NSManagedObject) from managedObjectsArray
         let userObject = managedObjectsArray[indexPath.row]
         
         let firstName = userObject?.value(forKey: "firstname") as! String
         let lastName = userObject?.value(forKey: "lastname") as! String
+        let eMail = userObject?.value(forKey: "email") as! String
         
-        let fullName = firstName + " " + lastName
-        
-        
-        // Configure Cell
-        cell.textLabel?.text = fullName
+        // Assemble the string to be shown
+        let fullName = firstName + " " + lastName + " (" + eMail + ")"
         
         
         
-
-        return cell
+        
+        if unlockedForUser != nil {
+            // There's one user that is currently unlocked, check which one it is!
+            
+            if unlockedForUser == indexPath {
+                // The indexPath matched the one saved previously, therefore the user is now unlocked. Show the appropriate cell!
+                
+                cell = tableView.dequeueReusableCell(withIdentifier: "unlockedCell", for: indexPath)
+                
+                // Configure Cell
+                cell?.textLabel?.text = fullName
+            } else {
+                // The cell is locked, show the same cell that locked users are always shown
+                
+                cell = tableView.dequeueReusableCell(withIdentifier: "lockedCell", for: indexPath)
+                
+                
+                // Configure Cell
+                cell?.textLabel?.text = fullName
+                
+            }
+            
+        } else {
+            // Everybody is currently locked, show everyone as locked!
+            
+            cell = tableView.dequeueReusableCell(withIdentifier: "lockedCell", for: indexPath)
+            
+            
+            // Configure Cell
+            cell?.textLabel?.text = fullName
+        
+        }
+        
+        // return the cell
+        return cell!
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.tableView.deselectRow(at: indexPath, animated: true)
         
-        // next few lines are for debugging
-        let firstName = managedObjectsArray[indexPath.row]?.value(forKey: "firstname") as! String
-        let lastName = managedObjectsArray[indexPath.row]?.value(forKey: "lastname") as! String
-        let eMail = managedObjectsArray[indexPath.row]?.value(forKey: "email") as! String
+        if unlockedForUser == nil {
+            unlockedForUser = indexPath
+            tableView.reloadData()
+        } else {
+        
+            if unlockedForUser == indexPath {
+                //The user is unlocked, let them bill a coffee to their account
+            
+                // next few lines are for debugging
+                let firstName = managedObjectsArray[indexPath.row]?.value(forKey: "firstname") as! String
+                let lastName = managedObjectsArray[indexPath.row]?.value(forKey: "lastname") as! String
+                let eMail = managedObjectsArray[indexPath.row]?.value(forKey: "email") as! String
 
-        print("Will mutate the following user: " + firstName + " " + lastName + " (" + eMail + ")")
-        
-        
-        // Read and print balance before making changes to saved data
-        let balanceBeforeChanges = managedObjectsArray[indexPath.row]?.value(forKey: "balanceInCents") as! Int64
-        print("balance before changes: " + String(balanceBeforeChanges))
-        
-        
-        // Get current coffee price from NSUserDefaults
-        let userDefaults = UserDefaults.standard
-        let coffeePriceAsInt = userDefaults.integer(forKey: "CoffeePrice")
-        let coffeePriceAsInt64 = Int64(coffeePriceAsInt)
-        
-        
-        //TODO: Set Multiplier here
-        
-        
-        // Save new balance
-        let newBalance = balanceBeforeChanges - coffeePriceAsInt64
-        managedObjectsArray[indexPath.row]?.setValue(newBalance, forKey: "balanceInCents")
-        
-        // Create instance of MOC
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let context = appDelegate.persistentContainer.viewContext
-        
-        // Save newUserInfo to CoreData
-        do {
-           try context.save()
-            // Data was successfully saved
-            print("successfully saved data")
-            
-          } catch {
-           print("Couldn't save to CoreData")
-            
-            //TODO: Provide popup for failed save to CoreData
+                print("Will mutate the following user: " + firstName + " " + lastName + " (" + eMail + ")")
+                
+                
+                // Read and print balance before making changes to saved data
+                let balanceBeforeChanges = managedObjectsArray[indexPath.row]?.value(forKey: "balanceInCents") as! Int64
+                print("balance before changes: " + String(balanceBeforeChanges))
+                
+                
+                // Get current coffee price from NSUserDefaults
+                let userDefaults = UserDefaults.standard
+                let coffeePriceAsInt = userDefaults.integer(forKey: "CoffeePrice")
+                let coffeePriceAsInt64 = Int64(coffeePriceAsInt)
+                
+                
+                //TODO: Set Multiplier here
+                
+                let multiplier: Int64 = 5 //TODO: CHange this to reflect a variable!!!
+                
+                
+                // Save new balance
+                let newBalance = balanceBeforeChanges - (coffeePriceAsInt64 * multiplier)
+                managedObjectsArray[indexPath.row]?.setValue(newBalance, forKey: "balanceInCents")
+                
+                // Create instance of MOC
+                let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                let context = appDelegate.persistentContainer.viewContext
+                
+                // Save newUserInfo to CoreData
+                do {
+                   try context.save()
+                    // Data was successfully saved
+                    print("successfully saved data")
+                    
+                  } catch {
+                    // Failed to write to the database
+                    print("Couldn't save to CoreData")
+                    
+                    let alert = UIAlertController(title: "Failed Database Operation", message: "Failed to write to the Database", preferredStyle: .alert)
+                    let dismissAction = UIAlertAction(title: "Ok", style: .default)
+                    alert.addAction(dismissAction)
+                    self.present(alert, animated: true)
+                }
+                
+                // Print new balance after changes have been saved
+                let balanceAfterChanges = managedObjectsArray[indexPath.row]?.value(forKey: "balanceInCents") as! Int64
+                print("balance after changes: " + String(balanceAfterChanges))
+                
+                // Execute IoT function
+                IoTHelperClass().userHasBeenBilledForCoffee()
+                
+                
+                
+                unlockedForUser = nil
+                tableView.reloadData()
+            }
         }
-        
-        // Print new balance after changes have been saved
-        let balanceAfterChanges = managedObjectsArray[indexPath.row]?.value(forKey: "balanceInCents") as! Int64
-        print("balance after changes: " + String(balanceAfterChanges))
-        
-        // Execute IoT function
-        IoTHelperClass().userHasBeenBilledForCoffee()
     }
     
 

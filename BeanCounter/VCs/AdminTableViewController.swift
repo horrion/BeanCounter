@@ -77,16 +77,10 @@ class AdminTableViewController: UITableViewController {
                 
                 managedObjectsArray.insert(data, at: managedObjectsArray.count)
                 
-                //TODO: delete the next few lines
                 // Create constants from NSFetchRequestResult
                 let firstNameFromCoreData = data.value(forKey: "firstname") as! String
                 let lastNameFromCoreData = data.value(forKey: "lastname") as! String
                 let eMailFromCoreData = data.value(forKey: "email") as! String
-                
-               // Insert into Array
-//                usersArray.insert(userStruct.init(firstName: firstNameFromCoreData,
-//                                                  lastName: lastNameFromCoreData,
-//                                                  eMail: eMailFromCoreData), at: usersArray.count)
                 
                 // Print to Console for Debugging
                 print("First Name: " + firstNameFromCoreData)
@@ -138,7 +132,7 @@ class AdminTableViewController: UITableViewController {
         
         // Configure cell labels
         cell.textLabel?.text = fullName
-        cell.detailTextLabel?.text = String(currentUserBalance)
+        cell.detailTextLabel?.text = String(currentUserBalance) + "€"
         
         // if balance is negative (user owes money) set textcolor to red
         // signum() == -1 means the value is negative
@@ -155,7 +149,108 @@ class AdminTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.tableView.deselectRow(at: indexPath, animated: true)
         
-        //TODO: Go to detail view (like create new user) and allow admin to change all values
+        // Create UIAlertController to ask the admin whether they want to add user credit or edit user details
+        
+        let choiceAlertController = UIAlertController(title: "What do you want to do with the user? ", message: nil, preferredStyle: .alert)
+        
+        
+        let dismissCancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        let segueEditUserAction = UIAlertAction(title: "Edit User", style: .default) { [unowned choiceAlertController] _ in
+            
+            // if selected, perform a Segue to EditUserViewController
+            self.performSegue(withIdentifier: "editUserSegue", sender: nil)
+        }
+        
+        let addUserCreditAction = UIAlertAction(title: "Add User Credit", style: .default) { [unowned choiceAlertController] _ in
+            // if selected, trigger the whole add-credit process (many alertcontrollers!)
+        
+        
+        
+            
+        let alertController = UIAlertController(title: "Add user credit", message: nil, preferredStyle: .alert)
+        //this UIAlertController provides a textField for the user to enter a value to add
+            
+        alertController.addTextField()
+
+        let saveAction = UIAlertAction(title: "Save", style: .default) { [unowned alertController] _ in
+            let dataToSave = alertController.textFields![0].text
+            
+            if Int64(dataToSave!) != nil {
+            let Int64ValueToSave = Int64(dataToSave!)
+            
+            //TODO: Convert from Euro to cents here and save cents
+            
+            
+            let userObject = self.managedObjectsArray[indexPath.row]
+            
+            let balanceBeforeChanges = userObject!.value(forKey: "balanceInCents") as! Int64
+            //Add to userBalance
+            
+            let newBalance = balanceBeforeChanges + Int64ValueToSave!
+            userObject?.setValue(newBalance, forKey: "balanceInCents")
+            
+            // Save new balance
+            // Create instance of MOC
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            let context = appDelegate.persistentContainer.viewContext
+            
+            // Save newUserInfo to CoreData
+            do {
+               try context.save()
+                // Data was successfully saved
+                print("successfully saved data")
+                
+                let newBalanceInt = self.managedObjectsArray[indexPath.row]?.value(forKey: "balanceInCents") as! Int64
+                let userFirstNameString = self.managedObjectsArray[indexPath.row]?.value(forKey: "firstname") as! String
+                let userLastNameString = self.managedObjectsArray[indexPath.row]?.value(forKey: "lastname") as! String
+                let userEmail = self.managedObjectsArray[indexPath.row]?.value(forKey: "email") as! String
+                
+                let userIDString = userFirstNameString + " " + userLastNameString + " (" + userEmail + ")"
+                
+                
+                let newBalanceString = "The new balance is " + String(newBalanceInt) + " for user " + userIDString
+                
+                    // Confirm the balance has been updated
+                    let alert = UIAlertController(title: "Balance has been updated", message: newBalanceString, preferredStyle: .alert)
+                    let okAction = UIAlertAction(title: "Ok", style: .default)
+                    alert.addAction(okAction)
+                    self.present(alert, animated: true)
+                
+              } catch {
+                // Failed to write to the database
+                print("Couldn't save to CoreData")
+                
+                let alert = UIAlertController(title: "Failed Database Operation", message: "Failed to write to the Database", preferredStyle: .alert)
+                let dismissAction = UIAlertAction(title: "Ok", style: .default)
+                alert.addAction(dismissAction)
+                self.present(alert, animated: true)
+            }
+            
+            } else {
+                // Non numerical value was provided, alert the user
+                let alert = UIAlertController(title: "Non-numeric value detected", message: "Please enter a numeric value with one decimal point only", preferredStyle: .alert)
+                let dismissAction = UIAlertAction(title: "Ok", style: .default)
+                alert.addAction(dismissAction)
+                self.present(alert, animated: true)
+            }
+        }
+
+        let dismissAction = UIAlertAction(title: "Cancel", style: .default)
+        alertController.addAction(dismissAction)
+        alertController.addAction(saveAction)
+        
+        self.present(alertController, animated: true)
+        
+        
+    }
+    
+    choiceAlertController.addAction(segueEditUserAction)
+    choiceAlertController.addAction(addUserCreditAction)
+    choiceAlertController.addAction(dismissCancelAction)
+    
+    self.present(choiceAlertController, animated: true)
+        
+        
         
         
     }
@@ -165,47 +260,26 @@ class AdminTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             
+            // Create context for context info stored in AppDelegate
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            let context = appDelegate.persistentContainer.viewContext
             
+            context.delete(managedObjectsArray[indexPath.row]!)
             
+            managedObjectsArray.remove(at: indexPath.row)
             
-            
-            
-            
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-            
-            
-                        
-            //
-            //
-            //
-            //            // Create context for context info stored in AppDelegate
-            //            let appDelegate = UIApplication.shared.delegate as! AppDelegate
-            //            let context = appDelegate.persistentContainer.viewContext
-            //
-            //            let request = NSFetchRequest<NSFetchRequestResult>(entityName: "User")
-            //
-                        
-            //            context.delete(nnnnnn)
-            //
-            //
-            //            managedObjectContext.delete(sessions[indexPath.row])
-            //              do {
-            //                try managedObjectContext.save()
-            //                tableView.reloadData()
-            //              } catch let error as NSError {
-            //                print("Could not save. \(error), \(error.userInfo)")
-            //              }
-            //            }
-                        
-                        
-                        
-            
-            
-            
-            
-            
-            
+            do {
+                try context.save()
+                
+                // Delete the row from the tableView
+                tableView.deleteRows(at: [indexPath], with: .fade)
+                
+            } catch let error as NSError {
+                print("Could not save. \(error), \(error.userInfo)")
+                
+                
+                //TODO: insert AlertController telling user about delete error
+            }
         }
     }
 

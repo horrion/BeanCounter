@@ -17,9 +17,6 @@ class SettingsTableViewController: UITableViewController {
                                "Edit Coffee price",
                                "Reset all balances"]
     
-    //TODO: Remove next line
-    //var managedObjectsArray = [NSManagedObject?]()
-    
     struct userStruct {
         let firstName: String
         let lastName: String
@@ -29,6 +26,7 @@ class SettingsTableViewController: UITableViewController {
     
     var usersArray = [userStruct]()
     
+    var managedObjectsArray = [NSManagedObject?]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -79,7 +77,10 @@ class SettingsTableViewController: UITableViewController {
                 userDefaults.set(dataToSave, forKey: "PaymentInfo")
             }
 
+            let dismissAction = UIAlertAction(title: "Cancel", style: .default)
+            alertController.addAction(dismissAction)
             alertController.addAction(saveAction)
+            
             present(alertController, animated: true)
         }
         if indexPath.row == 1 {
@@ -127,7 +128,9 @@ class SettingsTableViewController: UITableViewController {
                     self.present(alert, animated: true)
                 }
             }
-
+            
+            let dismissAction = UIAlertAction(title: "Cancel", style: .default)
+            alertController.addAction(dismissAction)
             alertController.addAction(saveAction)
             present(alertController, animated: true)
         }
@@ -135,9 +138,111 @@ class SettingsTableViewController: UITableViewController {
             // Reset all balances (to 0)
             
             
-            // TODO: CoreData operation to iterate through NSManagedObjects to set all balances to 0
-            
-            
+            // Set up the alertController to ask the user if they'd really, actually like to reset all balances before doing so
+            let alertController = UIAlertController(title: "Reset all balances?", message: "Do you really want to reset all balances?", preferredStyle: .alert)
+
+            // The deleteAction contains all the code to reset the balances, should the user choose to do so
+            let deleteAction = UIAlertAction(title: "Yes", style: .destructive) { [unowned alertController] _ in
+                
+                    // Create context for context info stored in AppDelegate
+                    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                    let context = appDelegate.persistentContainer.viewContext
+                            
+                    let request = NSFetchRequest<NSFetchRequestResult>(entityName: "User")
+                            
+                    request.sortDescriptors = [NSSortDescriptor(key: "createdAt", ascending: true)]
+                    
+                    
+                    // Check if number of registered users is greater than 0, if not ask user to create new user
+                    var numberOfObjects: Int = 0
+                            
+                    do {
+                        numberOfObjects = try context.count(for: request)
+                    } catch {
+                        print("failed to fetch data")
+                    }
+                            
+                    // Ask user to create a new user if no userdata is present
+                    if numberOfObjects == 0 {
+                        let alert = UIAlertController(title: "No users found", message: "No users were found, please register a user first", preferredStyle: .alert)
+                        let dismissAction = UIAlertAction(title: "Ok", style: .default)
+                        alert.addAction(dismissAction)
+                        self.present(alert, animated: true)
+                    }
+                        
+                     
+                    // Reset Array to empty Array
+                    self.managedObjectsArray.removeAll()
+                            
+                    // Iterate through all NSManagedObjects in NSFetchRequestResult and store them in the managedObjectsArray
+                    request.returnsObjectsAsFaults = false
+                    do {
+                        let result = try context.fetch(request)
+                        for data in result as! [NSManagedObject] {
+                                    
+                            // New method, just save the whole NSManagedObject, then read from it later on
+                            self.managedObjectsArray.insert(data, at: self.managedObjectsArray.count)
+                        }
+                                
+                        } catch {
+                                
+                            print("failed to fetch data from context")
+                        }
+                    
+                    for users in self.managedObjectsArray {
+                        
+                        // Read old values first and log them
+                        let firstNameFromCoreData = users?.value(forKey: "firstname") as! String
+                        let lastNameFromCoreData = users?.value(forKey: "lastname") as! String
+                        let eMailFromCoreData = users?.value(forKey: "email") as! String
+                        let balanceBeforeReset = users?.value(forKey: "balanceInCents") as! Int64
+                        
+                        
+                        // Print to Console for Debugging
+                        print("First Name: " + firstNameFromCoreData)
+                        print("Last Name: " + lastNameFromCoreData)
+                        print("eMail: " + eMailFromCoreData)
+                        print("Balance before reset: " + String(balanceBeforeReset))
+                        print(" ")
+                        
+                        users?.setValue(0, forKey: "balanceInCents")
+                        
+                    }
+                    
+                    // Save new User Info to CoreData
+                    do {
+                       try context.save()
+                        // Data was successfully saved
+                        print("successfully saved data")
+                        
+                      } catch {
+                        // Failed to write to the database
+                        
+                        print("Couldn't save to CoreData")
+                        
+                        let alert = UIAlertController(title: "Failed Database Operation", message: "Failed to write to the Database", preferredStyle: .alert)
+                        let dismissAction = UIAlertAction(title: "Ok", style: .default)
+                        alert.addAction(dismissAction)
+                        self.present(alert, animated: true)
+                    }
+                    
+                    
+                    // Print new balance after changes have been saved, just for validation
+                    for user in self.managedObjectsArray {
+                        let balanceAfterChanges = user?.value(forKey: "balanceInCents") as! Int64
+                        print("balance after changes: " + String(balanceAfterChanges))
+                    }
+                    
+                    
+                    
+                    
+                }
+                
+                let dismissAction = UIAlertAction(title: "Cancel", style: .default)
+                alertController.addAction(dismissAction)
+                alertController.addAction(deleteAction)
+                present(alertController, animated: true)
+                
         }
     }
 
@@ -161,10 +266,14 @@ class SettingsTableViewController: UITableViewController {
                 print("failed to fetch data")
             }
             
-            // Display an alert here telling the user that no data is present
+            
             if numberOfObjects == 0 {
+                // Display an alert here telling the user that no data is present
                 
-                //TODO: Display an alert here
+                let alert = UIAlertController(title: "No user data present", message: "No user data could be found. Please create a new user!", preferredStyle: .alert)
+                let dismissAction = UIAlertAction(title: "Ok", style: .default)
+                alert.addAction(dismissAction)
+                self.present(alert, animated: true)
                 
             }
         
@@ -221,7 +330,7 @@ class SettingsTableViewController: UITableViewController {
                        
             // Create User ID String (Name + Email) and balance String
             let userIDString = firstName + " " + lastName + " (" + eMail + ")"
-            let balanceString = String(userEntry.balance)
+            let balanceString = String(userEntry.balance) + "€"
                        
             //TODO: convert from cent to euro value before saving
             
