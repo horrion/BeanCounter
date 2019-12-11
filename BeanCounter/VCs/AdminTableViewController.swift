@@ -21,6 +21,9 @@ class AdminTableViewController: UITableViewController {
     
     var managedObjectsArray = [NSManagedObject?]()
     
+    var sourceTableViewController: SelectUsersTableViewController?
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -276,11 +279,17 @@ class AdminTableViewController: UITableViewController {
                 // Delete the row from the tableView
                 tableView.deleteRows(at: [indexPath], with: .fade)
                 
+                // Reload SelectUsersTableView here
+                sourceTableViewController?.tableView.reloadData()
+                
             } catch let error as NSError {
                 print("Could not save. \(error), \(error.userInfo)")
                 
-                
-                //TODO: insert AlertController telling user about delete error
+                // Show an alert to notify the user of the error
+                let alert = UIAlertController(title: "Database error", message: "Could not delete the user from the database", preferredStyle: .alert)
+                let dismissAction = UIAlertAction(title: "Ok", style: .default)
+                alert.addAction(dismissAction)
+                self.present(alert, animated: true)
             }
         }
     }

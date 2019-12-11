@@ -298,6 +298,13 @@ class SelectUsersTableViewController: UITableViewController {
                 }
             }
         }
+        if segue.identifier == "adminSegue" {
+            if let navigationViewController = segue.destination as? UINavigationController {
+                if let adminViewController = navigationViewController.viewControllers[0] as? AdminTableViewController {
+                    adminViewController.sourceTableViewController = self
+                }
+            }
+        }
         
         
         
