@@ -142,7 +142,7 @@ class SettingsTableViewController: UITableViewController {
             let alertController = UIAlertController(title: "Reset all balances?", message: "Do you really want to reset all balances?", preferredStyle: .alert)
 
             // The deleteAction contains all the code to reset the balances, should the user choose to do so
-            let deleteAction = UIAlertAction(title: "Yes", style: .destructive) { [unowned alertController] _ in
+            let deleteAction = UIAlertAction(title: "Yes", style: .destructive) { action in
                 
                     // Create context for context info stored in AppDelegate
                     let appDelegate = UIApplication.shared.delegate as! AppDelegate

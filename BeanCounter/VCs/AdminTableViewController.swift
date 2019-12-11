@@ -155,13 +155,13 @@ class AdminTableViewController: UITableViewController {
         
         
         let dismissCancelAction = UIAlertAction(title: "Cancel", style: .cancel)
-        let segueEditUserAction = UIAlertAction(title: "Edit User", style: .default) { [unowned choiceAlertController] _ in
+        let segueEditUserAction = UIAlertAction(title: "Edit User", style: .default) { action in
             
             // if selected, perform a Segue to EditUserViewController
             self.performSegue(withIdentifier: "editUserSegue", sender: nil)
         }
         
-        let addUserCreditAction = UIAlertAction(title: "Add User Credit", style: .default) { [unowned choiceAlertController] _ in
+        let addUserCreditAction = UIAlertAction(title: "Add User Credit", style: .default) { action in
             // if selected, trigger the whole add-credit process (many alertcontrollers!)
         
         

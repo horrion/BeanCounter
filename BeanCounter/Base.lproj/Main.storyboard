@@ -16,7 +16,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total Coffee cups today: 0" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9mb-Vk-1vh">
-                                <rect key="frame" x="306" y="284" width="508" height="545"/>
+                                <rect key="frame" x="306" y="283.5" width="508" height="545"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="545" id="jWh-co-QBN"/>
                                 </constraints>
@@ -29,7 +29,6 @@
                                 <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="248" id="8s8-sY-BDR"/>
-                                    <constraint firstAttribute="width" constant="248" id="GsA-mT-gXs"/>
                                     <constraint firstAttribute="width" secondItem="7FQ-gK-Fam" secondAttribute="height" multiplier="1:1" id="leI-kH-tdU"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="50"/>
