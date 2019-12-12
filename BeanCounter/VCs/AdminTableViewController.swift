@@ -211,6 +211,7 @@ class AdminTableViewController: UITableViewController {
                     
                     let userIDString = userFirstNameString + " " + userLastNameString + " (" + userEmail + ")"
                     
+                    self.loadDataFromCoreData()
                     
                     let newBalanceString = "The new balance is " + String(newBalanceInt) + " for user " + userIDString
                     
@@ -280,7 +281,7 @@ class AdminTableViewController: UITableViewController {
                 tableView.deleteRows(at: [indexPath], with: .fade)
                 
                 // Reload SelectUsersTableView here
-                sourceTableViewController?.tableView.reloadData()
+                sourceTableViewController?.loadDataFromCoreData()
                 
             } catch let error as NSError {
                 print("Could not save. \(error), \(error.userInfo)")

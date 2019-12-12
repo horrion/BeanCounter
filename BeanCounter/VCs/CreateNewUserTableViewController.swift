@@ -16,6 +16,8 @@ class CreateNewUserTableViewController: UITableViewController {
     var lastNameTextField: UITextField!
     var eMailTextField: UITextField!
     
+    var sourceViewController: SelectUsersTableViewController?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -71,7 +73,9 @@ class CreateNewUserTableViewController: UITableViewController {
            try context.save()
             // Data was successfully saved, now pop the VC
             print("successfully saved data")
+            sourceViewController?.loadDataFromCoreData()
             self.navigationController?.popViewController(animated: true)
+            
           } catch {
            print("Couldn't save to CoreData")
             

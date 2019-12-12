@@ -195,6 +195,8 @@ class SelectUsersTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.tableView.deselectRow(at: indexPath, animated: true)
         
+        
+        
         if unlockedForUser == nil {
             unlockedForUser = indexPath
             tableView.reloadData()
@@ -267,6 +269,7 @@ class SelectUsersTableViewController: UITableViewController {
         }
     }
     
+    
 
 
     
@@ -305,7 +308,11 @@ class SelectUsersTableViewController: UITableViewController {
                 }
             }
         }
-        
+        if segue.identifier == "createUserSegue" {
+            if let createUserVC = segue.destination as? CreateNewUserTableViewController {
+                createUserVC.sourceViewController = self
+            }
+        }
         
         
         
@@ -316,5 +323,4 @@ class SelectUsersTableViewController: UITableViewController {
         
     }
     
-
 }
