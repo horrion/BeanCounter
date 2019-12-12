@@ -134,18 +134,31 @@ class AdminTableViewController: UITableViewController {
         // Extract first name and last name from managedObject and write to variables
         let firstName = userObject?.value(forKey: "firstname") as! String
         let lastName = userObject?.value(forKey: "lastname") as! String
+        let eMail = userObject?.value(forKey: "email") as! String
         
-        let fullName = firstName + " " + lastName
+        // Assemble the string to be shown
+        let fullName = firstName + " " + lastName + " (" + eMail + ")"
         
         // Get user balance from managedObject
         let currentUserBalance = userObject?.value(forKey: "balanceInCents") as! Int64
         
-        //TODO: Convert to Euro from cents before displaying
+        // Create a fractional (monetary value) by dividing cent value by 100
+        let divisor = NSDecimalNumber(value: 100)
+        let decimalValue = NSDecimalNumber(value: currentUserBalance).dividing(by: divisor)
         
+        // Set up a NumberFormatter to get monetary values
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currency
+        
+        // TODO: Use the next 2 lines for shipping product, always sets format to the one defined in device settings
+        //formatter.locale = NSLocale.current
+        //formatter.string(from: decimalValue)
+        
+        formatter.locale = Locale(identifier: "de_DE")
         
         // Configure cell labels
         cell.textLabel?.text = fullName
-        cell.detailTextLabel?.text = String(currentUserBalance) + "€"
+        cell.detailTextLabel?.text = formatter.string(from: decimalValue)
         
         // if balance is negative (user owes money) set textcolor to red
         // signum() == -1 means the value is negative
@@ -194,18 +207,25 @@ class AdminTableViewController: UITableViewController {
             let saveAction = UIAlertAction(title: "Save", style: .default) { [unowned alertController] _ in
                 let dataToSave = alertController.textFields![0].text
                 
-                if Int64(dataToSave!) != nil {
-                let Int64ValueToSave = Int64(dataToSave!)
-                
-                //TODO: Convert from Euro to cents here and save cents
-                
-                
+                if Float(dataToSave!) != nil {
+                    // value is numeric
+                    // Save the entered data
+                    
+                    // Create a fractional (monetary value) by dividing cent value by 100
+                    let divisor = NSDecimalNumber(value: 100)
+                    let decimalValue = NSDecimalNumber(string: dataToSave).multiplying(by: divisor)
+                    
+                    let int64ToSave = decimalValue.int64Value
+                    
+                    print("saving value: " + String(int64ToSave))
+                    
+                    
                 let userObject = self.managedObjectsArray[indexPath.row]
                 
                 let balanceBeforeChanges = userObject!.value(forKey: "balanceInCents") as! Int64
                 //Add to userBalance
                 
-                let newBalance = balanceBeforeChanges + Int64ValueToSave!
+                let newBalance = balanceBeforeChanges + int64ToSave
                 userObject?.setValue(newBalance, forKey: "balanceInCents")
                 
                 // Save new balance
@@ -228,7 +248,23 @@ class AdminTableViewController: UITableViewController {
                     
                     self.loadDataFromCoreData()
                     
-                    let newBalanceString = "The new balance is " + String(newBalanceInt) + " for user " + userIDString
+                    // Create a fractional (monetary value) by dividing cent value by 100
+                    let divisorForAlert = NSDecimalNumber(value: 100)
+                    let decimalValueForAlert = NSDecimalNumber(value: newBalanceInt).dividing(by: divisorForAlert)
+                    
+                    let formatter = NumberFormatter()
+                    formatter.numberStyle = .currency
+                    
+                    // TODO: Use the next 2 lines for shipping product, always sets format to the one defined in device settings
+                    //formatter.locale = NSLocale.current
+                    //formatter.string(from: decimalValue)
+                    
+                    formatter.locale = Locale(identifier: "de_DE")
+                    
+                    let balanceString = formatter.string(from: decimalValueForAlert)!
+                    
+                    
+                    let newBalanceString = "The new balance is " + balanceString + " for user " + userIDString
                     
                         // Confirm the balance has been updated
                         let alert = UIAlertController(title: "Balance has been updated", message: newBalanceString, preferredStyle: .alert)

@@ -30,16 +30,23 @@ class ViewController: UIViewController {
 
             let saveAction = UIAlertAction(title: "Save", style: .default) { [unowned alertController] _ in
                 let dataToSave = alertController.textFields![0].text
+                alertController.textFields![0].keyboardType = .decimalPad
                 
-                if Int64(dataToSave!) != nil {
+                if Float(dataToSave!) != nil {
                     // value is numeric
                     // Save the entered data to UserDefaults (plist)
                     
                     
-                    //TODO: Convert from Euros to cents before saving
+                    // Create a fractional (monetary value) by dividing cent value by 100
+                    let divisor = NSDecimalNumber(value: 100)
+                    let decimalValue = NSDecimalNumber(string: dataToSave).multiplying(by: divisor)
+                    
+                    let intToSave = decimalValue.int64Value
+                    
+                    print("saving value: " + String(intToSave))
                     
                     let userDefaults = UserDefaults.standard
-                    userDefaults.set(dataToSave, forKey: "CoffeePrice")
+                    userDefaults.set(intToSave, forKey: "CoffeePrice")
                     
                 } else {
                     // value is NOT numeric

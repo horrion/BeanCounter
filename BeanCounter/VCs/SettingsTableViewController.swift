@@ -109,20 +109,30 @@ class SettingsTableViewController: UITableViewController {
             let userDefaults = UserDefaults.standard
             let coffeePriceBeforeChangeString = userDefaults.string(forKey: "CoffeePrice")
             
-            alertController.textFields![0].text = coffeePriceBeforeChangeString
+            // Create a fractional (monetary value) by dividing cent value by 100
+            let divisor = NSDecimalNumber(value: 100)
+            let decimalValue = NSDecimalNumber(string: coffeePriceBeforeChangeString).dividing(by: divisor)
+            
+            alertController.textFields![0].text = decimalValue.stringValue
             
             let saveAction = UIAlertAction(title: "Save", style: .default) { [unowned alertController] _ in
                 let dataToSave = alertController.textFields![0].text
+                alertController.textFields![0].keyboardType = .decimalPad
                 
-                if Int64(dataToSave!) != nil {
+                if Float(dataToSave!) != nil {
                     // value is numeric
                     // Save the entered data to UserDefaults (plist)
                     
+                    // Create a fractional (monetary value) by dividing cent value by 100
+                    let divisor = NSDecimalNumber(value: 100)
+                    let decimalValue = NSDecimalNumber(string: dataToSave).multiplying(by: divisor)
                     
-                    //TODO: Convert from Euros to cents before saving
+                    let intToSave = decimalValue.int64Value
+                    
+                    print("saving value: " + String(intToSave))
                     
                     let userDefaults = UserDefaults.standard
-                    userDefaults.set(dataToSave, forKey: "CoffeePrice")
+                    userDefaults.set(intToSave, forKey: "CoffeePrice")
                     
                 } else {
                     // value is NOT numeric
@@ -356,12 +366,25 @@ class SettingsTableViewController: UITableViewController {
                        
             // Create User ID String (Name + Email) and balance String
             let userIDString = firstName + " " + lastName + " (" + eMail + ")"
-            let balanceString = String(userEntry.balance) + "€"
-                       
-            //TODO: convert from cent to euro value before saving
+            
+            // Create a fractional (monetary value) by dividing cent value by 100
+            let divisor = NSDecimalNumber(value: 100)
+            let decimalValue = NSDecimalNumber(value: userEntry.balance).dividing(by: divisor)
+            
+            // Set up a NumberFormatter to get monetary values
+            let formatter = NumberFormatter()
+            formatter.numberStyle = .currency
+            
+            // TODO: Use the next 2 lines for shipping product, always sets format to the one defined in device settings
+            //formatter.locale = NSLocale.current
+            //formatter.string(from: decimalValue)
+            
+            formatter.locale = Locale(identifier: "de_DE")
+            
+            let balanceString = formatter.string(from: decimalValue)!
             
             // create new line from variables in CSV file
-            let newLine = "\(userIDString),\(balanceString)\n"
+            let newLine = "\(userIDString),\"\(String(describing: balanceString))\"\n"
             csvText.append(contentsOf: newLine)
         }
         
