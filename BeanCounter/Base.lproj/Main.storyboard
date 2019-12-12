@@ -342,7 +342,7 @@
                     </navigationItem>
                     <modalFormSheetSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <connections>
-                        <segue destination="hrW-5I-Iox" kind="presentation" identifier="editUserSegue" id="LO1-CI-zf2"/>
+                        <segue destination="hrW-5I-Iox" kind="show" identifier="editUserSegue" id="LO1-CI-zf2"/>
                         <segue destination="UKl-bL-9zj" kind="presentation" identifier="changeUserPasscodeSegue" id="8pj-ON-Dbe"/>
                     </connections>
                 </tableViewController>
@@ -517,10 +517,10 @@
             </objects>
             <point key="canvasLocation" x="-1630" y="138"/>
         </scene>
-        <!--Table View Controller-->
+        <!--Edit User Table View Controller-->
         <scene sceneID="jae-DC-7ri">
             <objects>
-                <tableViewController modalPresentationStyle="formSheet" id="hrW-5I-Iox" sceneMemberID="viewController">
+                <tableViewController modalPresentationStyle="formSheet" id="hrW-5I-Iox" customClass="EditUserTableViewController" customModule="BeanCounter" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="n9N-aX-GZb">
                         <rect key="frame" x="0.0" y="0.0" width="540" height="620"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -601,6 +601,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="f9v-QC-bXh"/>
+        <segue reference="eaU-1b-Lmk"/>
     </inferredMetricsTieBreakers>
 </document>

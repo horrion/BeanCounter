@@ -183,6 +183,9 @@ class AdminTableViewController: UITableViewController {
         let dismissCancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         let segueEditUserAction = UIAlertAction(title: "Edit User", style: .default) { action in
             
+            // Set the managedObject so that this information can be passed on to the edit ViewController
+            self.selectedManagedObject = self.managedObjectsArray[indexPath.row]
+            
             // if selected, perform a Segue to EditUserViewController
             self.performSegue(withIdentifier: "editUserSegue", sender: nil)
         }
@@ -384,9 +387,14 @@ class AdminTableViewController: UITableViewController {
                 }
             }
         }
-        
-        
-        
+        if segue.identifier == "editUserSegue" {
+            if let editUserVC = segue.destination as? EditUserTableViewController {
+                editUserVC.selectUserViewController = sourceTableViewController
+                editUserVC.adminViewController = self
+                editUserVC.selectedManagedObject = selectedManagedObject
+                selectedManagedObject = nil
+            }
+        }
     }
     
 
