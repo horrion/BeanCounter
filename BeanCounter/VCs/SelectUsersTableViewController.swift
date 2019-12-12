@@ -14,8 +14,9 @@ class SelectUsersTableViewController: UITableViewController {
     
     var managedObjectsArray = [NSManagedObject?]()
     
+    //TODO: remove "= nil" and see if everything continues to work
     var unlockedForUser: IndexPath? = nil
-    
+    var selectedUser: IndexPath?
     
     
     override func viewDidLoad() {
@@ -195,74 +196,79 @@ class SelectUsersTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.tableView.deselectRow(at: indexPath, animated: true)
         
-        
-        
         if unlockedForUser == nil {
-            unlockedForUser = indexPath
-            tableView.reloadData()
+            
+            // Save the currently selected indexPath to a variable so that it can be used anywhere in the instance
+            if selectedUser != indexPath {
+                    selectedUser = indexPath
+                }
+            
+            // Fire the segue to prompt the user for their passcode
+            performSegue(withIdentifier: "getUserPasscode", sender: self)
+            
         } else {
-        
+
             if unlockedForUser == indexPath {
                 //The user is unlocked, let them bill a coffee to their account
-            
+
                 // next few lines are for debugging
                 let firstName = managedObjectsArray[indexPath.row]?.value(forKey: "firstname") as! String
                 let lastName = managedObjectsArray[indexPath.row]?.value(forKey: "lastname") as! String
                 let eMail = managedObjectsArray[indexPath.row]?.value(forKey: "email") as! String
 
                 print("Will mutate the following user: " + firstName + " " + lastName + " (" + eMail + ")")
-                
-                
+
+
                 // Read and print balance before making changes to saved data
                 let balanceBeforeChanges = managedObjectsArray[indexPath.row]?.value(forKey: "balanceInCents") as! Int64
                 print("balance before changes: " + String(balanceBeforeChanges))
-                
-                
+
+
                 // Get current coffee price from NSUserDefaults
                 let userDefaults = UserDefaults.standard
                 let coffeePriceAsInt = userDefaults.integer(forKey: "CoffeePrice")
                 let coffeePriceAsInt64 = Int64(coffeePriceAsInt)
-                
+
                 // Set a multiplier for multiple cups of coffee
                 let paymentInfoInt = userDefaults.integer(forKey: "multiplier")
                 let multiplier = Int64(paymentInfoInt)
                 print("User is being billed for " + String(multiplier) + " cups of coffee")
-                
+
                 // Save new balance
                 let newBalance = balanceBeforeChanges - (coffeePriceAsInt64 * multiplier)
                 managedObjectsArray[indexPath.row]?.setValue(newBalance, forKey: "balanceInCents")
-                
+
                 // Create instance of MOC
                 let appDelegate = UIApplication.shared.delegate as! AppDelegate
                 let context = appDelegate.persistentContainer.viewContext
-                
+
                 // Save newUserInfo to CoreData
                 do {
                    try context.save()
                     // Data was successfully saved
                     print("successfully saved data")
-                    
+
                   } catch {
                     // Failed to write to the database
                     print("Couldn't save to CoreData")
-                    
+
                     let alert = UIAlertController(title: "Failed Database Operation", message: "Failed to write to the Database", preferredStyle: .alert)
                     let dismissAction = UIAlertAction(title: "Ok", style: .default)
                     alert.addAction(dismissAction)
                     self.present(alert, animated: true)
                 }
-                
+
                 // Print new balance after changes have been saved
                 let balanceAfterChanges = managedObjectsArray[indexPath.row]?.value(forKey: "balanceInCents") as! Int64
                 print("balance after changes: " + String(balanceAfterChanges))
-                
+
                 // Execute IoT function
                 IoTHelperClass().userHasBeenBilledForCoffee()
-                
+
                 // Reset the cell to a locked state and reflect the changed in the UI by reloading the TableView
                 unlockedForUser = nil
                 tableView.reloadData()
-                
+
                 // Reset the NSUserDefaults value for "multiplier" to 0
                 userDefaults.set(0, forKey: "multiplier")
             }
@@ -270,7 +276,29 @@ class SelectUsersTableViewController: UITableViewController {
     }
     
     
-
+    func loadTableViewCellsAfterUnlock(passcodeReturned: String) {
+        
+        // Get UUID from managed object
+        let uuidFromManagedObject = managedObjectsArray[selectedUser!.row]!.value(forKey: "userUUID") as! NSUUID
+        
+        // Get keychain value using UUID
+        let keychain = KeychainSwift()
+        let userPasscode = keychain.get(uuidFromManagedObject.uuidString)
+        
+        // Check to see if passcode entered matches the one in the keychain
+        if userPasscode == passcodeReturned {
+         
+            // The passcodes matched, tell the table to unlock the cell at the selected indexPath, then reload the table
+            unlockedForUser = selectedUser
+            tableView.reloadData()
+            
+            
+        } else {
+         // Provided passcode was wrong, alert the user
+            //TODO: insert an Alert here
+            
+        }
+    }
 
     
     // MARK: - Navigation

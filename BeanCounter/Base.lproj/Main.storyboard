@@ -328,7 +328,7 @@
                     <navigationItem key="navigationItem" title="Admin" id="SZd-oy-lA8">
                         <barButtonItem key="leftBarButtonItem" title="Settings" id="yan-DF-e96">
                             <connections>
-                                <segue destination="1b2-QW-na5" kind="popoverPresentation" popoverAnchorBarButtonItem="yan-DF-e96" id="TZA-xv-eeW">
+                                <segue destination="1b2-QW-na5" kind="popoverPresentation" identifier="settingsSegue" popoverAnchorBarButtonItem="yan-DF-e96" id="TZA-xv-eeW">
                                     <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
                                 </segue>
                             </connections>
@@ -599,6 +599,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="eaU-1b-Lmk"/>
+        <segue reference="Pwt-cm-jxl"/>
     </inferredMetricsTieBreakers>
 </document>

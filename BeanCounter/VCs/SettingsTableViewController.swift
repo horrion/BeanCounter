@@ -29,6 +29,8 @@ class SettingsTableViewController: UITableViewController {
     
     var managedObjectsArray = [NSManagedObject?]()
     
+    var sourceViewController: AdminTableViewController?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -70,6 +72,12 @@ class SettingsTableViewController: UITableViewController {
             let alertController = UIAlertController(title: "Set payment info", message: nil, preferredStyle: .alert)
             alertController.addTextField()
 
+            // Get data from UserDefaults
+            let userDefaults = UserDefaults.standard
+            let paymentInfoBeforeChangeString = userDefaults.string(forKey: "PaymentInfo")
+            
+            alertController.textFields![0].text = paymentInfoBeforeChangeString
+            
             let saveAction = UIAlertAction(title: "Save", style: .default) { [unowned alertController] _ in
                 let dataToSave = alertController.textFields![0].text
                 
@@ -99,9 +107,15 @@ class SettingsTableViewController: UITableViewController {
         if indexPath.row == 3 {
             //Edit Coffee price
             
-            let alertController = UIAlertController(title: "Edit Coffee price", message: nil, preferredStyle: .alert)
+            let alertController = UIAlertController(title: "Edit Coffee price", message: "Please enter a coffee price in €", preferredStyle: .alert)
             alertController.addTextField()
-
+            
+            // Get data from UserDefaults
+            let userDefaults = UserDefaults.standard
+            let coffeePriceBeforeChangeString = userDefaults.string(forKey: "CoffeePrice")
+            
+            alertController.textFields![0].text = coffeePriceBeforeChangeString
+            
             let saveAction = UIAlertAction(title: "Save", style: .default) { [unowned alertController] _ in
                 let dataToSave = alertController.textFields![0].text
                 
@@ -210,6 +224,7 @@ class SettingsTableViewController: UITableViewController {
                        try context.save()
                         // Data was successfully saved
                         print("successfully saved data")
+                        self.sourceViewController?.loadDataFromCoreData()
                         
                       } catch {
                         // Failed to write to the database

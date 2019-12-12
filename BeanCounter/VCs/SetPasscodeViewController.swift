@@ -56,7 +56,7 @@ class SetPasscodeViewController: UIViewController, UIAdaptivePresentationControl
             self.title = "Enter the User Passcode"
             navigationItem.leftBarButtonItem = cancelButton
         } else if userLevel == .changeAdmin {
-            self.title = "Change the Admin Passcode"
+            self.title = "Enter the new Admin Passcode"
             navigationItem.leftBarButtonItem = cancelButton
         } else if userLevel == .changeUser {
             self.title = "Change the User Passcode"
@@ -88,7 +88,7 @@ class SetPasscodeViewController: UIViewController, UIAdaptivePresentationControl
             } else if self.userLevel == .getUser {
                 // Access the User passcode
                 self.dismiss(animated: true, completion:{
-                    
+                    self.selectUsersTVController?.loadTableViewCellsAfterUnlock(passcodeReturned: pin)
                 })
                 
             } else if self.userLevel == .changeAdmin {
