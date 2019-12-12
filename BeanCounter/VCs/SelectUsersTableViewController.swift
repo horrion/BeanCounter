@@ -14,8 +14,7 @@ class SelectUsersTableViewController: UITableViewController {
     
     var managedObjectsArray = [NSManagedObject?]()
     
-    //TODO: remove "= nil" and see if everything continues to work
-    var unlockedForUser: IndexPath? = nil
+    var unlockedForUser: IndexPath?
     var selectedUser: IndexPath?
     
     

@@ -11,6 +11,8 @@ import AVFoundation
 
 class CameraTableViewCell: UITableViewCell, AVCapturePhotoCaptureDelegate {
 
+    var cellAlreadyDidLoad: Bool?
+    
     var captureSession = AVCaptureSession()
     var cameraOutput = AVCapturePhotoOutput()
     var previewLayer = AVCaptureVideoPreviewLayer()
@@ -27,7 +29,22 @@ class CameraTableViewCell: UITableViewCell, AVCapturePhotoCaptureDelegate {
         super.awakeFromNib()
         // Initialization code
         
+    }
+    
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
         
+        if self.cellAlreadyDidLoad == nil {
+            self.cellDidLoad()
+            self.cellAlreadyDidLoad = true
+        }
+    }
+    
+    // Use this as a viewDidLoad method to load the camera cell after the ViewController has been loaded to prevent long load times for the ViewController
+    func cellDidLoad() {
+        
+        // Do camera setup here
         
         let device = AVCaptureDevice.default(rearCameraSelected, for: AVMediaType.video, position: cameraPosition)
         
@@ -58,7 +75,8 @@ class CameraTableViewCell: UITableViewCell, AVCapturePhotoCaptureDelegate {
             }
         }
     }
-
+    
+    
     @IBAction func didPressTakePhoto(_ sender: UIButton) {
         var settings = AVCapturePhotoSettings()
         

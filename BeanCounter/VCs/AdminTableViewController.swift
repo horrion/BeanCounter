@@ -11,14 +11,6 @@ import CoreData
 import KeychainSwift
 
 class AdminTableViewController: UITableViewController {
-
-//    struct userStruct {
-//        let firstName: String
-//        let lastName: String
-//        let eMail: String
-//    }
-    
-    //var usersArray = [userStruct]()
     
     var managedObjectsArray = [NSManagedObject?]()
     

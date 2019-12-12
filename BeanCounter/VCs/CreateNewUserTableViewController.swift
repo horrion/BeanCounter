@@ -24,7 +24,7 @@ class CreateNewUserTableViewController: UITableViewController {
         // Save button setup in Navigation Bar
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveUserButton))
         
-        
+        self.title = "Create a new user"
     }
     
     // MARK: - CoreData handling/saving
