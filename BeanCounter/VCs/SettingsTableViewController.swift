@@ -104,6 +104,7 @@ class SettingsTableViewController: UITableViewController {
             
             let alertController = UIAlertController(title: "Edit Coffee price", message: "Please enter a coffee price in €", preferredStyle: .alert)
             alertController.addTextField()
+            alertController.textFields![0].keyboardType = .decimalPad
             
             // Get data from UserDefaults
             let userDefaults = UserDefaults.standard
@@ -117,7 +118,6 @@ class SettingsTableViewController: UITableViewController {
             
             let saveAction = UIAlertAction(title: "Save", style: .default) { [unowned alertController] _ in
                 let dataToSave = alertController.textFields![0].text
-                alertController.textFields![0].keyboardType = .decimalPad
                 
                 if Float(dataToSave!) != nil {
                     // value is numeric

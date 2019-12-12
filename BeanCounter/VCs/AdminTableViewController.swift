@@ -203,6 +203,7 @@ class AdminTableViewController: UITableViewController {
             //this UIAlertController provides a textField for the user to enter a value to add
                 
             alertController.addTextField()
+            alertController.textFields![0].keyboardType = .decimalPad
 
             let saveAction = UIAlertAction(title: "Save", style: .default) { [unowned alertController] _ in
                 let dataToSave = alertController.textFields![0].text

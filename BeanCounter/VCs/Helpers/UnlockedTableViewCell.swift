@@ -28,6 +28,8 @@ class UnlockedTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        let userDefaults = UserDefaults.standard
+        userDefaults.set(1, forKey: "multiplier")
         
         numberOfCoffeeCupsLabel.text = "1"
         

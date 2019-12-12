@@ -13,9 +13,12 @@ import KeychainSwift
 class SelectUsersTableViewController: UITableViewController {
     
     var managedObjectsArray = [NSManagedObject?]()
+    var transactionsManagedObjectsArray = [NSManagedObject?]()
     
     var unlockedForUser: IndexPath?
     var selectedUser: IndexPath?
+    
+    var mainViewController: ViewController?
     
     
     override func viewDidLoad() {
@@ -32,6 +35,8 @@ class SelectUsersTableViewController: UITableViewController {
         
         // Load all data from CoreData and refresh the TableView
         loadDataFromCoreData()
+        loadTransactionsFromCoreData()
+        
         print("Number of users in Array: " + String(managedObjectsArray.count))
     }
     
@@ -44,7 +49,7 @@ class SelectUsersTableViewController: UITableViewController {
         performSegue(withIdentifier: "createUserSegue", sender: nil)
     }
     
-    // MARK: - Keychain stuff
+    // MARK: - Keychain handler
     
     func compareAdminPasscode(passcodeReturned: String) {
         // Beware of implications when uncommenting the next line: passcode can be read by attaching a debugger -> potential hazard
@@ -69,6 +74,8 @@ class SelectUsersTableViewController: UITableViewController {
         
     }
     
+    
+    // MARK: - CoreData handlers
     
     func loadDataFromCoreData() {
         
@@ -123,6 +130,90 @@ class SelectUsersTableViewController: UITableViewController {
         } catch {
             
             print("failed to fetch data from context")
+        }
+        
+    }
+    
+    func loadTransactionsFromCoreData() {
+        
+        // Create context for context info stored in AppDelegate
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+                
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Transactions")
+        
+        request.sortDescriptors = [NSSortDescriptor(key: "date", ascending: true)]
+        
+        // Reset Array to empty Array
+        transactionsManagedObjectsArray.removeAll()
+        
+        // Iterate through all NSManagedObjects in NSFetchRequestResult
+        request.returnsObjectsAsFaults = false
+        do {
+            let result = try context.fetch(request)
+            for data in result as! [NSManagedObject] {
+                
+                // Save the whole NSManagedObject, then read from it later on
+                transactionsManagedObjectsArray.insert(data, at: transactionsManagedObjectsArray.count)
+                
+                
+          }
+            
+        } catch {
+            print("failed to fetch data from context")
+        }
+    }
+    
+    func saveCurrentNumberOfTransactionsToCoreData(numberOfCups: Int64) {
+        
+        // Create context for context info stored in AppDelegate
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        
+        let date = Date()
+        let calendar = Calendar.current
+        
+        let dateString = String(calendar.component(.year, from: date)+calendar.component(.month, from: date)+calendar.component(.day, from: date))
+        
+        
+        if let matchingIndex = transactionsManagedObjectsArray.firstIndex(where: {$0!.value(forKey: "date") as! String == dateString}) {
+            // Object was found, this is not the first cup today!
+            let priorTransactions = transactionsManagedObjectsArray[matchingIndex]?.value(forKey: "numberOfTransactions") as! Int64
+            let sumOfCupsToday = priorTransactions + numberOfCups
+            
+            print("Sum of cups today is: " + String(sumOfCupsToday))
+            
+            transactionsManagedObjectsArray[matchingIndex]?.setValue(sumOfCupsToday, forKey: "numberOfTransactions")
+            
+        } else {
+            // item could not be found
+            
+            
+            // Create entity, then create a transactionInfo object
+            let entity = NSEntityDescription.entity(forEntityName: "Transactions", in: context)
+            let transactionInfo = NSManagedObject(entity: entity!, insertInto: context)
+
+            // Provide newUserInfo object with properties
+            transactionInfo.setValue(dateString, forKey: "date")
+            transactionInfo.setValue(numberOfCups, forKey: "numberOfTransactions")
+        }
+        
+        // Save transactionInfo to CoreData
+        do {
+           try context.save()
+            // Data was successfully saved, now pop the VC
+            print("successfully saved stats data")
+            mainViewController!.reloadStatsLabel()
+            
+          } catch {
+           print("Couldn't save stats to CoreData")
+            
+            //Remind user to make sure all info has been provided / all fields are populated
+            
+            let alert = UIAlertController(title: "Failed Database Operation", message: "Failed to write stats to the Database", preferredStyle: .alert)
+            let dismissAction = UIAlertAction(title: "Ok", style: .default)
+            alert.addAction(dismissAction)
+            self.present(alert, animated: true)
         }
         
     }
@@ -232,11 +323,14 @@ class SelectUsersTableViewController: UITableViewController {
                 let paymentInfoInt = userDefaults.integer(forKey: "multiplier")
                 let multiplier = Int64(paymentInfoInt)
                 print("User is being billed for " + String(multiplier) + " cups of coffee")
-
+                
                 // Save new balance
                 let newBalance = balanceBeforeChanges - (coffeePriceAsInt64 * multiplier)
                 managedObjectsArray[indexPath.row]?.setValue(newBalance, forKey: "balanceInCents")
 
+                // Save number of coffee cups for stats screen
+                saveCurrentNumberOfTransactionsToCoreData(numberOfCups: multiplier)
+                
                 // Create instance of MOC
                 let appDelegate = UIApplication.shared.delegate as! AppDelegate
                 let context = appDelegate.persistentContainer.viewContext
@@ -343,14 +437,6 @@ class SelectUsersTableViewController: UITableViewController {
                 createUserVC.sourceViewController = self
             }
         }
-        
-        
-        
-        
-        
-        
-        
-        
     }
     
 }
