@@ -28,6 +28,7 @@ class SetPasscodeViewController: UIViewController, UIAdaptivePresentationControl
     var selectUsersTVController: SelectUsersTableViewController?
     var settingsTVController: SettingsTableViewController?
     var createNewUserTVController: CreateNewUserTableViewController?
+    var adminTVController: AdminTableViewController?
     
     
     @IBOutlet weak var passcodeView: SVPinView!
@@ -100,7 +101,7 @@ class SetPasscodeViewController: UIViewController, UIAdaptivePresentationControl
             } else if self.userLevel == .changeUser {
                 // Change an existing User passcode
                 self.dismiss(animated: true, completion:{
-                    
+                    self.adminTVController?.changeUserPasscode(passcodeReturned: pin)
                 })
             }
         }

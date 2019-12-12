@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import KeychainSwift
 
 class AdminTableViewController: UITableViewController {
 
@@ -23,6 +24,7 @@ class AdminTableViewController: UITableViewController {
     
     var sourceTableViewController: SelectUsersTableViewController?
     
+    var selectedManagedObject: NSManagedObject?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -100,6 +102,22 @@ class AdminTableViewController: UITableViewController {
         
     }
     
+    // MARK: - Keychain handling
+    
+    func changeUserPasscode(passcodeReturned: String) {
+        
+        // Get UUID from managed object
+        let uuidFromManagedObject = selectedManagedObject!.value(forKey: "userUUID") as! NSUUID
+        
+        // Save the new passcode to the keychain using the UUID from the managedObject
+        let keychain = KeychainSwift()
+        keychain.set(passcodeReturned, forKey: uuidFromManagedObject.uuidString)
+        print("Saved new user passcode")
+        
+        // Reset selectedManagedObject back to nil
+        selectedManagedObject = nil
+    }
+    
     
     // MARK: - Table view data source
 
@@ -164,7 +182,12 @@ class AdminTableViewController: UITableViewController {
             self.performSegue(withIdentifier: "editUserSegue", sender: nil)
         }
         let resetUserPasscode = UIAlertAction(title: "Set new User Passcode", style: .default) { action in
-            // TODO: implement user passcode reset here
+            
+            // Save the currently selected managedObject to a variable
+            self.selectedManagedObject = self.managedObjectsArray[indexPath.row]
+            
+            // Fire the segue to show the SetPasscodeViewController
+            self.performSegue(withIdentifier: "changeUserPasscodeSegue", sender: self)
         }
         
         
@@ -324,7 +347,14 @@ class AdminTableViewController: UITableViewController {
                 }
             }
         }
-        
+        if segue.identifier == "changeUserPasscodeSegue" {
+            if let navigationViewController = segue.destination as? UINavigationController {
+                if let passcodeViewController = navigationViewController.viewControllers[0] as? SetPasscodeViewController {
+                    passcodeViewController.userLevel = .changeUser
+                    passcodeViewController.adminTVController = self
+                }
+            }
+        }
         
         
         

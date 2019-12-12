@@ -295,8 +295,11 @@ class SelectUsersTableViewController: UITableViewController {
             
         } else {
          // Provided passcode was wrong, alert the user
-            //TODO: insert an Alert here
             
+            let alert = UIAlertController(title: "Wrong passcode", message: "You entered the wrong passcode, please try again!", preferredStyle: .alert)
+            let dismissAction = UIAlertAction(title: "Ok", style: .default)
+            alert.addAction(dismissAction)
+            self.present(alert, animated: true)
         }
     }
 

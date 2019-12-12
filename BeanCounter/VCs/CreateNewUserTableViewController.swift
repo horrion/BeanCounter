@@ -42,7 +42,7 @@ class CreateNewUserTableViewController: UITableViewController {
         let uuidForCoreData = UUID()
         
         // Beware of implications when uncommenting the next line: passcode can be read by attaching a debugger -> potential hazard
-        print("Attempting to save: " + passcodeReturned)
+        //print("Attempting to save: " + passcodeReturned)
         let keychain = KeychainSwift()
         keychain.set(passcodeReturned, forKey: uuidForCoreData.uuidString)
         print("Saved new Admin passcode")
