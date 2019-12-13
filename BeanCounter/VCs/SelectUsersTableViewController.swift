@@ -20,7 +20,6 @@ class SelectUsersTableViewController: UITableViewController {
     
     var mainViewController: ViewController?
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -30,14 +29,33 @@ class SelectUsersTableViewController: UITableViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Admin", style: .plain, target: self, action: #selector(loadAdminVC))
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(loadAddNewUserVC))
         
-        
-        
-        
         // Load all data from CoreData and refresh the TableView
         loadDataFromCoreData()
         loadTransactionsFromCoreData()
         
         print("Number of users in Array: " + String(managedObjectsArray.count))
+        
+        // Prep for Email function that executes every 24 hours
+        let userDefaults = UserDefaults.standard
+        let lastExecuted = userDefaults.value(forKey: "lastRefresh") as! Date
+        
+        let formatter = DateComponentsFormatter()
+        formatter.allowedUnits = [.hour]
+        let differenceBetweenLastExecutionAndNow = Int(formatter.string(from: lastExecuted, to: Date())!)
+        
+        print("Difference between now and then: " + String(differenceBetweenLastExecutionAndNow!))
+
+        
+        // This runs every 24 hours
+        if differenceBetweenLastExecutionAndNow! >= 24 {
+            // Set current time as the last time the function was executed
+            userDefaults.set(Date(), forKey: "lastRefresh")
+            
+            // Send the email
+            let emailHelper = EmailHelperClass()
+            emailHelper.managedObjectsArray = managedObjectsArray
+            emailHelper.sendReminderEmail()
+        }
     }
     
     @objc func loadAdminVC() {

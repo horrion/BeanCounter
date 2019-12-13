@@ -66,6 +66,7 @@ class ViewController: UIViewController {
         if launchedBefore != true  {
             // This is the first time ever the app is launched. Set the key and go through the first launch config
             UserDefaults.standard.set(true, forKey: "launchedBefore")
+            UserDefaults.standard.set(Date(), forKey: "lastRefresh")
             
             setNewCoffeePrice()
             
