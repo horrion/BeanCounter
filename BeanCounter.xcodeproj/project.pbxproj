@@ -15,6 +15,7 @@
 		9448810C23A3069500F87E11 /* EmailHelperClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9448810B23A3069500F87E11 /* EmailHelperClass.swift */; };
 		9448811023A3124200F87E11 /* FaceRecognitionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9448810F23A3124200F87E11 /* FaceRecognitionViewController.swift */; };
 		9448811323A44D1900F87E11 /* Faces.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 9448811223A44D1900F87E11 /* Faces.mlmodel */; };
+		9448811623A4598500F87E11 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9448811523A4598500F87E11 /* CloudKit.framework */; };
 		94DB105323566E3B00751D15 /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94DB105223566E3B00751D15 /* SettingsTableViewController.swift */; };
 		94E89F86237CD6DD00F83C73 /* CameraTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94E89F85237CD6DD00F83C73 /* CameraTableViewCell.swift */; };
 		94ED5BDE234D3702001DA539 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94ED5BDD234D3702001DA539 /* AppDelegate.swift */; };
@@ -61,6 +62,8 @@
 		9448810B23A3069500F87E11 /* EmailHelperClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailHelperClass.swift; sourceTree = "<group>"; };
 		9448810F23A3124200F87E11 /* FaceRecognitionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceRecognitionViewController.swift; sourceTree = "<group>"; };
 		9448811223A44D1900F87E11 /* Faces.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = Faces.mlmodel; sourceTree = "<group>"; };
+		9448811423A4597200F87E11 /* BeanCounter.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BeanCounter.entitlements; sourceTree = "<group>"; };
+		9448811523A4598500F87E11 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		94DB105223566E3B00751D15 /* SettingsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
 		94E89F85237CD6DD00F83C73 /* CameraTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraTableViewCell.swift; sourceTree = "<group>"; };
 		94ED5BDA234D3702001DA539 /* BeanCounter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BeanCounter.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -97,6 +100,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				135ED80C4ABA81B140C8FA36 /* Pods_BeanCounter.framework in Frameworks */,
+				9448811623A4598500F87E11 /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -176,6 +180,7 @@
 		94ED5BDC234D3702001DA539 /* BeanCounter */ = {
 			isa = PBXGroup;
 			children = (
+				9448811423A4597200F87E11 /* BeanCounter.entitlements */,
 				94ED5BDD234D3702001DA539 /* AppDelegate.swift */,
 				94ED5BDF234D3702001DA539 /* SceneDelegate.swift */,
 				94ED5BE1234D3702001DA539 /* ViewController.swift */,
@@ -227,6 +232,7 @@
 		F2845D42CB9A724E8D0E7C3F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9448811523A4598500F87E11 /* CloudKit.framework */,
 				66B90099E323268754487901 /* Pods_BeanCounter.framework */,
 				9C305956AC2883017B261769 /* Pods_BeanCounter_BeanCounterUITests.framework */,
 				6C07918D9B88747AD30C38E2 /* Pods_BeanCounterTests.framework */,
@@ -663,6 +669,7 @@
 			baseConfigurationReference = C17FC9BE819BD3364747409A /* Pods-BeanCounter.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = BeanCounter/BeanCounter.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Q2CS3FBVAU;
 				ENABLE_BITCODE = NO;
@@ -684,6 +691,7 @@
 			baseConfigurationReference = F453FAB3182A2D6212380650 /* Pods-BeanCounter.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = BeanCounter/BeanCounter.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Q2CS3FBVAU;
 				ENABLE_BITCODE = NO;
