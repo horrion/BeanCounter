@@ -18,6 +18,7 @@ class SetPasscodeViewController: UIViewController, UIAdaptivePresentationControl
         case getUser
         case changeAdmin
         case changeUser
+        case getUserForFaceRecognition
     }
     
     var setPasscode: Bool?
@@ -29,7 +30,7 @@ class SetPasscodeViewController: UIViewController, UIAdaptivePresentationControl
     var settingsTVController: SettingsTableViewController?
     var createNewUserTVController: CreateNewUserTableViewController?
     var adminTVController: AdminTableViewController?
-    
+    var faceRecognitionController: FaceRecognitionViewController?
     
     @IBOutlet weak var passcodeView: SVPinView!
     
@@ -61,6 +62,9 @@ class SetPasscodeViewController: UIViewController, UIAdaptivePresentationControl
             navigationItem.leftBarButtonItem = cancelButton
         } else if userLevel == .changeUser {
             self.title = "Change the User Passcode"
+            navigationItem.leftBarButtonItem = cancelButton
+        } else if userLevel == .getUserForFaceRecognition {
+            self.title = "Enter the User Passcode"
             navigationItem.leftBarButtonItem = cancelButton
         }
         
@@ -102,6 +106,11 @@ class SetPasscodeViewController: UIViewController, UIAdaptivePresentationControl
                 // Change an existing User passcode
                 self.dismiss(animated: true, completion:{
                     self.adminTVController?.changeUserPasscode(passcodeReturned: pin)
+                })
+            } else if self.userLevel == .getUserForFaceRecognition {
+                // Access the User passcode for Face Recognition
+                self.dismiss(animated: true, completion:{
+                    self.faceRecognitionController?.billUserForCoffee(passcodeReturned: pin)
                 })
             }
         }

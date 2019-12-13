@@ -18,7 +18,6 @@ class CameraTableViewCell: UITableViewCell, AVCapturePhotoCaptureDelegate {
     var captureSession: AVCaptureSession!
     var cameraOutput: AVCapturePhotoOutput!
     var previewLayer: AVCaptureVideoPreviewLayer!
-    //var currentImage: (image: Data, imageName: String)?
     var imageTaken: UIImage?
     
     var orientationFromWindow: UIDeviceOrientation?
@@ -163,7 +162,7 @@ class CameraTableViewCell: UITableViewCell, AVCapturePhotoCaptureDelegate {
         // Create the CGImage from AVCapturePhoto
         let cgImage = photo.cgImageRepresentation()!.takeUnretainedValue()
         
-        // Get the orientation from
+        // Get the orientation from Window
         let altOrientation = (orientationFromWindow?.rawValue)!
         let uiImageOrientation = UIImage.Orientation(rawValue: altOrientation)!
         
@@ -173,14 +172,5 @@ class CameraTableViewCell: UITableViewCell, AVCapturePhotoCaptureDelegate {
         // Pass the UIImage on to the originating VC
         embeddedInTableViewController?.saveImageData(imageToSave: imageFromDeviceOrientation)
     }
-    
-    
-//    override func viewDidDisappear(_ animated: Bool) {
-//        if captureSession.isRunning {
-//            captureSession.stopRunning()
-//        } else {
-//            //captureSession.startRunning()
-//        }
-//    }
 
 }

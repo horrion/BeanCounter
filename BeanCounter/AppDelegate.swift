@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import SFaceCompare
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -16,6 +17,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        // Prepare SFaceCompare to be used for Face Recognition
+        SFaceCompare.prepareData()
+        
         return true
     }
 
