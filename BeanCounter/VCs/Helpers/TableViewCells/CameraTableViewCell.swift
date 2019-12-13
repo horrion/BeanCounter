@@ -158,7 +158,6 @@ class CameraTableViewCell: UITableViewCell, AVCapturePhotoCaptureDelegate {
         
         if let error = error {
             print(error.localizedDescription)
-            // TODO: Alert the user using an alertView
         }
         
         // Create the CGImage from AVCapturePhoto

@@ -18,6 +18,8 @@ class CreateNewUserTableViewController: UITableViewController {
     
     var sourceViewController: SelectUsersTableViewController?
     
+    var uuidForCoreData: UUID?
+    
     var userImage: UIImage?
     
     
@@ -35,58 +37,7 @@ class CreateNewUserTableViewController: UITableViewController {
     @objc func saveUserButton() {
         // Save userdata to CoreData here, then set passcode later in setUserPasscode(passcodeReturned: String)
         
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        performSegue(withIdentifier: "setUserPasscode", sender: self)
-    }
-    
-    // TODO: Delete commented out stuff
-    // Helper for CameraTableViewCell to rotate the camera view when device rotates
-//    func updateDeviceOrientation() {
-//        let currentDevice: UIDevice = UIDevice.current
-//        let orientation: UIDeviceOrientation = currentDevice.orientation
-//        deviceOrientation = orientation
-//        print("set orientation")
-//    }
-    
-    // MARK: - Keychain handling
-    
-    func setUserPasscode(passcodeReturned: String) {
-        // A Passcode has been returned, handle the keychain request here
-        
-        let uuidForCoreData = UUID()
-        
-        // Beware of implications when uncommenting the next line: passcode can be read by attaching a debugger -> potential hazard
-        //print("Attempting to save: " + passcodeReturned)
-        let keychain = KeychainSwift()
-        keychain.set(passcodeReturned, forKey: uuidForCoreData.uuidString)
-        print("Saved new Admin passcode")
+        uuidForCoreData = UUID()
         
         // Create context for context info stored in AppDelegate
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -94,20 +45,28 @@ class CreateNewUserTableViewController: UITableViewController {
         
         // Create entity, then create a newUserInfo object
         let entity = NSEntityDescription.entity(forEntityName: "User", in: context)
-        let newUserInfo = NSManagedObject(entity: entity!, insertInto: context)
-        
-        
-        
-        //TODO: Save user photo
-        // Provide newUserInfo object with properties
-        newUserInfo.setValue(firstNameTextField.text, forKey: "firstname")
-        newUserInfo.setValue(lastNameTextField.text, forKey: "lastname")
-        newUserInfo.setValue(eMailTextField.text, forKey: "email")
-        newUserInfo.setValue(Date(), forKey: "createdAt")
-        newUserInfo.setValue(0, forKey: "balanceInCents")
-        newUserInfo.setValue(uuidForCoreData, forKey: "userUUID")
+//        let newUserInfo = NSManagedObject(entity: entity!, insertInto: context)
+//
+//        // Provide newUserInfo object with properties
+//        newUserInfo.setValue(firstNameTextField.text, forKey: "firstname")
+//        newUserInfo.setValue(lastNameTextField.text, forKey: "lastname")
+//        newUserInfo.setValue(eMailTextField.text, forKey: "email")
+//        newUserInfo.setValue(Date(), forKey: "createdAt")
+//        newUserInfo.setValue(0, forKey: "balanceInCents")
+//        newUserInfo.setValue(uuidForCoreData, forKey: "userUUID")
         
         if userImage != nil {
+            
+            let newUserInfo = NSManagedObject(entity: entity!, insertInto: context)
+            
+            // Provide newUserInfo object with properties
+            newUserInfo.setValue(firstNameTextField.text, forKey: "firstname")
+            newUserInfo.setValue(lastNameTextField.text, forKey: "lastname")
+            newUserInfo.setValue(eMailTextField.text, forKey: "email")
+            newUserInfo.setValue(Date(), forKey: "createdAt")
+            newUserInfo.setValue(0, forKey: "balanceInCents")
+            newUserInfo.setValue(uuidForCoreData, forKey: "userUUID")
+            
             
             // Create Data object from UIImage for CoreData
             let imageData = userImage?.pngData()
@@ -121,7 +80,7 @@ class CreateNewUserTableViewController: UITableViewController {
                 // Data was successfully saved, now pop the VC
                 print("successfully saved data")
                 sourceViewController?.loadDataFromCoreData()
-                self.navigationController?.popViewController(animated: true)
+                self.setUserPasscode()
                 
               } catch {
                print("Couldn't save to CoreData")
@@ -141,12 +100,22 @@ class CreateNewUserTableViewController: UITableViewController {
             
             let saveAction = UIAlertAction(title: "Create the account", style: .default) { action in
                 
+                let newUserInfo = NSManagedObject(entity: entity!, insertInto: context)
+                
+                // Provide newUserInfo object with properties
+                newUserInfo.setValue(self.firstNameTextField.text, forKey: "firstname")
+                newUserInfo.setValue(self.lastNameTextField.text, forKey: "lastname")
+                newUserInfo.setValue(self.eMailTextField.text, forKey: "email")
+                newUserInfo.setValue(Date(), forKey: "createdAt")
+                newUserInfo.setValue(0, forKey: "balanceInCents")
+                newUserInfo.setValue(self.uuidForCoreData, forKey: "userUUID")
+                
                 do {
                    try context.save()
                     // Data was successfully saved, now pop the VC
                     print("successfully saved data")
                     self.sourceViewController?.loadDataFromCoreData()
-                    self.navigationController?.popViewController(animated: true)
+                    self.setUserPasscode()
                     
                   } catch {
                    print("Couldn't save to CoreData")
@@ -166,6 +135,26 @@ class CreateNewUserTableViewController: UITableViewController {
             alertController.addAction(saveAction)
             present(alertController, animated: true)
         }
+    }
+    
+    func setUserPasscode() {
+        performSegue(withIdentifier: "setUserPasscode", sender: self)
+    }
+    
+    // MARK: - Keychain handling
+    
+    func setUserPasscode(passcodeReturned: String) {
+        // A Passcode has been returned, handle the keychain request here
+        
+        
+        
+        // Beware of implications when uncommenting the next line: passcode can be read by attaching a debugger -> potential hazard
+        //print("Attempting to save: " + passcodeReturned)
+        let keychain = KeychainSwift()
+        keychain.set(passcodeReturned, forKey: uuidForCoreData!.uuidString)
+        print("Saved new Admin passcode")
+        
+        self.navigationController?.popViewController(animated: true)
     }
     
     // Save picture here if one is provided by CameraTableViewCell
