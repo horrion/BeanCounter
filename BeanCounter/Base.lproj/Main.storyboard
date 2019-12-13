@@ -140,10 +140,6 @@
                                     <rect key="frame" x="0.0" y="0.0" width="540" height="247"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="z7h-QU-uTX">
-                                            <rect key="frame" x="122" y="11" width="398" height="225"/>
-                                            <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </view>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CFA-eu-JIm">
                                             <rect key="frame" x="20" y="108.5" width="84" height="30"/>
                                             <state key="normal" title="Take picture"/>
@@ -151,6 +147,10 @@
                                                 <action selector="didPressTakePhoto:" destination="zCe-za-dAw" eventType="touchUpInside" id="xn4-2h-Ec5"/>
                                             </connections>
                                         </button>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="z7h-QU-uTX">
+                                            <rect key="frame" x="158" y="11" width="291" height="225"/>
+                                            <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </view>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="CFA-eu-JIm" firstAttribute="top" secondItem="vDK-Pl-F9a" secondAttribute="topMargin" constant="97.5" id="3Hx-qN-vCB"/>
@@ -159,8 +159,8 @@
                                         <constraint firstItem="z7h-QU-uTX" firstAttribute="centerY" secondItem="vDK-Pl-F9a" secondAttribute="centerY" id="IuJ-aX-ixC"/>
                                         <constraint firstItem="CFA-eu-JIm" firstAttribute="leading" secondItem="vDK-Pl-F9a" secondAttribute="leadingMargin" id="aSx-Oo-ujL"/>
                                         <constraint firstItem="z7h-QU-uTX" firstAttribute="bottom" secondItem="vDK-Pl-F9a" secondAttribute="bottomMargin" id="dJZ-bJ-zkZ"/>
-                                        <constraint firstItem="z7h-QU-uTX" firstAttribute="trailing" secondItem="vDK-Pl-F9a" secondAttribute="trailingMargin" id="ehg-U1-djc"/>
-                                        <constraint firstItem="z7h-QU-uTX" firstAttribute="leading" secondItem="CFA-eu-JIm" secondAttribute="trailing" constant="18" id="sUr-Do-mgf"/>
+                                        <constraint firstItem="z7h-QU-uTX" firstAttribute="trailing" secondItem="vDK-Pl-F9a" secondAttribute="trailingMargin" constant="-71" id="ehg-U1-djc"/>
+                                        <constraint firstItem="z7h-QU-uTX" firstAttribute="leading" secondItem="CFA-eu-JIm" secondAttribute="trailing" constant="54" id="sUr-Do-mgf"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
@@ -636,6 +636,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="8pj-ON-Dbe"/>
+        <segue reference="eaU-1b-Lmk"/>
     </inferredMetricsTieBreakers>
 </document>

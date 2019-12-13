@@ -18,6 +18,9 @@ class CreateNewUserTableViewController: UITableViewController {
     
     var sourceViewController: SelectUsersTableViewController?
     
+    var userImage: UIImage?
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -30,9 +33,47 @@ class CreateNewUserTableViewController: UITableViewController {
     // MARK: - CoreData handling/saving
     
     @objc func saveUserButton() {
-        // Simply fire the segue, register user in CoreData below in setUserPasscode(passcodeReturned: String)
+        // Save userdata to CoreData here, then set passcode later in setUserPasscode(passcodeReturned: String)
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         performSegue(withIdentifier: "setUserPasscode", sender: self)
     }
+    
+    // TODO: Delete commented out stuff
+    // Helper for CameraTableViewCell to rotate the camera view when device rotates
+//    func updateDeviceOrientation() {
+//        let currentDevice: UIDevice = UIDevice.current
+//        let orientation: UIDeviceOrientation = currentDevice.orientation
+//        deviceOrientation = orientation
+//        print("set orientation")
+//    }
     
     // MARK: - Keychain handling
     
@@ -66,25 +107,77 @@ class CreateNewUserTableViewController: UITableViewController {
         newUserInfo.setValue(0, forKey: "balanceInCents")
         newUserInfo.setValue(uuidForCoreData, forKey: "userUUID")
         
-        // Save newUserInfo to CoreData
-        do {
-           try context.save()
-            // Data was successfully saved, now pop the VC
-            print("successfully saved data")
-            sourceViewController?.loadDataFromCoreData()
-            self.navigationController?.popViewController(animated: true)
+        if userImage != nil {
             
-          } catch {
-           print("Couldn't save to CoreData")
+            // Create Data object from UIImage for CoreData
+            let imageData = userImage?.pngData()
             
-            //Remind user to make sure all info has been provided / all fields are populated
+            // Save the data to CoreData
+            newUserInfo.setValue(imageData, forKey: "photo")
             
-            let alert = UIAlertController(title: "Failed Database Operation", message: "Failed to write to the Database", preferredStyle: .alert)
-            let dismissAction = UIAlertAction(title: "Ok", style: .default)
-            alert.addAction(dismissAction)
-            self.present(alert, animated: true)
+            // Save newUserInfo to CoreData
+            do {
+               try context.save()
+                // Data was successfully saved, now pop the VC
+                print("successfully saved data")
+                sourceViewController?.loadDataFromCoreData()
+                self.navigationController?.popViewController(animated: true)
+                
+              } catch {
+               print("Couldn't save to CoreData")
+                
+                //Remind user to make sure all info has been provided / all fields are populated
+                
+                let alert = UIAlertController(title: "Failed Database Operation", message: "Failed to write to the Database", preferredStyle: .alert)
+                let dismissAction = UIAlertAction(title: "Ok", style: .default)
+                alert.addAction(dismissAction)
+                self.present(alert, animated: true)
+            }
+            
+        } else {
+            // No user image has been set, ask the user to set one!
+            
+            let alertController = UIAlertController(title: "No photo has been taken", message: "Would you really like to create this account without taking a photo? You won't be able to use any Face Recognition related features if you don't choose to take a photo now!", preferredStyle: .alert)
+            
+            let saveAction = UIAlertAction(title: "Create the account", style: .default) { action in
+                
+                do {
+                   try context.save()
+                    // Data was successfully saved, now pop the VC
+                    print("successfully saved data")
+                    self.sourceViewController?.loadDataFromCoreData()
+                    self.navigationController?.popViewController(animated: true)
+                    
+                  } catch {
+                   print("Couldn't save to CoreData")
+                    
+                    //Remind user to make sure all info has been provided / all fields are populated
+                    
+                    let alert = UIAlertController(title: "Failed Database Operation", message: "Failed to write to the Database", preferredStyle: .alert)
+                    let dismissAction = UIAlertAction(title: "Ok", style: .default)
+                    alert.addAction(dismissAction)
+                    self.present(alert, animated: true)
+                }
+                
+            }
+            let dismissAction = UIAlertAction(title: "Take a photo", style: .default)
+            
+            alertController.addAction(dismissAction)
+            alertController.addAction(saveAction)
+            present(alertController, animated: true)
         }
     }
+    
+    // Save picture here if one is provided by CameraTableViewCell
+    func saveImageData(imageToSave: UIImage) {
+        
+        //print("Received image data: ")
+        //print(imageToSave)
+        
+        // Save the data to an instance variable, later access the instance var when trying to save the image
+        userImage = imageToSave
+    }
+    
     
 
     // MARK: - Table view data source
@@ -110,7 +203,8 @@ class CreateNewUserTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "inputCellIdentifier", for: indexPath)
-        let cameraCell = tableView.dequeueReusableCell(withIdentifier: "cameraCellIdentifier", for: indexPath)
+        let cameraCell = tableView.dequeueReusableCell(withIdentifier: "cameraCellIdentifier", for: indexPath) as! CameraTableViewCell
+        //let cameraCell = CameraTableViewCell(style: .default, reuseIdentifier: "cameraCellIdentifier")
         
         
         if indexPath.section == 0 {
@@ -166,6 +260,9 @@ class CreateNewUserTableViewController: UITableViewController {
                 
                 //Add camera here to save user photo for login
                 //cameraCell.
+                
+                cameraCell.embeddedInTableViewController = self
+                
                 
                 
                 return cameraCell
