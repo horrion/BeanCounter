@@ -135,10 +135,18 @@
 			children = (
 				94FB8387239F23AE00A568D3 /* IoTHelperClass.swift */,
 				9448810B23A3069500F87E11 /* EmailHelperClass.swift */,
-				94FB838A23A0765500A568D3 /* UnlockedTableViewCell.swift */,
-				94E89F85237CD6DD00F83C73 /* CameraTableViewCell.swift */,
+				9448811123A3153700F87E11 /* TableViewCells */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		9448811123A3153700F87E11 /* TableViewCells */ = {
+			isa = PBXGroup;
+			children = (
+				94E89F85237CD6DD00F83C73 /* CameraTableViewCell.swift */,
+				94FB838A23A0765500A568D3 /* UnlockedTableViewCell.swift */,
+			);
+			path = TableViewCells;
 			sourceTree = "<group>";
 		};
 		94ED5BD1234D3702001DA539 = {
