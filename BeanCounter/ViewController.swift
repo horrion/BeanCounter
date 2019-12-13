@@ -34,9 +34,7 @@ class ViewController: UIViewController {
     }
     
     @objc func faceRecognition() {
-        
-        // Implement face recognition here
-        
+        performSegue(withIdentifier: "faceRecognitionSegue", sender: self)
     }
     
     // MARK: - Keychain stuff

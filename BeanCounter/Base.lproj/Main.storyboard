@@ -55,6 +55,7 @@
                         <outlet property="numberOfCoffeeCupsLabel" destination="9mb-Vk-1vh" id="6eZ-vj-Flu"/>
                         <segue destination="GGY-Kp-9UQ" kind="presentation" identifier="paymentInfoSegue" id="2tS-K6-xad"/>
                         <segue destination="UKl-bL-9zj" kind="presentation" identifier="setAdminPasscode" id="f9v-QC-bXh"/>
+                        <segue destination="ACI-my-qKw" kind="presentation" identifier="faceRecognitionSegue" id="Eqi-lu-ab9"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -113,7 +114,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XE0-qk-mo2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3384.8920863309354" y="-1813.4892086330935"/>
+            <point key="canvasLocation" x="4137.4100719424459" y="-1813.4892086330935"/>
         </scene>
         <!--Create New User Table View Controller-->
         <scene sceneID="ITJ-cE-DeH">
@@ -479,6 +480,22 @@
             </objects>
             <point key="canvasLocation" x="778" y="-756"/>
         </scene>
+        <!--Face Recognition-->
+        <scene sceneID="NcD-ex-3IM">
+            <objects>
+                <viewController title="Face Recognition" modalPresentationStyle="formSheet" id="UBK-3L-04b" customClass="FaceRecognitionViewController" customModule="BeanCounter" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="5kq-ti-WdS">
+                        <rect key="frame" x="0.0" y="0.0" width="540" height="620"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="u9i-5H-3jo"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Face Recognition" id="SaI-29-OVe"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="VCg-lb-063" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="778" y="-1689"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="YQX-GS-plk">
             <objects>
@@ -597,10 +614,28 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RuD-Vu-lgh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2632.3741007194249" y="-1813.4892086330935"/>
+            <point key="canvasLocation" x="3384.8920863309354" y="-1813.4892086330935"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="uNh-Y7-373">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" modalPresentationStyle="formSheet" id="ACI-my-qKw" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="HzX-ik-773">
+                        <rect key="frame" x="0.0" y="0.0" width="540" height="56"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="UBK-3L-04b" kind="relationship" relationship="rootViewController" id="WJB-F2-1bv"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="D5x-9W-rBM" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="26" y="-1689"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="eaU-1b-Lmk"/>
+        <segue reference="8pj-ON-Dbe"/>
     </inferredMetricsTieBreakers>
 </document>
