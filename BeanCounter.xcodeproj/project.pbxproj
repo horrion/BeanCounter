@@ -16,6 +16,7 @@
 		9448811023A3124200F87E11 /* FaceRecognitionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9448810F23A3124200F87E11 /* FaceRecognitionViewController.swift */; };
 		9448811323A44D1900F87E11 /* Faces.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 9448811223A44D1900F87E11 /* Faces.mlmodel */; };
 		9448811623A4598500F87E11 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9448811523A4598500F87E11 /* CloudKit.framework */; };
+		9448811923A466EF00F87E11 /* FaceAuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9448811723A466BC00F87E11 /* FaceAuthViewController.swift */; };
 		94DB105323566E3B00751D15 /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94DB105223566E3B00751D15 /* SettingsTableViewController.swift */; };
 		94E89F86237CD6DD00F83C73 /* CameraTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94E89F85237CD6DD00F83C73 /* CameraTableViewCell.swift */; };
 		94ED5BDE234D3702001DA539 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94ED5BDD234D3702001DA539 /* AppDelegate.swift */; };
@@ -64,6 +65,7 @@
 		9448811223A44D1900F87E11 /* Faces.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = Faces.mlmodel; sourceTree = "<group>"; };
 		9448811423A4597200F87E11 /* BeanCounter.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BeanCounter.entitlements; sourceTree = "<group>"; };
 		9448811523A4598500F87E11 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		9448811723A466BC00F87E11 /* FaceAuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceAuthViewController.swift; sourceTree = "<group>"; };
 		94DB105223566E3B00751D15 /* SettingsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
 		94E89F85237CD6DD00F83C73 /* CameraTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraTableViewCell.swift; sourceTree = "<group>"; };
 		94ED5BDA234D3702001DA539 /* BeanCounter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BeanCounter.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -219,6 +221,7 @@
 				94351F472361269E00F7B919 /* Helpers */,
 				94DB105223566E3B00751D15 /* SettingsTableViewController.swift */,
 				9448810F23A3124200F87E11 /* FaceRecognitionViewController.swift */,
+				9448811723A466BC00F87E11 /* FaceAuthViewController.swift */,
 				9448810523A15ACE00F87E11 /* SetPasscodeViewController.swift */,
 				94FB83852398848400A568D3 /* PaymentInformationViewController.swift */,
 				94ED5C10234D3D44001DA539 /* SelectUsersTableViewController.swift */,
@@ -480,6 +483,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				94ED5BE2234D3702001DA539 /* ViewController.swift in Sources */,
+				9448811923A466EF00F87E11 /* FaceAuthViewController.swift in Sources */,
 				94FB8389239F25D300A568D3 /* IoTHelperClass.swift in Sources */,
 				94FB838B23A0765500A568D3 /* UnlockedTableViewCell.swift in Sources */,
 				94ED5C14234D3D98001DA539 /* CreateNewUserTableViewController.swift in Sources */,

@@ -16,7 +16,8 @@ class SettingsTableViewController: UITableViewController {
                                "Change Admin Passcode",
                                "Export to CSV",
                                "Edit Coffee price",
-                               "Reset all balances"]
+                               "Reset all balances",
+                               "Face Authentification"]
     
     struct userStruct {
         let firstName: String
@@ -50,11 +51,39 @@ class SettingsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellWithDisclosureIndicator", for: indexPath)
 
+        let onOffCell = tableView.dequeueReusableCell(withIdentifier: "blankCell", for: indexPath)
+        
+        
         for index in indexPath {
             cell.textLabel?.text = settingsInTableView[index]
         }
+        
+        if indexPath.row == 5 {
+            // onOffCell for setting faceAuth
+            onOffCell.textLabel?.text = settingsInTableView[indexPath.row]
+            
+            let switchView = UISwitch(frame: .zero)
 
-        return cell
+            let authIsActivated = UserDefaults.standard.bool(forKey: "faceAuth")
+            if authIsActivated == true {
+                switchView.setOn(true, animated: true)
+            } else {
+                switchView.setOn(false, animated: true)
+            }
+            
+            // Detect which switch Changed
+            switchView.tag = indexPath.row
+            switchView.addTarget(self, action: #selector(self.switchChanged(sender:)), for: .valueChanged)
+            onOffCell.accessoryView = switchView
+            
+            return onOffCell
+            
+        } else {
+            // indexPath.row != 5
+            return cell
+        }
+
+        
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -282,6 +311,18 @@ class SettingsTableViewController: UITableViewController {
     
 
     // MARK: - helper functions
+    
+    @objc func switchChanged(sender : UISwitch){
+
+        // The next line is for debugging
+        //print("The switch is \(sender.isOn ? "ON" : "OFF")")
+        
+        if sender.isOn == true {
+            UserDefaults.standard.set(true, forKey: "faceAuth")
+        } else {
+            UserDefaults.standard.set(false, forKey: "faceAuth")
+        }
+    }
     
     func readFromCoreData() {
         

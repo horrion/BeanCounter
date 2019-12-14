@@ -18,6 +18,8 @@ class SelectUsersTableViewController: UITableViewController {
     var unlockedForUser: IndexPath?
     var selectedUser: IndexPath?
     
+    var imageForSelectedUser: UIImage?
+    
     var mainViewController: ViewController?
     
     override func viewDidLoad() {
@@ -239,6 +241,8 @@ class SelectUsersTableViewController: UITableViewController {
 
     // MARK: - Table view data source
 
+    
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -309,10 +313,35 @@ class SelectUsersTableViewController: UITableViewController {
             // Save the currently selected indexPath to a variable so that it can be used anywhere in the instance
             if selectedUser != indexPath {
                     selectedUser = indexPath
-                }
+            }
             
-            // Fire the segue to prompt the user for their passcode
-            performSegue(withIdentifier: "getUserPasscode", sender: self)
+            
+            let imageDataForSelectedUser = managedObjectsArray[indexPath.row]?.value(forKey: "photo")
+            let pngImageForSelectedUser = imageDataForSelectedUser as! Data
+            imageForSelectedUser = UIImage(data: pngImageForSelectedUser)
+            
+            
+            // Check if FaceAuth is enabled, if so, use face recognition to unlock the cell
+            let userDefaults = UserDefaults.standard
+            let faceAuthEnabled = userDefaults.bool(forKey: "faceAuth")
+            
+            
+            print("FaceAuth Value: ")
+            print(faceAuthEnabled)
+            
+            
+            
+            if faceAuthEnabled == true && imageDataForSelectedUser != nil {
+                // FaceAuth is ENABLED
+                // Load FaceAuthViewController through segue
+                performSegue(withIdentifier: "faceAuthSegue", sender: self)
+                
+            } else {
+                // FaceAuth is DISABLED
+                // Fire the segue to prompt the user for their passcode
+                performSegue(withIdentifier: "getUserPasscode", sender: self)
+            }
+            
             
         } else {
 
@@ -386,6 +415,11 @@ class SelectUsersTableViewController: UITableViewController {
         }
     }
     
+    func unlockUser(indexPathToUnlock: IndexPath) {
+        // Assign the indexPath for the user to unlock and reload the tableView to reflect the changes
+        unlockedForUser = indexPathToUnlock
+        tableView.reloadData()
+    }
     
     func loadTableViewCellsAfterUnlock(passcodeReturned: String) {
         
@@ -455,6 +489,20 @@ class SelectUsersTableViewController: UITableViewController {
                 createUserVC.sourceViewController = self
             }
         }
+        
+        if segue.identifier == "faceAuthSegue" {
+            if let faceAuthVC = segue.destination as? FaceAuthViewController {
+                faceAuthVC.imageToMatch = imageForSelectedUser
+                faceAuthVC.selectedIndexPath = selectedUser
+                faceAuthVC.selectUsersTVController = self
+            }
+        }
+        
+        
+        
+        
+        
+        
     }
     
 }

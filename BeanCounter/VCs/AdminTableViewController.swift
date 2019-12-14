@@ -52,14 +52,14 @@ class AdminTableViewController: UITableViewController {
         request.sortDescriptors = [NSSortDescriptor(key: "createdAt", ascending: true)]
         
         // Update title with number of registered users
-            var numberOfObjects: Int = 0
-            
-            do {
-                numberOfObjects = try context.count(for: request)
-                self.title = "Admin (number of registered users: " + String(numberOfObjects) + ")"
-            } catch {
-                print("failed to fetch data")
-            }
+        var numberOfObjects: Int = 0
+        
+        do {
+            numberOfObjects = try context.count(for: request)
+            self.title = "Admin (number of registered users: " + String(numberOfObjects) + ")"
+        } catch {
+            print("failed to fetch data")
+        }
             
             
         
@@ -335,6 +335,9 @@ class AdminTableViewController: UITableViewController {
                 // Delete the row from the tableView
                 tableView.deleteRows(at: [indexPath], with: .fade)
                 
+                // Update the ViewController's title to reflect the changes
+                updateTitle()
+                
                 // Reload SelectUsersTableView here
                 sourceTableViewController?.loadDataFromCoreData()
                 
@@ -350,6 +353,27 @@ class AdminTableViewController: UITableViewController {
         }
     }
 
+    func updateTitle() {
+        
+        // Create context for context info stored in AppDelegate
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "User")
+        
+        request.sortDescriptors = [NSSortDescriptor(key: "createdAt", ascending: true)]
+        
+        // Update title with number of registered users
+        var numberOfObjects: Int = 0
+        
+        do {
+            numberOfObjects = try context.count(for: request)
+            self.title = "Admin (number of registered users: " + String(numberOfObjects) + ")"
+        } catch {
+            print("failed to fetch data")
+        }
+    }
+    
     /*
     // Override to support rearranging the table view.
     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {

@@ -282,6 +282,7 @@
                         <segue destination="meC-lQ-HFF" kind="presentation" identifier="adminSegue" id="Pjo-kC-u8x"/>
                         <segue destination="UKl-bL-9zj" kind="presentation" identifier="getUserPasscode" id="Pwt-cm-jxl"/>
                         <segue destination="UKl-bL-9zj" kind="presentation" identifier="getAdminPasscode" id="VsU-fb-sCM"/>
+                        <segue destination="SkM-4E-djo" kind="show" identifier="faceAuthSegue" id="0Ab-Tb-ldc"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6Fw-vP-arb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -356,7 +357,7 @@
             <objects>
                 <tableViewController id="djR-bG-oxH" customClass="SettingsTableViewController" customModule="BeanCounter" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="a6O-vd-VGf">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="323"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="331"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
@@ -368,6 +369,14 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                             </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="blankCell" id="kIh-EN-HUu">
+                                <rect key="frame" x="0.0" y="71.5" width="320" height="43.5"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="kIh-EN-HUu" id="QmF-ya-JBN">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
                         </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="djR-bG-oxH" id="6n1-kR-J3p"/>
@@ -375,7 +384,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Settings" id="VY6-Hg-6AS"/>
-                    <value key="contentSizeForViewInPopover" type="size" width="320" height="260"/>
+                    <value key="contentSizeForViewInPopover" type="size" width="320" height="268"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
                         <segue destination="UKl-bL-9zj" kind="presentation" identifier="changeAdminPasscodeSegue" id="REV-SQ-pqY"/>
@@ -478,11 +487,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="69J-MB-Xhh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="842" y="-756"/>
+            <point key="canvasLocation" x="778" y="-756"/>
         </scene>
         <!--Face Recognition-->
         <scene sceneID="NcD-ex-3IM">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="VCg-lb-063" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <viewController title="Face Recognition" modalPresentationStyle="formSheet" id="UBK-3L-04b" customClass="FaceRecognitionViewController" customModule="BeanCounter" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5kq-ti-WdS">
                         <rect key="frame" x="0.0" y="0.0" width="540" height="620"/>
@@ -508,7 +518,6 @@
                         <segue destination="UKl-bL-9zj" kind="presentation" identifier="getUserPasscodeForFaceRecognition" id="def-LJ-sIr"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="VCg-lb-063" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="777.69784172661878" y="-1689.3884892086332"/>
         </scene>
@@ -650,8 +659,39 @@
             </objects>
             <point key="canvasLocation" x="26" y="-1689"/>
         </scene>
+        <!--Face Recognition-->
+        <scene sceneID="fFr-18-poP">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="KVH-Bo-SAj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <viewController title="Face Recognition" modalPresentationStyle="pageSheet" id="SkM-4E-djo" customClass="FaceAuthViewController" customModule="BeanCounter" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="6PJ-Rc-fB2">
+                        <rect key="frame" x="0.0" y="0.0" width="540" height="620"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jrE-sj-WmB">
+                                <rect key="frame" x="20" y="66" width="500" height="534"/>
+                                <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="lN4-fC-UqP" firstAttribute="bottom" secondItem="jrE-sj-WmB" secondAttribute="bottom" constant="20" id="5so-3J-uwH"/>
+                            <constraint firstItem="jrE-sj-WmB" firstAttribute="top" secondItem="lN4-fC-UqP" secondAttribute="top" constant="10" id="92v-p2-x3s"/>
+                            <constraint firstItem="jrE-sj-WmB" firstAttribute="leading" secondItem="6PJ-Rc-fB2" secondAttribute="leadingMargin" id="HPS-0i-cQZ"/>
+                            <constraint firstItem="jrE-sj-WmB" firstAttribute="trailing" secondItem="6PJ-Rc-fB2" secondAttribute="trailingMargin" id="Zcr-FB-pAZ"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="lN4-fC-UqP"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Face Recognition" id="ADZ-7J-7hf"/>
+                    <connections>
+                        <outlet property="previewView" destination="jrE-sj-WmB" id="TEt-0p-1Nf"/>
+                    </connections>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="2633" y="138"/>
+        </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="eaU-1b-Lmk"/>
+        <segue reference="REV-SQ-pqY"/>
     </inferredMetricsTieBreakers>
 </document>
