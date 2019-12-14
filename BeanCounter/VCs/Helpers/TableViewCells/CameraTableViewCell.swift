@@ -11,7 +11,16 @@ import AVFoundation
 
 class CameraTableViewCell: UITableViewCell, AVCapturePhotoCaptureDelegate {
 
+    enum originController {
+        case createController
+        case editController
+    }
+    
+    var sourceController: originController?
+    
     var embeddedInTableViewController: CreateNewUserTableViewController?
+    var parentIsEditViewController: EditUserTableViewController?
+    
     
     var cellAlreadyDidLoad: Bool?
     
@@ -170,7 +179,17 @@ class CameraTableViewCell: UITableViewCell, AVCapturePhotoCaptureDelegate {
         let imageFromDeviceOrientation = UIImage(cgImage: cgImage, scale: 1, orientation: uiImageOrientation)
         
         // Pass the UIImage on to the originating VC
-        embeddedInTableViewController?.saveImageData(imageToSave: imageFromDeviceOrientation)
+        if sourceController == .createController {
+            
+            // embeddedInTableViewController is parent VC
+            embeddedInTableViewController?.saveImageData(imageToSave: imageFromDeviceOrientation)
+            
+        } else {
+            
+            // parentIsEditViewController is parent VC
+            parentIsEditViewController?.saveImageData(imageToSave: imageFromDeviceOrientation)
+            
+        }
     }
 
 }

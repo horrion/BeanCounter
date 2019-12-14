@@ -17,6 +17,10 @@ class FaceRecognitionViewController: UIViewController, AVCapturePhotoCaptureDele
     var managedObjectsArray = [NSManagedObject?]()
     var imagesFromCoreDataArray = [UIImage?]()
     
+    var transactionsManagedObjectsArray = [NSManagedObject?]()
+    
+    var mainViewController: ViewController?
+    
     var indexSelected: Int?
     
     var cameraTimer: Timer?
@@ -33,7 +37,6 @@ class FaceRecognitionViewController: UIViewController, AVCapturePhotoCaptureDele
     
     
     @IBOutlet weak var previewView: UIView!
-    @IBOutlet weak var debuggingImageView: UIImageView!
     
     
     //MARK: - App Lifecycle
@@ -243,9 +246,6 @@ class FaceRecognitionViewController: UIViewController, AVCapturePhotoCaptureDele
         // Create the UIImage
         let imageFromDeviceOrientation = UIImage(cgImage: cgImage, scale: 1, orientation: uiImageOrientation)
         
-        //TODO: delete next line after debugging
-        debuggingImageView.image = imageFromDeviceOrientation
-        
         // Take the resulting image and compare it with the ones on record
         compareFaces(faceFromCamera: imageFromDeviceOrientation)
     }
@@ -336,6 +336,8 @@ class FaceRecognitionViewController: UIViewController, AVCapturePhotoCaptureDele
             let balanceAfterChanges = managedObjectsArray[indexSelected!]?.value(forKey: "balanceInCents") as! Int64
             print("balance after changes: " + String(balanceAfterChanges))
             
+            // Save number of coffee cups for stats screen
+            saveCurrentNumberOfTransactionsToCoreData(numberOfCups: 1)
             
             // Create instance of MOC
             let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -367,6 +369,92 @@ class FaceRecognitionViewController: UIViewController, AVCapturePhotoCaptureDele
             alert.addAction(dismissAction)
             self.present(alert, animated: true)
         }
+    }
+    
+    
+    //MARK: - Transaction helpers
+    func loadTransactionsFromCoreData() {
+        
+        // Create context for context info stored in AppDelegate
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+                
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Transactions")
+        
+        request.sortDescriptors = [NSSortDescriptor(key: "date", ascending: true)]
+        
+        // Reset Array to empty Array
+        transactionsManagedObjectsArray.removeAll()
+        
+        // Iterate through all NSManagedObjects in NSFetchRequestResult
+        request.returnsObjectsAsFaults = false
+        do {
+            let result = try context.fetch(request)
+            for data in result as! [NSManagedObject] {
+                
+                // Save the whole NSManagedObject, then read from it later on
+                transactionsManagedObjectsArray.insert(data, at: transactionsManagedObjectsArray.count)
+                
+                
+          }
+            
+        } catch {
+            print("failed to fetch data from context")
+        }
+    }
+    
+    func saveCurrentNumberOfTransactionsToCoreData(numberOfCups: Int64) {
+        
+        // Create context for context info stored in AppDelegate
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        
+        let date = Date()
+        let calendar = Calendar.current
+        
+        let dateString = String(calendar.component(.year, from: date)+calendar.component(.month, from: date)+calendar.component(.day, from: date))
+        
+        
+        if let matchingIndex = transactionsManagedObjectsArray.firstIndex(where: {$0!.value(forKey: "date") as! String == dateString}) {
+            // Object was found, this is not the first cup today!
+            let priorTransactions = transactionsManagedObjectsArray[matchingIndex]?.value(forKey: "numberOfTransactions") as! Int64
+            let sumOfCupsToday = priorTransactions + numberOfCups
+            
+            print("Sum of cups today is: " + String(sumOfCupsToday))
+            
+            transactionsManagedObjectsArray[matchingIndex]?.setValue(sumOfCupsToday, forKey: "numberOfTransactions")
+            
+        } else {
+            // item could not be found
+            
+            
+            // Create entity, then create a transactionInfo object
+            let entity = NSEntityDescription.entity(forEntityName: "Transactions", in: context)
+            let transactionInfo = NSManagedObject(entity: entity!, insertInto: context)
+
+            // Provide newUserInfo object with properties
+            transactionInfo.setValue(dateString, forKey: "date")
+            transactionInfo.setValue(numberOfCups, forKey: "numberOfTransactions")
+        }
+        
+        // Save transactionInfo to CoreData
+        do {
+           try context.save()
+            // Data was successfully saved, now pop the VC
+            print("successfully saved stats data")
+            mainViewController!.reloadStatsLabel()
+            
+          } catch {
+           print("Couldn't save stats to CoreData")
+            
+            //Remind user to make sure all info has been provided / all fields are populated
+            
+            let alert = UIAlertController(title: "Failed Database Operation", message: "Failed to write stats to the Database", preferredStyle: .alert)
+            let dismissAction = UIAlertAction(title: "Ok", style: .default)
+            alert.addAction(dismissAction)
+            self.present(alert, animated: true)
+        }
+        
     }
     
     

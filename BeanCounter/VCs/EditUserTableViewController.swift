@@ -15,6 +15,8 @@ class EditUserTableViewController: UITableViewController {
     var lastNameTextField: UITextField!
     var eMailTextField: UITextField!
     
+    var userImage: UIImage?
+    
     var selectUserViewController: SelectUsersTableViewController?
     var adminViewController: AdminTableViewController?
     
@@ -53,7 +55,7 @@ class EditUserTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "inputCellIdentifier", for: indexPath)
-        let cameraCell = tableView.dequeueReusableCell(withIdentifier: "cameraCellIdentifier", for: indexPath)
+        let cameraCell = tableView.dequeueReusableCell(withIdentifier: "cameraCellIdentifier", for: indexPath) as! CameraTableViewCell
         
         let firstName = selectedManagedObject?.value(forKey: "firstname") as! String
         let lastName = selectedManagedObject?.value(forKey: "lastname") as! String
@@ -114,8 +116,8 @@ class EditUserTableViewController: UITableViewController {
             if indexPath.row == 0 {
                 
                 //Add camera here to save user photo for login
-                //cameraCell.
-                
+                cameraCell.parentIsEditViewController = self
+                cameraCell.sourceController = .editController
                 
                 return cameraCell
             }
@@ -158,7 +160,16 @@ class EditUserTableViewController: UITableViewController {
                     if data == selectedManagedObject {
                         // Found the NSManagedObject that we're trying to edit, modify it, then save it
                         
-                        //TODO: Save user photo
+                        if userImage != nil {
+                            
+                            // Create Data object from UIImage for CoreData
+                            let imageData = userImage?.pngData()
+                            
+                            // Save the data to CoreData
+                            data.setValue(imageData, forKey: "photo")
+                        }
+                        
+                        
                         data.setValue(firstNameTextField.text, forKey: "firstname")
                         data.setValue(lastNameTextField.text, forKey: "lastname")
                         data.setValue(eMailTextField.text, forKey: "email")
@@ -196,6 +207,16 @@ class EditUserTableViewController: UITableViewController {
             self.present(alert, animated: true)
         }
         
+    }
+    
+    // Save picture here if one is provided by CameraTableViewCell
+    func saveImageData(imageToSave: UIImage) {
+        
+        //print("Received image data: ")
+        //print(imageToSave)
+        
+        // Save the data to an instance variable, later access the instance var when trying to save the image
+        userImage = imageToSave
     }
     
 

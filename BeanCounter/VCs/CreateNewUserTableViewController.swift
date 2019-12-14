@@ -45,15 +45,6 @@ class CreateNewUserTableViewController: UITableViewController {
         
         // Create entity, then create a newUserInfo object
         let entity = NSEntityDescription.entity(forEntityName: "User", in: context)
-//        let newUserInfo = NSManagedObject(entity: entity!, insertInto: context)
-//
-//        // Provide newUserInfo object with properties
-//        newUserInfo.setValue(firstNameTextField.text, forKey: "firstname")
-//        newUserInfo.setValue(lastNameTextField.text, forKey: "lastname")
-//        newUserInfo.setValue(eMailTextField.text, forKey: "email")
-//        newUserInfo.setValue(Date(), forKey: "createdAt")
-//        newUserInfo.setValue(0, forKey: "balanceInCents")
-//        newUserInfo.setValue(uuidForCoreData, forKey: "userUUID")
         
         if userImage != nil {
             
@@ -193,7 +184,6 @@ class CreateNewUserTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "inputCellIdentifier", for: indexPath)
         let cameraCell = tableView.dequeueReusableCell(withIdentifier: "cameraCellIdentifier", for: indexPath) as! CameraTableViewCell
-        //let cameraCell = CameraTableViewCell(style: .default, reuseIdentifier: "cameraCellIdentifier")
         
         
         if indexPath.section == 0 {
@@ -248,11 +238,8 @@ class CreateNewUserTableViewController: UITableViewController {
             if indexPath.row == 0 {
                 
                 //Add camera here to save user photo for login
-                //cameraCell.
-                
                 cameraCell.embeddedInTableViewController = self
-                
-                
+                cameraCell.sourceController = .createController
                 
                 return cameraCell
             }

@@ -194,11 +194,18 @@ class ViewController: UIViewController {
                 }
             }
         }
-        // Tell the destination ViewController that you're trying to access the admin passcode
+        
         if segue.identifier == "selectUserSegue" {
             if let navigationViewController = segue.destination as? UINavigationController {
                 if let selectUsersViewController = navigationViewController.viewControllers[0] as? SelectUsersTableViewController {
                     selectUsersViewController.mainViewController = self
+                }
+            }
+        }
+        if segue.identifier == "faceRecognitionSegue" {
+            if let navigationViewController = segue.destination as? UINavigationController {
+                if let faceRecognitionViewController = navigationViewController.viewControllers[0] as? FaceRecognitionViewController {
+                    faceRecognitionViewController.mainViewController = self
                 }
             }
         }
