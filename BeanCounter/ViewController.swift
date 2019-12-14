@@ -56,10 +56,6 @@ class ViewController: UIViewController {
     
     func checkIfFirstLaunch() {
         
-        // TODO: Sync user prefs here on every start of the app
-        
-        
-        
         let launchedBefore = UserDefaults.standard.bool(forKey: "launchedBefore")
         if launchedBefore != true  {
             // This is the first time ever the app is launched. Set the key and go through the first launch config
@@ -69,10 +65,6 @@ class ViewController: UIViewController {
             
             
             setNewCoffeePrice()
-            
-            
-            
-            //TODO: sync user prefs here
         }
     }
     
