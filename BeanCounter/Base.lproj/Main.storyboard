@@ -24,26 +24,22 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="icon" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7FQ-gK-Fam">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6lf-1h-3H8">
                                 <rect key="frame" x="20" y="432" width="248" height="248"/>
-                                <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="248" id="8s8-sY-BDR"/>
-                                    <constraint firstAttribute="width" secondItem="7FQ-gK-Fam" secondAttribute="height" multiplier="1:1" id="leI-kH-tdU"/>
+                                    <constraint firstAttribute="width" secondItem="6lf-1h-3H8" secondAttribute="height" multiplier="1:1" id="iDd-sZ-HIB"/>
+                                    <constraint firstAttribute="height" constant="248" id="khl-TB-U4I"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="50"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBlueColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <gestureRecognizers/>
                         <constraints>
-                            <constraint firstItem="7FQ-gK-Fam" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="ALB-km-hkP"/>
-                            <constraint firstItem="9mb-Vk-1vh" firstAttribute="leading" secondItem="7FQ-gK-Fam" secondAttribute="trailing" constant="38" id="Dga-C3-z9a"/>
+                            <constraint firstItem="6lf-1h-3H8" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="E2U-6U-wZB"/>
+                            <constraint firstItem="9mb-Vk-1vh" firstAttribute="leading" secondItem="6lf-1h-3H8" secondAttribute="trailing" constant="38" id="H0f-tY-Vhn"/>
                             <constraint firstItem="9mb-Vk-1vh" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="aiT-So-Sic"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="9mb-Vk-1vh" secondAttribute="trailing" constant="20" id="e6u-wf-lgE"/>
-                            <constraint firstItem="7FQ-gK-Fam" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="hfr-Fe-vn8"/>
+                            <constraint firstItem="6lf-1h-3H8" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="z6l-5m-AZV"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <connections>
@@ -492,7 +488,6 @@
         <!--Face Recognition-->
         <scene sceneID="NcD-ex-3IM">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="VCg-lb-063" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <viewController title="Face Recognition" modalPresentationStyle="formSheet" id="UBK-3L-04b" customClass="FaceRecognitionViewController" customModule="BeanCounter" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5kq-ti-WdS">
                         <rect key="frame" x="0.0" y="0.0" width="540" height="620"/>
@@ -518,6 +513,7 @@
                         <segue destination="UKl-bL-9zj" kind="presentation" identifier="getUserPasscodeForFaceRecognition" id="def-LJ-sIr"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="VCg-lb-063" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="777.69784172661878" y="-1689.3884892086332"/>
         </scene>
@@ -662,7 +658,6 @@
         <!--Face Recognition-->
         <scene sceneID="fFr-18-poP">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="KVH-Bo-SAj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <viewController title="Face Recognition" modalPresentationStyle="pageSheet" id="SkM-4E-djo" customClass="FaceAuthViewController" customModule="BeanCounter" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="6PJ-Rc-fB2">
                         <rect key="frame" x="0.0" y="0.0" width="540" height="620"/>
@@ -687,11 +682,12 @@
                         <outlet property="previewView" destination="jrE-sj-WmB" id="TEt-0p-1Nf"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="KVH-Bo-SAj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2633" y="138"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="REV-SQ-pqY"/>
+        <segue reference="f9v-QC-bXh"/>
     </inferredMetricsTieBreakers>
 </document>
