@@ -15,29 +15,29 @@
                         <rect key="frame" x="0.0" y="0.0" width="834" height="1112"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total Coffee cups today: 0" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9mb-Vk-1vh">
-                                <rect key="frame" x="306" y="283.5" width="508" height="545"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="coffeeMug" translatesAutoresizingMaskIntoConstraints="NO" id="6lf-1h-3H8">
+                                <rect key="frame" x="20" y="401.5" width="248" height="309"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="545" id="jWh-co-QBN"/>
+                                    <constraint firstAttribute="width" secondItem="6lf-1h-3H8" secondAttribute="height" multiplier="1:1" constant="-61" id="iDd-sZ-HIB"/>
+                                    <constraint firstAttribute="height" constant="309" id="khl-TB-U4I"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total Coffee cups today: 0" lineBreakMode="middleTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9mb-Vk-1vh">
+                                <rect key="frame" x="306" y="468" width="508" height="247"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="247" id="jWh-co-QBN"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="80"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6lf-1h-3H8">
-                                <rect key="frame" x="20" y="432" width="248" height="248"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="6lf-1h-3H8" secondAttribute="height" multiplier="1:1" id="iDd-sZ-HIB"/>
-                                    <constraint firstAttribute="height" constant="248" id="khl-TB-U4I"/>
-                                </constraints>
-                            </imageView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBlueColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="6lf-1h-3H8" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="E2U-6U-wZB"/>
                             <constraint firstItem="9mb-Vk-1vh" firstAttribute="leading" secondItem="6lf-1h-3H8" secondAttribute="trailing" constant="38" id="H0f-tY-Vhn"/>
-                            <constraint firstItem="9mb-Vk-1vh" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="aiT-So-Sic"/>
+                            <constraint firstItem="9mb-Vk-1vh" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="35.5" id="aiT-So-Sic"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="9mb-Vk-1vh" secondAttribute="trailing" constant="20" id="e6u-wf-lgE"/>
                             <constraint firstItem="6lf-1h-3H8" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="z6l-5m-AZV"/>
                         </constraints>
@@ -687,6 +687,9 @@
             <point key="canvasLocation" x="2633" y="138"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="coffeeMug" width="500" height="675"/>
+    </resources>
     <inferredMetricsTieBreakers>
         <segue reference="f9v-QC-bXh"/>
     </inferredMetricsTieBreakers>
