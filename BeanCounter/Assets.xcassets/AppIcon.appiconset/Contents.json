@@ -39,7 +39,7 @@
     {
       "size" : "60x60",
       "idiom" : "iphone",
-      "filename" : "App Icon - 120x120@2x.png",
+      "filename" : "Spotlight Icon - 120x120@2x.png",
       "scale" : "2x"
     },
     {
@@ -63,13 +63,13 @@
     {
       "size" : "29x29",
       "idiom" : "ipad",
-      "filename" : "Spotlight Icon - 29x29.png",
+      "filename" : "Settings Icon - 29x29.png",
       "scale" : "1x"
     },
     {
       "size" : "29x29",
       "idiom" : "ipad",
-      "filename" : "Spotlight Icon - 58x58@2x.png",
+      "filename" : "Settings Icon - 58x58@2x-1.png",
       "scale" : "2x"
     },
     {
