@@ -17,7 +17,7 @@ class SettingsTableViewController: UITableViewController {
                                "Export to CSV",
                                "Edit Coffee price",
                                "Reset all balances",
-                               "Face Authentification"]
+                               "Face Authentication "]
     
     struct userStruct {
         let firstName: String
