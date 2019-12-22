@@ -51,13 +51,13 @@
                         <outlet property="numberOfCoffeeCupsLabel" destination="9mb-Vk-1vh" id="6eZ-vj-Flu"/>
                         <segue destination="GGY-Kp-9UQ" kind="presentation" identifier="paymentInfoSegue" id="2tS-K6-xad"/>
                         <segue destination="UKl-bL-9zj" kind="presentation" identifier="setAdminPasscode" id="f9v-QC-bXh"/>
-                        <segue destination="ACI-my-qKw" kind="presentation" identifier="faceRecognitionSegue" id="Eqi-lu-ab9"/>
+                        <segue destination="N09-jh-Cn7" kind="presentation" identifier="selectUserSegue" id="w0U-0C-3X5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
                 <tapGestureRecognizer id="Lys-bh-FWS">
                     <connections>
-                        <segue destination="N09-jh-Cn7" kind="presentation" identifier="selectUserSegue" id="Hox-VN-u8B"/>
+                        <segue destination="ACI-my-qKw" kind="presentation" identifier="faceRecognitionSegue" id="lUQ-pR-Krk"/>
                     </connections>
                 </tapGestureRecognizer>
             </objects>
@@ -461,15 +461,25 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bHT-np-S4f">
+                                <rect key="frame" x="20" y="415" width="500" height="129"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="vyh-IV-Tom" firstAttribute="top" secondItem="alS-OO-K6t" secondAttribute="top" constant="157" id="2RO-Sa-oIJ"/>
+                            <constraint firstItem="bHT-np-S4f" firstAttribute="leading" secondItem="MFC-58-ixQ" secondAttribute="leadingMargin" id="8hK-0a-TbC"/>
+                            <constraint firstItem="alS-OO-K6t" firstAttribute="bottom" secondItem="bHT-np-S4f" secondAttribute="bottom" constant="20" id="8iH-Tw-nE7"/>
                             <constraint firstItem="vyh-IV-Tom" firstAttribute="centerX" secondItem="MFC-58-ixQ" secondAttribute="centerX" id="KHW-0t-mFY"/>
                             <constraint firstItem="vyh-IV-Tom" firstAttribute="leading" secondItem="alS-OO-K6t" secondAttribute="leading" constant="145" id="LUq-8A-ygh"/>
                             <constraint firstItem="2Zb-xd-5gc" firstAttribute="centerY" secondItem="MFC-58-ixQ" secondAttribute="centerY" id="SLg-20-k51"/>
                             <constraint firstItem="vyh-IV-Tom" firstAttribute="centerY" secondItem="MFC-58-ixQ" secondAttribute="centerY" id="hu5-Pn-dNk"/>
                             <constraint firstItem="2Zb-xd-5gc" firstAttribute="centerX" secondItem="MFC-58-ixQ" secondAttribute="centerX" id="k44-LX-EUJ"/>
+                            <constraint firstItem="bHT-np-S4f" firstAttribute="top" secondItem="vyh-IV-Tom" secondAttribute="bottom" constant="8" id="lsz-Ol-grP"/>
+                            <constraint firstItem="bHT-np-S4f" firstAttribute="centerX" secondItem="2Zb-xd-5gc" secondAttribute="centerX" id="uKg-3h-XGB"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="alS-OO-K6t"/>
                     </view>
@@ -478,12 +488,13 @@
                     <modalFormSheetSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <connections>
                         <outlet property="noInfoPresentLabel" destination="2Zb-xd-5gc" id="qTG-f4-oE5"/>
+                        <outlet property="paymentStringLabel" destination="bHT-np-S4f" id="qBN-6A-84J"/>
                         <outlet property="qrImageView" destination="vyh-IV-Tom" id="KWs-cl-m6t"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="69J-MB-Xhh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="778" y="-756"/>
+            <point key="canvasLocation" x="777.69784172661878" y="-756.47482014388493"/>
         </scene>
         <!--Face Recognition-->
         <scene sceneID="NcD-ex-3IM">

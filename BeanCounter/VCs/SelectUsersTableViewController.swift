@@ -317,8 +317,12 @@ class SelectUsersTableViewController: UITableViewController {
             
             
             let imageDataForSelectedUser = managedObjectsArray[indexPath.row]?.value(forKey: "photo")
-            let pngImageForSelectedUser = imageDataForSelectedUser as! Data
-            imageForSelectedUser = UIImage(data: pngImageForSelectedUser)
+            
+            if imageDataForSelectedUser != nil {
+                let pngImageForSelectedUser = imageDataForSelectedUser as! Data
+                imageForSelectedUser = UIImage(data: pngImageForSelectedUser)
+            }
+            
             
             
             // Check if FaceAuth is enabled, if so, use face recognition to unlock the cell

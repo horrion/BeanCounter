@@ -12,6 +12,7 @@ class PaymentInformationViewController: UIViewController {
 
     @IBOutlet weak var qrImageView: UIImageView!
     @IBOutlet weak var noInfoPresentLabel: UILabel!
+    @IBOutlet weak var paymentStringLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,14 +37,18 @@ class PaymentInformationViewController: UIViewController {
         if paymentInfoString == nil {
             // No payment info has been entered yet, hide the imageView, show the label
             qrImageView.isHidden = true
+            paymentStringLabel.isHidden = true
             noInfoPresentLabel.isHidden = false
         } else {
             
             // payment info has been entered, show the imageView
             qrImageView.isHidden = false
+            paymentStringLabel.isHidden = false
             noInfoPresentLabel.isHidden = true
             
             let data = paymentInfoString?.data(using: String.Encoding.ascii)
+            
+            paymentStringLabel.text = paymentInfoString
             
             // Generate the QR code
             if let filter = CIFilter(name: "CIQRCodeGenerator") {

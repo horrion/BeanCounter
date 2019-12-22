@@ -20,7 +20,7 @@ class ViewController: UIViewController {
         
         
         // Set up and add Navigation Bar items
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Face Recognition", style: .plain, target: self, action: #selector(faceRecognition))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Show Users", style: .plain, target: self, action: #selector(selectUsersList))
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Show Payment Info", style: .plain, target: self, action: #selector(showPaymentInfoButton))
         
@@ -33,8 +33,8 @@ class ViewController: UIViewController {
         performSegue(withIdentifier: "paymentInfoSegue", sender: self)
     }
     
-    @objc func faceRecognition() {
-        performSegue(withIdentifier: "faceRecognitionSegue", sender: self)
+    @objc func selectUsersList() {
+        performSegue(withIdentifier: "selectUserSegue", sender: self)
     }
     
     // MARK: - Keychain stuff
@@ -118,6 +118,15 @@ class ViewController: UIViewController {
     func setNewAdminPasscode() {
         // Ask the user to set a new adminPasscode on first App launch
         performSegue(withIdentifier: "setAdminPasscode", sender: self)
+    }
+    
+    // MARK: Helper for FaceRecognition
+    
+    func billedForCoffeeSuccessfullyAlert() {
+        let alert = UIAlertController(title: "☕", message: "You've been billed for coffee", preferredStyle: .alert)
+        let dismissAction = UIAlertAction(title: "Ok", style: .default)
+        alert.addAction(dismissAction)
+        self.present(alert, animated: true)
     }
     
     

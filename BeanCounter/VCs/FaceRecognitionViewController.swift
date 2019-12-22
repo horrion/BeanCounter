@@ -350,7 +350,11 @@ class FaceRecognitionViewController: UIViewController, AVCapturePhotoCaptureDele
                 print("successfully saved data")
                 
                 self.dismiss(animated: true, completion: nil)
-
+                
+                // This viewcontroller is already in the process of being dismissed. Call the alertview on mainViewController to avoid viewController hierarchy issues. 
+                mainViewController?.billedForCoffeeSuccessfullyAlert()
+                
+                
               } catch {
                 // Failed to write to the database
                 print("Couldn't save to CoreData")
