@@ -58,7 +58,7 @@ class FaceRecognitionViewController: UIViewController, AVCapturePhotoCaptureDele
         
         
         getDataFromCoreData()
-        
+        loadTransactionsFromCoreData()
     
         // Do camera setup here
         captureSession = AVCaptureSession()
@@ -430,7 +430,6 @@ class FaceRecognitionViewController: UIViewController, AVCapturePhotoCaptureDele
             
         } else {
             // item could not be found
-            
             
             // Create entity, then create a transactionInfo object
             let entity = NSEntityDescription.entity(forEntityName: "Transactions", in: context)
