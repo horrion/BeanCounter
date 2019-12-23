@@ -62,6 +62,7 @@ class ViewController: UIViewController {
             UserDefaults.standard.set(true, forKey: "launchedBefore")
             UserDefaults.standard.set(Date(), forKey: "lastRefresh")
             UserDefaults.standard.set(true, forKey: "faceAuth")
+            UserDefaults.standard.set(true, forKey: "faceRecPasscode")
             
             
             setNewCoffeePrice()

@@ -16,7 +16,8 @@ class SettingsTableViewController: UITableViewController {
                                "Change Admin Passcode",
                                "Export to CSV",
                                "Edit Coffee price",
-                               "Face Authentication "]
+                               "Face Authentication",
+                               "Passcode protect Face Recognition"]
     
     struct userStruct {
         let firstName: String
@@ -76,6 +77,30 @@ class SettingsTableViewController: UITableViewController {
             onOffCell.accessoryView = switchView
             
             return onOffCell
+            
+        }
+        if indexPath.row == 5 {
+            
+            // onOffCell for setting faceRecPasscode
+            onOffCell.textLabel?.text = settingsInTableView[indexPath.row]
+            
+            let switchViewForFaceRecPasscode = UISwitch(frame: .zero)
+
+            let recIsActivated = UserDefaults.standard.bool(forKey: "faceRecPasscode")
+            if recIsActivated == true {
+                switchViewForFaceRecPasscode.setOn(true, animated: true)
+            } else {
+                switchViewForFaceRecPasscode.setOn(false, animated: true)
+            }
+            
+            // Detect which switch Changed
+            switchViewForFaceRecPasscode.tag = indexPath.row
+            switchViewForFaceRecPasscode.addTarget(self, action: #selector(self.faceRecognitionPasscodeSwitchChanged(sender:)), for: .valueChanged)
+            onOffCell.accessoryView = switchViewForFaceRecPasscode
+            
+            return onOffCell
+            
+            
             
         } else {
             // indexPath.row != 4
@@ -209,6 +234,18 @@ class SettingsTableViewController: UITableViewController {
             UserDefaults.standard.set(true, forKey: "faceAuth")
         } else {
             UserDefaults.standard.set(false, forKey: "faceAuth")
+        }
+    }
+    
+    @objc func faceRecognitionPasscodeSwitchChanged(sender : UISwitch){
+
+        // The next line is for debugging
+        //print("The switch is \(sender.isOn ? "ON" : "OFF")")
+        
+        if sender.isOn == true {
+            UserDefaults.standard.set(true, forKey: "faceRecPasscode")
+        } else {
+            UserDefaults.standard.set(false, forKey: "faceRecPasscode")
         }
     }
     

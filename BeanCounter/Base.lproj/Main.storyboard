@@ -371,7 +371,7 @@
             <objects>
                 <tableViewController id="djR-bG-oxH" customClass="SettingsTableViewController" customModule="BeanCounter" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="a6O-vd-VGf">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="283"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="327"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
@@ -398,7 +398,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Settings" id="VY6-Hg-6AS"/>
-                    <value key="contentSizeForViewInPopover" type="size" width="320" height="220"/>
+                    <value key="contentSizeForViewInPopover" type="size" width="320" height="264"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
                         <segue destination="UKl-bL-9zj" kind="presentation" identifier="changeAdminPasscodeSegue" id="REV-SQ-pqY"/>
