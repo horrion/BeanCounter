@@ -240,9 +240,6 @@ class SelectUsersTableViewController: UITableViewController {
     
 
     // MARK: - Table view data source
-
-    
-    
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -266,6 +263,10 @@ class SelectUsersTableViewController: UITableViewController {
         // Assemble the string to be shown
         let fullName = firstName + " " + lastName + " (" + eMail + ")"
         
+        let userObjectAsUser = userObject as! User
+        let coffeeTransactionsArray = userObjectAsUser.transactionForUserRelationship?.allObjects as! [TransactionsForUser]
+        
+        let coffeeTransactionCount = coffeeTransactionsArray.filter { $0.kind == "Coffee"}.count
         
         
         
@@ -287,7 +288,7 @@ class SelectUsersTableViewController: UITableViewController {
                 
                 // Configure Cell
                 cell?.textLabel?.text = fullName
-                
+                cell?.detailTextLabel?.text = String(coffeeTransactionCount)
             }
             
         } else {
@@ -298,7 +299,7 @@ class SelectUsersTableViewController: UITableViewController {
             
             // Configure Cell
             cell?.textLabel?.text = fullName
-        
+            cell?.detailTextLabel?.text = String(coffeeTransactionCount)
         }
         
         // return the cell
@@ -378,7 +379,17 @@ class SelectUsersTableViewController: UITableViewController {
                 // Save new balance
                 let newBalance = balanceBeforeChanges - (coffeePriceAsInt64 * multiplier)
                 managedObjectsArray[indexPath.row]?.setValue(newBalance, forKey: "balanceInCents")
-
+                
+                // Save the coffee transaction here
+                for _ in 0..<multiplier {
+                // Repeats as many times as the multiplier is currently set to
+                CoreDataHelperClass.init().saveNewTransaction(userForTransaction: managedObjectsArray[indexPath.row] as! User,
+                                                              dateTime: Date(),
+                                                              monetaryValue: -coffeePriceAsInt64,
+                                                              transactionType: "Coffee")
+                    }
+                
+                
                 // Save number of coffee cups for stats screen
                 saveCurrentNumberOfTransactionsToCoreData(numberOfCups: multiplier)
                 

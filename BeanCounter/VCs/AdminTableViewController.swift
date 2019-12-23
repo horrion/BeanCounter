@@ -24,14 +24,6 @@ class AdminTableViewController: UITableViewController {
         self.title = "Admin"
         
         loadDataFromCoreData()
-        
-        
-        
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
 
     
@@ -197,110 +189,21 @@ class AdminTableViewController: UITableViewController {
             // Fire the segue to show the SetPasscodeViewController
             self.performSegue(withIdentifier: "changeUserPasscodeSegue", sender: self)
         }
-        
-        
-        let addUserCreditAction = UIAlertAction(title: "Add User Credit", style: .default) { action in
-            // if selected, trigger the whole add-credit process (many alertcontrollers!)
+        let viewTransactions = UIAlertAction(title: "View all transactions", style: .default) {action in
             
-            let alertController = UIAlertController(title: "Add user credit", message: nil, preferredStyle: .alert)
-            //this UIAlertController provides a textField for the user to enter a value to add
-                
-            alertController.addTextField()
-            alertController.textFields![0].keyboardType = .decimalPad
-
-            let saveAction = UIAlertAction(title: "Save", style: .default) { [unowned alertController] _ in
-                let dataToSave = alertController.textFields![0].text
-                
-                if Float(dataToSave!) != nil {
-                    // value is numeric
-                    // Save the entered data
-                    
-                    // Create a fractional (monetary value) by dividing cent value by 100
-                    let divisor = NSDecimalNumber(value: 100)
-                    let decimalValue = NSDecimalNumber(string: dataToSave).multiplying(by: divisor)
-                    
-                    let int64ToSave = decimalValue.int64Value
-                    
-                    print("saving value: " + String(int64ToSave))
-                    
-                    
-                let userObject = self.managedObjectsArray[indexPath.row]
-                
-                let balanceBeforeChanges = userObject!.value(forKey: "balanceInCents") as! Int64
-                //Add to userBalance
-                
-                let newBalance = balanceBeforeChanges + int64ToSave
-                userObject?.setValue(newBalance, forKey: "balanceInCents")
-                
-                // Save new balance
-                // Create instance of MOC
-                let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                let context = appDelegate.persistentContainer.viewContext
-                
-                // Save newUserInfo to CoreData
-                do {
-                   try context.save()
-                    // Data was successfully saved
-                    print("successfully saved data")
-                    
-                    let newBalanceInt = self.managedObjectsArray[indexPath.row]?.value(forKey: "balanceInCents") as! Int64
-                    let userFirstNameString = self.managedObjectsArray[indexPath.row]?.value(forKey: "firstname") as! String
-                    let userLastNameString = self.managedObjectsArray[indexPath.row]?.value(forKey: "lastname") as! String
-                    let userEmail = self.managedObjectsArray[indexPath.row]?.value(forKey: "email") as! String
-                    
-                    let userIDString = userFirstNameString + " " + userLastNameString + " (" + userEmail + ")"
-                    
-                    self.loadDataFromCoreData()
-                    
-                    // Create a fractional (monetary value) by dividing cent value by 100
-                    let divisorForAlert = NSDecimalNumber(value: 100)
-                    let decimalValueForAlert = NSDecimalNumber(value: newBalanceInt).dividing(by: divisorForAlert)
-                    
-                    let formatter = NumberFormatter()
-                    formatter.numberStyle = .currency
-                    
-                    // TODO: Use the next 2 lines for shipping product, always sets format to the one defined in device settings
-                    //formatter.locale = NSLocale.current
-                    //formatter.string(from: decimalValue)
-                    
-                    formatter.locale = Locale(identifier: "de_DE")
-                    
-                    let balanceString = formatter.string(from: decimalValueForAlert)!
-                    
-                    
-                    let newBalanceString = "The new balance is " + balanceString + " for user " + userIDString
-                    
-                        // Confirm the balance has been updated
-                        let alert = UIAlertController(title: "Balance has been updated", message: newBalanceString, preferredStyle: .alert)
-                        let okAction = UIAlertAction(title: "Ok", style: .default)
-                        alert.addAction(okAction)
-                        self.present(alert, animated: true)
-                    
-                  } catch {
-                    // Failed to write to the database
-                    print("Couldn't save to CoreData")
-                    
-                    let alert = UIAlertController(title: "Failed Database Operation", message: "Failed to write to the Database", preferredStyle: .alert)
-                    let dismissAction = UIAlertAction(title: "Ok", style: .default)
-                    alert.addAction(dismissAction)
-                    self.present(alert, animated: true)
-                }
-                
-                } else {
-                    // Non numerical value was provided, alert the user
-                    let alert = UIAlertController(title: "Non-numeric value detected", message: "Please enter a numeric value with one decimal point only", preferredStyle: .alert)
-                    let dismissAction = UIAlertAction(title: "Ok", style: .default)
-                    alert.addAction(dismissAction)
-                    self.present(alert, animated: true)
-                }
-            }
-
-        let dismissAction = UIAlertAction(title: "Cancel", style: .default)
-        alertController.addAction(dismissAction)
-        alertController.addAction(saveAction)
-        
-        self.present(alertController, animated: true)
-        
+            // Set the managedObject so that this information can be passed on to the TransactionsListTVController
+            self.selectedManagedObject = self.managedObjectsArray[indexPath.row]
+            
+            // Show TransactionsListTableViewController
+            self.performSegue(withIdentifier: "showTransactionsForUser", sender: self)
+        }
+        let addUserCreditAction = UIAlertAction(title: "Add User Credit", style: .default) { action in
+            
+            // Set the managedObject so that this information can be passed on to the TransactionsListTVController
+            self.selectedManagedObject = self.managedObjectsArray[indexPath.row]
+            
+            // if selected, trigger the whole add-credit process
+            self.performSegue(withIdentifier: "AddUserCreditSegue", sender: self)
         
     }
     
@@ -308,6 +211,7 @@ class AdminTableViewController: UITableViewController {
     choiceAlertController.addAction(addUserCreditAction)
     choiceAlertController.addAction(resetUserPasscode)
     choiceAlertController.addAction(dismissCancelAction)
+    choiceAlertController.addAction(viewTransactions)
     
     self.present(choiceAlertController, animated: true)
         
@@ -419,6 +323,20 @@ class AdminTableViewController: UITableViewController {
                 selectedManagedObject = nil
             }
         }
+        if segue.identifier == "showTransactionsForUser" {
+            if let transactionForUserVC = segue.destination as? TransactionsListTableViewController {
+                transactionForUserVC.transactionsForUser = selectedManagedObject as? User
+                selectedManagedObject = nil
+            }
+        }
+        if segue.identifier == "AddUserCreditSegue" {
+            if let addUserCreditVC = segue.destination as? AddUserCreditViewController {
+                addUserCreditVC.adminTableViewController = self
+                addUserCreditVC.userObjectForTransaction = selectedManagedObject
+                selectedManagedObject = nil
+            }
+        }
+        
     }
     
 

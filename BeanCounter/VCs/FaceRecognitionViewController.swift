@@ -332,6 +332,13 @@ class FaceRecognitionViewController: UIViewController, AVCapturePhotoCaptureDele
             let newBalance = balanceBeforeChanges - coffeePriceAsInt64
             managedObjectsArray[indexSelected!]?.setValue(newBalance, forKey: "balanceInCents")
             
+            
+            // Write the transaction to the TransactionsForUser entity in CoreData
+            CoreDataHelperClass.init().saveNewTransaction(userForTransaction: managedObjectsArray[indexSelected!] as! User,
+                                                          dateTime: Date(),
+                                                          monetaryValue: -coffeePriceAsInt64,
+                                                          transactionType: "Coffee")
+            
             // Read and print balance before making changes to saved data
             let balanceAfterChanges = managedObjectsArray[indexSelected!]?.value(forKey: "balanceInCents") as! Int64
             print("balance after changes: " + String(balanceAfterChanges))

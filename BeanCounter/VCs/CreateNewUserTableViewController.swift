@@ -260,26 +260,6 @@ class CreateNewUserTableViewController: UITableViewController {
     }
     
     
-    
-//    func bsfunction() {
-//
-//
-//
-//        guard let device = AVCaptureDevice.devices().filter({ $0.position == .Front })
-//            .first as? AVCaptureDevice else {
-//                fatalError("No front facing camera found")
-//        }
-//
-//
-//
-//
-//    }
-    
-
-  
-    
-
-    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation

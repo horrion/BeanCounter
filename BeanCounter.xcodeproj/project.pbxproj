@@ -10,6 +10,9 @@
 		135ED80C4ABA81B140C8FA36 /* Pods_BeanCounter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66B90099E323268754487901 /* Pods_BeanCounter.framework */; };
 		3C3DE97D2941A6A5FF033564 /* Pods_BeanCounterTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C07918D9B88747AD30C38E2 /* Pods_BeanCounterTests.framework */; };
 		8743FE4C8D36C4B402AAC657 /* Pods_BeanCounter_BeanCounterUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C305956AC2883017B261769 /* Pods_BeanCounter_BeanCounterUITests.framework */; };
+		9440DD4523AFE618008264FB /* CoreDataHelperClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9440DD4323AFE5EA008264FB /* CoreDataHelperClass.swift */; };
+		9440DD4723AFF2FF008264FB /* TransactionsListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9440DD4623AFF2FF008264FB /* TransactionsListTableViewController.swift */; };
+		9440DD4A23B0295B008264FB /* AddUserCreditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9440DD4823B027E0008264FB /* AddUserCreditViewController.swift */; };
 		9448810723A161B800F87E11 /* SetPasscodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9448810523A15ACE00F87E11 /* SetPasscodeViewController.swift */; };
 		9448810A23A2FA5100F87E11 /* EditUserTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9448810823A2F72400F87E11 /* EditUserTableViewController.swift */; };
 		9448810C23A3069500F87E11 /* EmailHelperClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9448810B23A3069500F87E11 /* EmailHelperClass.swift */; };
@@ -58,6 +61,9 @@
 		58DEF32A9404C5CEBCEC8D99 /* Pods-BeanCounterTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BeanCounterTests.release.xcconfig"; path = "Target Support Files/Pods-BeanCounterTests/Pods-BeanCounterTests.release.xcconfig"; sourceTree = "<group>"; };
 		66B90099E323268754487901 /* Pods_BeanCounter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BeanCounter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6C07918D9B88747AD30C38E2 /* Pods_BeanCounterTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BeanCounterTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9440DD4323AFE5EA008264FB /* CoreDataHelperClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataHelperClass.swift; sourceTree = "<group>"; };
+		9440DD4623AFF2FF008264FB /* TransactionsListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsListTableViewController.swift; sourceTree = "<group>"; };
+		9440DD4823B027E0008264FB /* AddUserCreditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddUserCreditViewController.swift; sourceTree = "<group>"; };
 		9448810523A15ACE00F87E11 /* SetPasscodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetPasscodeViewController.swift; sourceTree = "<group>"; };
 		9448810823A2F72400F87E11 /* EditUserTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditUserTableViewController.swift; sourceTree = "<group>"; };
 		9448810B23A3069500F87E11 /* EmailHelperClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailHelperClass.swift; sourceTree = "<group>"; };
@@ -143,6 +149,7 @@
 			children = (
 				94FB8387239F23AE00A568D3 /* IoTHelperClass.swift */,
 				9448810B23A3069500F87E11 /* EmailHelperClass.swift */,
+				9440DD4323AFE5EA008264FB /* CoreDataHelperClass.swift */,
 				9448811123A3153700F87E11 /* TableViewCells */,
 			);
 			path = Helpers;
@@ -228,6 +235,8 @@
 				94ED5C13234D3D98001DA539 /* CreateNewUserTableViewController.swift */,
 				9448810823A2F72400F87E11 /* EditUserTableViewController.swift */,
 				94ED5C15234D4174001DA539 /* AdminTableViewController.swift */,
+				9440DD4823B027E0008264FB /* AddUserCreditViewController.swift */,
+				9440DD4623AFF2FF008264FB /* TransactionsListTableViewController.swift */,
 			);
 			path = VCs;
 			sourceTree = "<group>";
@@ -487,9 +496,12 @@
 				94FB8389239F25D300A568D3 /* IoTHelperClass.swift in Sources */,
 				94FB838B23A0765500A568D3 /* UnlockedTableViewCell.swift in Sources */,
 				94ED5C14234D3D98001DA539 /* CreateNewUserTableViewController.swift in Sources */,
+				9440DD4523AFE618008264FB /* CoreDataHelperClass.swift in Sources */,
 				94ED5BDE234D3702001DA539 /* AppDelegate.swift in Sources */,
 				9448811023A3124200F87E11 /* FaceRecognitionViewController.swift in Sources */,
+				9440DD4723AFF2FF008264FB /* TransactionsListTableViewController.swift in Sources */,
 				94ED5BE8234D3702001DA539 /* BeanCounter.xcdatamodeld in Sources */,
+				9440DD4A23B0295B008264FB /* AddUserCreditViewController.swift in Sources */,
 				94E89F86237CD6DD00F83C73 /* CameraTableViewCell.swift in Sources */,
 				94DB105323566E3B00751D15 /* SettingsTableViewController.swift in Sources */,
 				9448811323A44D1900F87E11 /* Faces.mlmodel in Sources */,
