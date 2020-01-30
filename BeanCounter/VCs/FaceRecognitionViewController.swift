@@ -436,6 +436,9 @@ class FaceRecognitionViewController: UIViewController, AVCapturePhotoCaptureDele
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let context = appDelegate.persistentContainer.viewContext
         
+        // Load all transactions to always have access to the current data
+        loadTransactionsFromCoreData()
+        
         let date = Date()
         let calendar = Calendar.current
         
