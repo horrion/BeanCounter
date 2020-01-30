@@ -91,10 +91,11 @@ class AddUserCreditViewController: UIViewController {
                 formatter.numberStyle = .currency
                 
                 // TODO: Use the next 2 lines for shipping product, always sets format to the one defined in device settings
-                //formatter.locale = NSLocale.current
+                formatter.locale = NSLocale.current
                 //formatter.string(from: decimalValue)
                 
-                formatter.locale = Locale(identifier: "de_DE")
+                // Use this for debugging
+                //formatter.locale = Locale(identifier: "de_DE")
                 
                 let balanceString = formatter.string(from: decimalValueForAlert)!
                 
