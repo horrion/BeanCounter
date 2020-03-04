@@ -10,6 +10,23 @@ import UIKit
 import CoreData
 import KeychainSwift
 
+extension String {
+    static let numberFormatter = NumberFormatter()
+    var floatValue: Float? {
+        String.numberFormatter.decimalSeparator = "."
+        if let result =  String.numberFormatter.number(from: self) {
+            return result.floatValue
+        } else {
+            String.numberFormatter.decimalSeparator = ","
+            if let result = String.numberFormatter.number(from: self) {
+                return result.floatValue
+            }
+        }
+        return nil
+    }
+}
+
+
 class ViewController: UIViewController {
 
     @IBOutlet weak var numberOfCoffeeCupsLabel: UILabel!
@@ -59,7 +76,6 @@ class ViewController: UIViewController {
         let launchedBefore = UserDefaults.standard.bool(forKey: "launchedBefore")
         if launchedBefore != true  {
             // This is the first time ever the app is launched. Set the key and go through the first launch config
-            UserDefaults.standard.set(true, forKey: "launchedBefore")
             UserDefaults.standard.set(Date(), forKey: "lastRefresh")
             UserDefaults.standard.set(true, forKey: "faceAuth")
             UserDefaults.standard.set(true, forKey: "faceRecPasscode")
@@ -72,7 +88,6 @@ class ViewController: UIViewController {
     func setNewCoffeePrice() {
         
         // Check if a key exists in NSUserDefaults for CoffeePrice
-        if UserDefaults.standard.object(forKey: "CoffeePrice") == nil {
             
             let alertController = UIAlertController(title: "Edit Coffee price", message: "Please enter a coffee price in €", preferredStyle: .alert)
             alertController.addTextField()
@@ -81,14 +96,18 @@ class ViewController: UIViewController {
             let saveAction = UIAlertAction(title: "Save", style: .default) { [unowned alertController] _ in
                 let dataToSave = alertController.textFields![0].text
                 
-                if Float(dataToSave!) != nil {
+                if dataToSave!.floatValue != nil {
                     // value is numeric
                     // Save the entered data to UserDefaults (plist)
                     
                     
                     // Create a fractional (monetary value) by dividing cent value by 100
                     let divisor = NSDecimalNumber(value: 100)
-                    let decimalValue = NSDecimalNumber(string: dataToSave).multiplying(by: divisor)
+                    
+                    // Check for Euro-style values with "," instead of "." and correct them
+                    let dataString = String(String((dataToSave)!).floatValue!)
+                    
+                    let decimalValue = NSDecimalNumber(string: dataString).multiplying(by: divisor)
                     
                     let intToSave = decimalValue.int64Value
                     
@@ -104,7 +123,12 @@ class ViewController: UIViewController {
                     // Prompt the user to enter a numeric value
                     let alert = UIAlertController(title: "Non-numeric value detected", message: "Please enter a numeric value with one decimal point only", preferredStyle: .alert)
                     //let dismissAction = UIAlertAction(title: "Ok", style: .default)
-                    let dismissAction = UIAlertAction(title: "Ok", style: .default)
+                    let dismissAction = UIAlertAction(title: "Ok", style: .default) { _ in
+                        
+                        // Failed to save value, just ask to set the value again
+                        self.setNewCoffeePrice()
+                    }
+                        
                     alert.addAction(dismissAction)
                     self.present(alert, animated: true)
                 }
@@ -113,10 +137,12 @@ class ViewController: UIViewController {
             alertController.addAction(saveAction)
             present(alertController, animated: true)
             
-        }
     }
     
     func setNewAdminPasscode() {
+        // Set userdefaults so that app doesn't ask for AdminPasscode & Coffee price again
+        UserDefaults.standard.set(true, forKey: "launchedBefore")
+        
         // Ask the user to set a new adminPasscode on first App launch
         performSegue(withIdentifier: "setAdminPasscode", sender: self)
     }

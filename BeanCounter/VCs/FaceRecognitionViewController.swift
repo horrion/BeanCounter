@@ -259,6 +259,9 @@ class FaceRecognitionViewController: UIViewController, AVCapturePhotoCaptureDele
             // Weed out the users who didn't save a profile picture
             if userPhoto != nil {
                 
+                print("Firstname: ")
+                print(self.managedObjectsArray[index]?.value(forKey: "firstname") as! String)
+                
                 // Compare userPhoto from array with photo from camera
                 let faceComparator = SFaceCompare(on: userPhoto!, and: faceFromCamera)
                 
