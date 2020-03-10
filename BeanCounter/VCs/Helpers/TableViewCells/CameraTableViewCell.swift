@@ -21,6 +21,7 @@ class CameraTableViewCell: UITableViewCell, AVCapturePhotoCaptureDelegate {
     var embeddedInTableViewController: CreateNewUserTableViewController?
     var parentIsEditViewController: EditUserTableViewController?
     
+    var outputImageView: UIImageView?
     
     var cellAlreadyDidLoad: Bool?
     
@@ -29,11 +30,16 @@ class CameraTableViewCell: UITableViewCell, AVCapturePhotoCaptureDelegate {
     var previewLayer: AVCaptureVideoPreviewLayer!
     var imageTaken: UIImage?
     
-    var orientationFromWindow: UIDeviceOrientation?
+    //var orientationFromWindow: UIDeviceOrientation?
+    var imageOrientation: UIImage.Orientation = .down
 
     //var flashMode = AVCaptureDevice.FlashMode.off
     var cameraPosition = AVCaptureDevice.Position.front
     var rearCameraSelected = AVCaptureDevice.DeviceType.builtInWideAngleCamera
+    
+    var didTakePhoto = false
+    
+    @IBOutlet weak var takePictureButtonOutlet: UIButton!
     
     @IBOutlet weak var previewView: UIView!
     
@@ -68,31 +74,36 @@ class CameraTableViewCell: UITableViewCell, AVCapturePhotoCaptureDelegate {
             if previewLayerConnection.isVideoOrientationSupported {
 
                 if let interfaceOrientation = UIApplication.shared.windows.first(where: { $0.isKeyWindow })?.windowScene?.interfaceOrientation {
-            
+                    
                     switch interfaceOrientation {
                     case .portrait:
                         updatePreviewLayer(layer: previewLayerConnection, orientation: .portrait)
-                        orientationFromWindow = .portrait
+                        
+                        imageOrientation = .leftMirrored
                         print("Portrait down detected")
                         
                     case .landscapeRight:
                         updatePreviewLayer(layer: previewLayerConnection, orientation: .landscapeRight)
-                        orientationFromWindow = .portrait
+                        
+                        imageOrientation = .downMirrored
                         print("Landscape right detected")
                     
                     case .landscapeLeft:
                         updatePreviewLayer(layer: previewLayerConnection, orientation: .landscapeLeft)
-                        orientationFromWindow = .landscapeRight
+                        
+                        imageOrientation = .upMirrored
                         print("Landscape left detected")
                         
                     case .portraitUpsideDown:
                         updatePreviewLayer(layer: previewLayerConnection, orientation: .portraitUpsideDown)
-                        orientationFromWindow = .portraitUpsideDown
+                        
+                        imageOrientation = .rightMirrored
                         print("Portrait upside down detected")
                         
                     default:
                         updatePreviewLayer(layer: previewLayerConnection, orientation: .portrait)
-                        orientationFromWindow = .portrait
+                        
+                        imageOrientation = .up
                         print("Default detected")
                     }
                 }
@@ -110,6 +121,20 @@ class CameraTableViewCell: UITableViewCell, AVCapturePhotoCaptureDelegate {
     // Use this as a viewDidLoad method to load the camera cell after the ViewController has been loaded to prevent long load times for the ViewController
     func cellDidLoad() {
         
+        loadCameraPreview()
+        
+        if didTakePhoto == false {
+            // Set button label appropriately
+            takePictureButtonOutlet.titleLabel?.text = "Try Again"
+            
+        } else {
+            // Set button label appropriately
+            takePictureButtonOutlet.titleLabel?.text = "Take Picture"
+            
+        }
+    }
+    
+    func loadCameraPreview() {
         // Do camera setup here
         captureSession = AVCaptureSession()
         cameraOutput = AVCapturePhotoOutput()
@@ -146,12 +171,31 @@ class CameraTableViewCell: UITableViewCell, AVCapturePhotoCaptureDelegate {
         }
     }
     
-    
     @IBAction func didPressTakePhoto(_ sender: UIButton) {
         let settings = AVCapturePhotoSettings()
         settings.flashMode = .off
         
-        cameraOutput?.capturePhoto(with: settings, delegate: self)
+        if didTakePhoto == false {
+            // Set button label appropriately
+            takePictureButtonOutlet.titleLabel?.text = "Try Again"
+            
+            // Capture the photo
+            cameraOutput?.capturePhoto(with: settings, delegate: self)
+            
+        } else {
+            // Set button label appropriately
+            takePictureButtonOutlet.titleLabel?.text = "Take Picture"
+            
+            // Remove the view from previewView
+            outputImageView?.removeFromSuperview()
+            
+            // Then restore the camera preview
+            previewView.layer.addSublayer(previewLayer!)
+            
+            // Restore ability to take photos again
+            didTakePhoto = false
+        }
+        
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -171,12 +215,19 @@ class CameraTableViewCell: UITableViewCell, AVCapturePhotoCaptureDelegate {
         // Create the CGImage from AVCapturePhoto
         let cgImage = photo.cgImageRepresentation()!.takeUnretainedValue()
         
-        // Get the orientation from Window
-        let altOrientation = (orientationFromWindow?.rawValue)!
-        let uiImageOrientation = UIImage.Orientation(rawValue: altOrientation)!
-        
         // Create the UIImage
-        let imageFromDeviceOrientation = UIImage(cgImage: cgImage, scale: 1, orientation: uiImageOrientation)
+        let imageFromDeviceOrientation = UIImage(cgImage: cgImage, scale: 1, orientation: imageOrientation)
+        
+        // Show photo preview in previewView after photo has been taken
+        // Remove preview first, then add photo taken
+        previewLayer.removeFromSuperlayer()
+        
+        outputImageView = UIImageView(image: imageFromDeviceOrientation)
+        outputImageView!.contentMode = .scaleAspectFill
+        outputImageView!.frame = CGRect(x: 0, y: 0, width: previewView.frame.size.width, height: previewView.frame.size.height)
+        previewView.addSubview(outputImageView!)
+        
+        didTakePhoto = true
         
         // Pass the UIImage on to the originating VC
         if sourceController == .createController {

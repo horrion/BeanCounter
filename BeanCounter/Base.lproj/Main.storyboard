@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Z1a-ni-6g6">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Z1a-ni-6g6">
     <device id="ipad10_5" orientation="portrait" layout="fullscreen" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -137,14 +137,14 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CFA-eu-JIm">
-                                            <rect key="frame" x="20" y="108.5" width="84" height="30"/>
-                                            <state key="normal" title="Take picture"/>
+                                            <rect key="frame" x="20" y="108.5" width="85" height="30"/>
+                                            <state key="normal" title="Take Picture"/>
                                             <connections>
                                                 <action selector="didPressTakePhoto:" destination="zCe-za-dAw" eventType="touchUpInside" id="xn4-2h-Ec5"/>
                                             </connections>
                                         </button>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="z7h-QU-uTX">
-                                            <rect key="frame" x="230" y="11" width="290" height="225"/>
+                                            <rect key="frame" x="231" y="11" width="289" height="225"/>
                                             <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </view>
                                     </subviews>
@@ -161,6 +161,7 @@
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="previewView" destination="z7h-QU-uTX" id="2Nb-hd-CzA"/>
+                                    <outlet property="takePictureButtonOutlet" destination="CFA-eu-JIm" id="Szc-KH-WX5"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -875,6 +876,6 @@
         <image name="coffeeMug" width="500" height="675"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="REV-SQ-pqY"/>
+        <segue reference="eaU-1b-Lmk"/>
     </inferredMetricsTieBreakers>
 </document>
