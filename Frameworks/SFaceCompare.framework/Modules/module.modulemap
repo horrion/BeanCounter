@@ -1,0 +1,11 @@
+framework module SFaceCompare {
+  umbrella header "SFaceCompare.h"
+
+  export *
+  module * { export * }
+}
+
+module SFaceCompare.Swift {
+    header "SFaceCompare-Swift.h"
+    requires objc
+}
