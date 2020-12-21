@@ -17,7 +17,8 @@ class SettingsTableViewController: UITableViewController {
                                "Export to CSV",
                                "Edit Coffee price",
                                "Face Authentication",
-                               "Passcode protect Face Recognition"]
+                               "Passcode protect Face Recognition",
+                               "Matching Coefficient"]
     
     struct userStruct {
         let firstName: String
@@ -47,6 +48,16 @@ class SettingsTableViewController: UITableViewController {
         return settingsInTableView.count
     }
 
+    override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+        if section == 0 {
+            // Section 0 contains a note on how the matching coefficient behaves
+            let matchingCoefficientNote = "A lower matching coefficient value means the face needs to be a more exact match to be accepted as a match"
+            return matchingCoefficientNote
+            
+        } else {
+            return nil
+        }
+    }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellWithDisclosureIndicator", for: indexPath)
@@ -100,9 +111,18 @@ class SettingsTableViewController: UITableViewController {
             
             return onOffCell
             
-            
-            
-        } else {
+        }
+        
+//        if indexPath.row == 6 {
+//            // Slider cell to change the matching Coefficient threshold
+//            
+//            
+//            //UserDefaults.standard.double(forKey: "matchingCoefficient")
+//            //UserDefaults.standard.set(1.0, forKey: "matchingCoefficient")
+//        }
+        
+        
+        else {
             // indexPath.row != 4
             return cell
         }

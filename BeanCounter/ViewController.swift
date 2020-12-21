@@ -79,7 +79,7 @@ class ViewController: UIViewController {
             UserDefaults.standard.set(Date(), forKey: "lastRefresh")
             UserDefaults.standard.set(true, forKey: "faceAuth")
             UserDefaults.standard.set(true, forKey: "faceRecPasscode")
-            
+            UserDefaults.standard.set(1.0, forKey: "matchingCoefficient")
             
             setNewCoffeePrice()
         }
