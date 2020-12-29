@@ -45,11 +45,12 @@ class SelectUsersTableViewController: UITableViewController {
         formatter.allowedUnits = [.hour]
         let differenceBetweenLastExecutionAndNow = Int(formatter.string(from: lastExecuted, to: Date())!)
         
-        print("Difference between now and then: " + String(differenceBetweenLastExecutionAndNow!))
+        // Print the difference, if the value can't be unwrapped, the lastRefresh data is most likely broken, so update that
+        print("Difference between now and then: " + String(differenceBetweenLastExecutionAndNow ?? 25))
 
         
         // This runs every 24 hours
-        if differenceBetweenLastExecutionAndNow! >= 24 {
+        if differenceBetweenLastExecutionAndNow ?? 25 >= 24 {
             // Set current time as the last time the function was executed
             userDefaults.set(Date(), forKey: "lastRefresh")
             

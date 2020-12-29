@@ -208,41 +208,9 @@ class FaceAuthViewController: UIViewController, AVCapturePhotoCaptureDelegate {
                     // When it's all said and done, dismiss the ViewController
                     self.navigationController?.popViewController(animated: true)
                     
-                    }
+                }
             }
         }
-        
-        
-//        faceComparator.compareFaces(succes: { results, matchingCoefficient  in
-            
-//            // TODO: remove after debugging
-//            print("Matching Coefficient is " + matchingCoefficient.description)
-//
-//
-//            // Get the MatchingCoefficient from UserDefaults to determine the minimum matching likelihood required
-//            let matchingCoefficientFromUserDefaults = UserDefaults.standard.double(forKey: "matchingCoefficient")
-//
-//            // If the matchingCoefficient is smaller than the one defined in UserDefaults, a match is found
-//            if matchingCoefficient <= matchingCoefficientFromUserDefaults {
-//
-//                // faces match
-//                print("Faces Match!")
-//
-//                // invalidate the timer, found the person!
-//                self.cameraTimer?.invalidate()
-//
-//                //Save indexPath to SelectUserVC & reload table
-//                self.selectUsersTVController!.unlockUser(indexPathToUnlock: self.selectedIndexPath!)
-//
-//                // When it's all said and done, dismiss the ViewController
-//                self.navigationController?.popViewController(animated: true)
-//
-//                }
-                    
-//            }, failure: {  error in
-//                print("Faces don't match!")
-//            })
-            
     }
     
     /*

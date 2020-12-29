@@ -278,21 +278,9 @@ class FaceRecognitionViewController: UIViewController, AVCapturePhotoCaptureDele
                             
                         // Add matching coefficient value to the dictionary
                         matchingCoeffDict[index] = data.probability
-                        
+                        print("Matching probability: " + String(data.probability))
                     }
                 }
-                 
-                //TODO: Remove after debugging
-//                faceComparator.compareFaces(succes: { results, matchingCoefficient  in
-//                    // faces match
-//
-//                    // Add matching coefficient value to the dictionary
-//                    matchingCoeffDict[index] = matchingCoefficient
-//
-//                }, failure: {  error in
-//                    print("Faces don't match!")
-//                })
-                
             }
         }
         
