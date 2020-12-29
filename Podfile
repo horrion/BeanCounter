@@ -9,6 +9,8 @@ target 'BeanCounter' do
 
   pod 'SVPinView', '~> 1.0'
   pod 'KeychainSwift'
+  pod 'SFaceCompare'
+  
 
   target 'BeanCounterTests' do
     inherit! :search_paths

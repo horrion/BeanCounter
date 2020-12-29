@@ -267,15 +267,31 @@ class FaceRecognitionViewController: UIViewController, AVCapturePhotoCaptureDele
                 // Compare userPhoto from array with photo from camera
                 let faceComparator = SFaceCompare(on: userPhoto!, and: faceFromCamera)
                 
-                faceComparator.compareFaces(succes: { results, matchingCoefficient  in
-                    // faces match
+                faceComparator.compareFaces { result in
+                    switch result {
+                    case .failure(let error):
+                      print("Faces don't match with more than 1.0 matching coefficient!")
+                      print(error)
+                    
+                    case .success(let data):
+                        // faces match
+                            
+                        // Add matching coefficient value to the dictionary
+                        matchingCoeffDict[index] = data.probability
                         
-                    // Add matching coefficient value to the dictionary
-                    matchingCoeffDict[index] = matchingCoefficient
-                        
-                }, failure: {  error in
-                    print("Faces don't match!")
-                })
+                    }
+                }
+                 
+                //TODO: Remove after debugging
+//                faceComparator.compareFaces(succes: { results, matchingCoefficient  in
+//                    // faces match
+//
+//                    // Add matching coefficient value to the dictionary
+//                    matchingCoeffDict[index] = matchingCoefficient
+//
+//                }, failure: {  error in
+//                    print("Faces don't match!")
+//                })
                 
             }
         }

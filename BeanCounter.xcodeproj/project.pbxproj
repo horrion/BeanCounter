@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		2C3F91E43200B1A98E70EFFB /* Pods_BeanCounter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31585BF5F3ACD1F0E1D95D00 /* Pods_BeanCounter.framework */; };
-		94280A5524DF06720060AB95 /* SFaceCompare.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94280A5424DF06720060AB95 /* SFaceCompare.framework */; };
-		94280A5624DF06720060AB95 /* SFaceCompare.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 94280A5424DF06720060AB95 /* SFaceCompare.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9440DD4523AFE618008264FB /* CoreDataHelperClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9440DD4323AFE5EA008264FB /* CoreDataHelperClass.swift */; };
 		9440DD4723AFF2FF008264FB /* TransactionsListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9440DD4623AFF2FF008264FB /* TransactionsListTableViewController.swift */; };
 		9440DD4A23B0295B008264FB /* AddUserCreditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9440DD4823B027E0008264FB /* AddUserCreditViewController.swift */; };
@@ -58,27 +56,12 @@
 		};
 /* End PBXContainerItemProxy section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-		94280A5724DF06720060AB95 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				94280A5624DF06720060AB95 /* SFaceCompare.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
 		06860512DFE43B79AEFEDF15 /* Pods-BeanCounter-BeanCounterUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BeanCounter-BeanCounterUITests.release.xcconfig"; path = "Target Support Files/Pods-BeanCounter-BeanCounterUITests/Pods-BeanCounter-BeanCounterUITests.release.xcconfig"; sourceTree = "<group>"; };
 		1DFAD30038E18D726A9601C7 /* Pods-BeanCounter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BeanCounter.release.xcconfig"; path = "Target Support Files/Pods-BeanCounter/Pods-BeanCounter.release.xcconfig"; sourceTree = "<group>"; };
 		31585BF5F3ACD1F0E1D95D00 /* Pods_BeanCounter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BeanCounter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		63916ECB77140F37B846F639 /* Pods_BeanCounterTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BeanCounterTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9237A8AE958C07F1F4089942 /* Pods-BeanCounter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BeanCounter.debug.xcconfig"; path = "Target Support Files/Pods-BeanCounter/Pods-BeanCounter.debug.xcconfig"; sourceTree = "<group>"; };
-		94280A5424DF06720060AB95 /* SFaceCompare.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SFaceCompare.framework; path = Frameworks/SFaceCompare.framework; sourceTree = "<group>"; };
 		9440DD4323AFE5EA008264FB /* CoreDataHelperClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataHelperClass.swift; sourceTree = "<group>"; };
 		9440DD4623AFF2FF008264FB /* TransactionsListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsListTableViewController.swift; sourceTree = "<group>"; };
 		9440DD4823B027E0008264FB /* AddUserCreditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddUserCreditViewController.swift; sourceTree = "<group>"; };
@@ -124,7 +107,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				94280A5524DF06720060AB95 /* SFaceCompare.framework in Frameworks */,
 				9448811623A4598500F87E11 /* CloudKit.framework in Frameworks */,
 				2C3F91E43200B1A98E70EFFB /* Pods_BeanCounter.framework in Frameworks */,
 			);
@@ -262,7 +244,6 @@
 		F2845D42CB9A724E8D0E7C3F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				94280A5424DF06720060AB95 /* SFaceCompare.framework */,
 				9448811523A4598500F87E11 /* CloudKit.framework */,
 				31585BF5F3ACD1F0E1D95D00 /* Pods_BeanCounter.framework */,
 				9BAA634FCF1FDD9A362FC210 /* Pods_BeanCounter_BeanCounterUITests.framework */,
@@ -283,7 +264,6 @@
 				94ED5BD7234D3702001DA539 /* Frameworks */,
 				94ED5BD8234D3702001DA539 /* Resources */,
 				79CC2211708D0A7B9B6157C7 /* [CP] Embed Pods Frameworks */,
-				94280A5724DF06720060AB95 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
