@@ -252,6 +252,12 @@ class FaceRecognitionViewController: UIViewController, AVCapturePhotoCaptureDele
     
     func compareFaces(faceFromCamera: UIImage) {
         
+        // Set up an attempt counter to count how many accounts have been checked
+        var attemptCounter = 0
+        
+        // Get the MatchingCoefficient from UserDefaults to determine the minimum matching likelihood required
+        let matchingCoefficientFromUserDefaults = UserDefaults.standard.double(forKey: "matchingCoefficient")
+        
         // Create a dict to save all matching coefficients
         var matchingCoeffDict = [Int:Double]()
         
@@ -267,22 +273,44 @@ class FaceRecognitionViewController: UIViewController, AVCapturePhotoCaptureDele
                 // Compare userPhoto from array with photo from camera
                 let faceComparator = SFaceCompare(on: userPhoto!, and: faceFromCamera)
                 
-                faceComparator.compareFaces { result in
+                faceComparator.compareFaces { [self] result in
                     switch result {
                     case .failure(let error):
-                      print("Faces don't match with more than 1.0 matching coefficient!")
-                      print(error)
+                      
+                        // Raise attemptCounter by 1
+                        attemptCounter += 1
+                        
+                        print("Faces don't match with more than 1.0 matching coefficient!")
+                        print(error)
                     
                     case .success(let data):
                         // faces match
+                        
+                        // If the matchingCoefficient is smaller than the one defined in UserDefaults, a likely match is found
+                        if data.probability <= matchingCoefficientFromUserDefaults {
                             
-                        // Add matching coefficient value to the dictionary
-                        matchingCoeffDict[index] = data.probability
-                        print("Matching probability: " + String(data.probability))
+                            // Add matching coefficient value to the dictionary
+                            matchingCoeffDict[index] = data.probability
+                            
+                            // Raise attemptCounter by 1
+                            attemptCounter += 1
+                            
+                            print("Matching probability: " + String(data.probability))
+                            print("Dict: ")
+                            print(matchingCoeffDict)
+                            
+                            if attemptCounter == imagesFromCoreDataArray.count {
+                                // All images in the array have been checked
+                                self.pickUserWithBestMatch(matchingCoeffDict: matchingCoeffDict)
+                            }
+                        }
                     }
                 }
             }
         }
+    }
+    
+    func pickUserWithBestMatch(matchingCoeffDict: Dictionary<Int, Double>) {
         
         if matchingCoeffDict.isEmpty == false {
             // If the dictionary contains data at least one match has been found

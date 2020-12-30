@@ -33,6 +33,9 @@ class SettingsTableViewController: UITableViewController {
     
     var sourceViewController: AdminTableViewController?
     
+    var sliderAlert: UIAlertController?
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -46,17 +49,6 @@ class SettingsTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return settingsInTableView.count
-    }
-
-    override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        if section == 0 {
-            // Section 0 contains a note on how the matching coefficient behaves
-            let matchingCoefficientNote = "A lower matching coefficient value means the face needs to be a more exact match to be accepted as a match"
-            return matchingCoefficientNote
-            
-        } else {
-            return nil
-        }
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -115,8 +107,7 @@ class SettingsTableViewController: UITableViewController {
         
 //        if indexPath.row == 6 {
 //            // Slider cell to change the matching Coefficient threshold
-//            
-//            
+//
 //            //UserDefaults.standard.double(forKey: "matchingCoefficient")
 //            //UserDefaults.standard.set(1.0, forKey: "matchingCoefficient")
 //        }
@@ -222,7 +213,45 @@ class SettingsTableViewController: UITableViewController {
             alertController.addAction(saveAction)
             present(alertController, animated: true)
         }
+        
+        if indexPath.row == 6 {
+            
+            // Get the Slider values from UserDefaults
+            let defaultSliderValue = UserDefaults.standard.double(forKey: "matchingCoefficient")
+            
+            // Create a Slider and fit within the extra message spaces
+            // Add the Slider to a Subview of the sliderAlert
+            let slider = UISlider(frame:CGRect(x: 10, y: 150, width: 250, height: 40))
+            slider.minimumValue = 0.1
+            slider.maximumValue = 1.0
+            slider.value = Float(defaultSliderValue)
+            slider.isContinuous = true
+            slider.addTarget(self, action: #selector(updateAlertMessage), for: .valueChanged)
+            
+            //create the Alert message with extra return spaces
+            sliderAlert = UIAlertController(title: "Matching Coefficient threshold", message: "A lower matching coefficient value means the face needs to be a more exact match to be accepted as such\n \nthreshold: " + String(slider.value) + "\n \n", preferredStyle: .alert)
+            
+            sliderAlert!.view.addSubview(slider)
+
+            //OK button action
+            let sliderAction = UIAlertAction(title: "OK", style: .default, handler: { (result : UIAlertAction) -> Void in
+                UserDefaults.standard.set(Double(slider.value), forKey: "matchingCoefficient")
+                print("Updated matching coefficient: " + String(slider.value))
+            })
+            
+            //Cancel button action
+            let cancelAction = UIAlertAction(title: "Cancel", style: .destructive, handler: nil)
+            
+            //Add buttons to sliderAlert
+            sliderAlert!.addAction(sliderAction)
+            sliderAlert!.addAction(cancelAction)
+            
+            //present the sliderAlert message
+            self.present(sliderAlert!, animated: true, completion: nil)
+        }
+    
     }
+    
     
     // MARK: - Keychain stuff
     
@@ -244,6 +273,10 @@ class SettingsTableViewController: UITableViewController {
     
 
     // MARK: - helper functions
+    
+    @objc func updateAlertMessage(sender: UISlider) {
+        sliderAlert?.message = "A lower matching coefficient value means the face needs to be a more exact match to be accepted as such\n \nthreshold: " + String(sender.value) + "\n \n"
+    }
     
     @objc func switchChanged(sender : UISwitch){
 
