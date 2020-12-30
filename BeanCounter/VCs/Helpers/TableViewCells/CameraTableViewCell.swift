@@ -204,6 +204,23 @@ class CameraTableViewCell: UITableViewCell, AVCapturePhotoCaptureDelegate {
         // Configure the view for the selected state
     }
     
+    // MARK: Image Picker helper
+    
+    func setImagePreview(imageToPreview: UIImage) {
+        // Remove preview first, then add photo taken
+        previewLayer.removeFromSuperlayer()
+        
+        outputImageView = UIImageView(image: imageToPreview)
+        outputImageView!.contentMode = .scaleAspectFill
+        outputImageView!.frame = CGRect(x: 0, y: 0, width: previewView.frame.size.width, height: previewView.frame.size.height)
+        previewView.addSubview(outputImageView!)
+        
+        didTakePhoto = true
+        
+        // Set button label appropriately
+        takePictureButtonOutlet.titleLabel?.text = "Try Again"
+    }
+    
     // MARK: Photo Capture Delegate handling
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
         print("output registered")

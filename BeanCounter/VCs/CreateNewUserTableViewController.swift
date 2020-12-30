@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 import KeychainSwift
 
-class CreateNewUserTableViewController: UITableViewController {
+class CreateNewUserTableViewController: UITableViewController, UIImagePickerControllerDelegate & UINavigationControllerDelegate {
     
     var firstNameTextField: UITextField!
     var lastNameTextField: UITextField!
@@ -21,6 +21,8 @@ class CreateNewUserTableViewController: UITableViewController {
     var uuidForCoreData: UUID?
     
     var userImage: UIImage?
+    
+    var cameraCell: CameraTableViewCell?
     
     
     override func viewDidLoad() {
@@ -174,7 +176,7 @@ class CreateNewUserTableViewController: UITableViewController {
         }
         if section == 1 {
             // Section 1
-            return 1
+            return 2
         }
         else {
             return 0
@@ -183,7 +185,7 @@ class CreateNewUserTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "inputCellIdentifier", for: indexPath)
-        let cameraCell = tableView.dequeueReusableCell(withIdentifier: "cameraCellIdentifier", for: indexPath) as! CameraTableViewCell
+        cameraCell = tableView.dequeueReusableCell(withIdentifier: "cameraCellIdentifier", for: indexPath) as? CameraTableViewCell
         
         
         if indexPath.section == 0 {
@@ -238,10 +240,17 @@ class CreateNewUserTableViewController: UITableViewController {
             if indexPath.row == 0 {
                 
                 //Add camera here to save user photo for login
-                cameraCell.embeddedInTableViewController = self
-                cameraCell.sourceController = .createController
+                cameraCell!.embeddedInTableViewController = self
+                cameraCell!.sourceController = .createController
                 
-                return cameraCell
+                return cameraCell!
+            }
+            if indexPath.row == 1 {
+                cell.textLabel?.text = "Add photo from photo library"
+                cell.textLabel?.textAlignment = .center
+                cell.textLabel?.textColor = UIColor.systemBlue
+                
+                return cell
             }
             else {
                 // if section == 1 && row != 0
@@ -257,6 +266,38 @@ class CreateNewUserTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.tableView.deselectRow(at: indexPath, animated: true)
+        
+        if indexPath.section == 1 {
+            if indexPath.row == 1 {
+                let pickerController = UIImagePickerController()
+                pickerController.delegate = self
+                pickerController.allowsEditing = true
+                pickerController.mediaTypes = ["public.image"]
+                pickerController.sourceType = .photoLibrary
+                
+                present(pickerController, animated: true, completion: nil)
+            }
+        }
+        
+    }
+    
+    // MARK: - UIImagePickerControllerDelegate Methods
+
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            
+            // Image was selected, assign this to the userImage variable
+            userImage = pickedImage
+            
+            // Causes a crash, need to fix
+            //cameraCell?.setImagePreview(imageToPreview: pickedImage)
+        }
+        
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
     }
     
     
