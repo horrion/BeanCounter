@@ -277,11 +277,25 @@ class FaceRecognitionViewController: UIViewController, AVCapturePhotoCaptureDele
                     switch result {
                     case .failure(let error):
                       
+                        // Add matching coefficient value to the dictionary
+                        matchingCoeffDict[index] = 1.1
+                        
                         // Raise attemptCounter by 1
                         attemptCounter += 1
                         
-                        print("Faces don't match with more than 1.0 matching coefficient!")
+//                        print("Faces don't match with more than 1.0 matching coefficient!")
                         print(error)
+                        
+                        print("AttemptCounter: " + String(attemptCounter))
+                        
+                        if attemptCounter == imagesFromCoreDataArray.count {
+                            
+                            print("Dict: ")
+                            print(matchingCoeffDict)
+                            
+                            // All images in the array have been checked
+                            self.pickUserWithBestMatch(matchingCoeffDict: matchingCoeffDict)
+                        }
                     
                     case .success(let data):
                         // faces match
@@ -295,11 +309,15 @@ class FaceRecognitionViewController: UIViewController, AVCapturePhotoCaptureDele
                             // Raise attemptCounter by 1
                             attemptCounter += 1
                             
-                            print("Matching probability: " + String(data.probability))
-                            print("Dict: ")
-                            print(matchingCoeffDict)
+//                            print("Matching probability: " + String(data.probability))
+                            
+                            print("AttemptCounter: " + String(attemptCounter))
                             
                             if attemptCounter == imagesFromCoreDataArray.count {
+                                
+                                print("Dict: ")
+                                print(matchingCoeffDict)
+                                
                                 // All images in the array have been checked
                                 self.pickUserWithBestMatch(matchingCoeffDict: matchingCoeffDict)
                             }
@@ -327,48 +345,52 @@ class FaceRecognitionViewController: UIViewController, AVCapturePhotoCaptureDele
             
             // Lower matchingCoefficient means higher matching likelihood
             let bestMatch = matchingCoeffDict.min { a, b in a.value < b.value }
-            print("Best Match coefficient: " + String(bestMatch!.value))
             
-            // Save indexSelected for later access when billing the user for coffee and when checking the Passcode
-            self.indexSelected = bestMatch?.key
-            
-            // Set variables from managedObject
-            let firstName = self.managedObjectsArray[bestMatch!.key]?.value(forKey: "firstname") as! String
-            let lastName = self.managedObjectsArray[bestMatch!.key]?.value(forKey: "lastname") as! String
-            let eMail = self.managedObjectsArray[bestMatch!.key]?.value(forKey: "email") as! String
-            
-            let userIDString = firstName + " " + lastName + " (" + eMail + ")"
-            
-            
-            print("Faces Match! ")
-            print("Hello, : " + userIDString)
-            
-            let alertController = UIAlertController(title: "Would you like some coffee?", message: "Hi, " + userIDString, preferredStyle: .alert)
-            
-            let dismissAction = UIAlertAction(title: "No", style: .default)
-            let coffeeAction = UIAlertAction(title: "Yes", style: .default) { action in
+            if bestMatch!.value <= 1 {
                 
-                // invalidate the timer, you found the person!
-                self.cameraTimer?.invalidate()
+            
+                print("Best Match coefficient: " + String(bestMatch!.value))
                 
-                // Get "faceRecPasscode" to determine whether to require a passcode when using face recognition
-                let recIsActivated = UserDefaults.standard.bool(forKey: "faceRecPasscode")
+                // Save indexSelected for later access when billing the user for coffee and when checking the Passcode
+                self.indexSelected = bestMatch?.key
                 
-                // Ask for user passcode if enabled in settings
-                if recIsActivated == true {
-                    // Passcode protection is enabled
-                    self.performPasscodeSegue()
-                } else {
-                    // Passcode protection isn't enabled
-                    self.writeBilledCoffeeToDatabase()
+                // Set variables from managedObject
+                let firstName = self.managedObjectsArray[bestMatch!.key]?.value(forKey: "firstname") as! String
+                let lastName = self.managedObjectsArray[bestMatch!.key]?.value(forKey: "lastname") as! String
+                let eMail = self.managedObjectsArray[bestMatch!.key]?.value(forKey: "email") as! String
+                
+                let userIDString = firstName + " " + lastName + " (" + eMail + ")"
+                
+                
+                print("Faces Match! ")
+                print("Hello, : " + userIDString)
+                
+                let alertController = UIAlertController(title: "Would you like some coffee?", message: "Hi, " + userIDString, preferredStyle: .alert)
+                
+                let dismissAction = UIAlertAction(title: "No", style: .default)
+                let coffeeAction = UIAlertAction(title: "Yes", style: .default) { action in
+                    
+                    // invalidate the timer, you found the person!
+                    self.cameraTimer?.invalidate()
+                    
+                    // Get "faceRecPasscode" to determine whether to require a passcode when using face recognition
+                    let recIsActivated = UserDefaults.standard.bool(forKey: "faceRecPasscode")
+                    
+                    // Ask for user passcode if enabled in settings
+                    if recIsActivated == true {
+                        // Passcode protection is enabled
+                        self.performPasscodeSegue()
+                    } else {
+                        // Passcode protection isn't enabled
+                        self.writeBilledCoffeeToDatabase()
+                    }
+                    
                 }
                 
-                
+                alertController.addAction(dismissAction)
+                alertController.addAction(coffeeAction)
+                self.present(alertController, animated: true)
             }
-            
-            alertController.addAction(dismissAction)
-            alertController.addAction(coffeeAction)
-            self.present(alertController, animated: true)
         }
     }
     
